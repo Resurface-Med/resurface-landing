@@ -1,0 +1,76 @@
+---
+const { title = "Resurface", description = "Spaced repetition for medical school." } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  /* Shared with resurface-app: the two blues encode depth — deep is
+     submerged, bright is surfaced. */
+  :root {
+    --deep: #1d4ed8;
+    --bright: #4d8ef5;
+    --bg: #030812;
+    --surface: #070e1e;
+    --text: #e2eaff;
+    --muted: #94a3b8;
+    --border: rgba(255, 255, 255, 0.08);
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    background: var(--bg);
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse 60% 50% at 50% -10%, rgba(77, 142, 245, 0.13) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 35% at 100% 100%, rgba(29, 78, 216, 0.1) 0%, transparent 65%),
+      var(--bg);
+    background-attachment: fixed;
+    color: var(--text);
+    font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>

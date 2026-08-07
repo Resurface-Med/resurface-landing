@@ -1,0 +1,190 @@
+---
+import Base from "../layouts/Base.astro";
+
+// Placeholder until the real domain is wired up.
+const APP_URL = import.meta.env.PUBLIC_APP_URL || "#";
+
+const features = [
+  {
+    title: "Questions come back before you forget them",
+    body: "An SM-2 schedule with Anki-style learning steps decides when each question resurfaces. Get one wrong and it returns in a minute, not a week.",
+  },
+  {
+    title: "Built from your own lectures",
+    body: "Upload a slide deck or paste your notes and get exam-shaped questions back — five options, an explanation for the right answer, and one for every wrong one.",
+  },
+  {
+    title: "Three ways to study",
+    body: "Practice a topic, race a timer, or work the review queue. Wrong answers collect in one place so you can go back to what actually caught you out.",
+  },
+];
+---
+
+<Base
+  title="Resurface — spaced repetition for medical school"
+  description="A spaced-repetition study app for medical students. Questions resurface right before you forget them."
+>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">For Year 1 MBChB</p>
+      <h1>
+        Everything you learn<br />
+        <span class="grad">resurfaces</span> before it sinks.
+      </h1>
+      <p class="sub">
+        A spaced-repetition question bank for medical students. It tracks what you're
+        about to forget and puts it back in front of you at the moment it counts.
+      </p>
+      <div class="cta">
+        <a class="primary" href={APP_URL}>Start studying</a>
+        <a class="secondary" href="#how">How it works</a>
+      </div>
+      <p class="note">Free while it's in testing. No account needed.</p>
+    </section>
+
+    <section class="features" id="how">
+      {
+        features.map((f) => (
+          <article class="card">
+            <h2>{f.title}</h2>
+            <p>{f.body}</p>
+          </article>
+        ))
+      }
+    </section>
+
+    <footer>
+      <span>© Resurface {new Date().getFullYear()}</span>
+    </footer>
+  </main>
+</Base>
+
+<style>
+  main {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .hero {
+    padding: clamp(80px, 14vh, 160px) 0 clamp(60px, 10vh, 110px);
+    max-width: 720px;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--bright);
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-size: clamp(40px, 7vw, 68px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -2px;
+  }
+
+  .grad {
+    background: linear-gradient(100deg, var(--bright), #7ab0ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .sub {
+    margin-top: 26px;
+    font-size: clamp(17px, 2vw, 20px);
+    color: var(--muted);
+    max-width: 560px;
+    font-weight: 300;
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 40px;
+  }
+
+  .primary,
+  .secondary {
+    display: inline-block;
+    padding: 14px 30px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      transform 0.18s ease,
+      box-shadow 0.18s ease,
+      background 0.18s ease;
+  }
+
+  .primary {
+    background: linear-gradient(135deg, var(--deep), var(--bright));
+    color: #fff;
+    box-shadow: 0 8px 26px rgba(29, 78, 216, 0.34);
+  }
+
+  .secondary {
+    border: 1px solid var(--border);
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .primary:hover,
+  .secondary:hover {
+    transform: translateY(-2px);
+  }
+
+  .primary:hover {
+    box-shadow: 0 12px 32px rgba(29, 78, 216, 0.46);
+  }
+
+  .secondary:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .note {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #64748b;
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    gap: 20px;
+    padding-bottom: 100px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px 26px;
+  }
+
+  .card h2 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    margin-bottom: 12px;
+  }
+
+  .card p {
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 30px 0 50px;
+    font-size: 13px;
+    color: #64748b;
+  }
+</style>

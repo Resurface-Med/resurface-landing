@@ -830,10 +830,9 @@ const marquee = "Resurface it. Just before it sinks. ";
     padding: clamp(48px, 8vh, 92px) 0;
   }
   .why-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    gap: clamp(28px, 4vw, 64px);
-    align-items: end;
+    max-width: 40rem;
+    margin: 0 auto;
+    text-align: center;
   }
   .why h2 {
     margin: 0;
@@ -841,11 +840,10 @@ const marquee = "Resurface it. Just before it sinks. ";
     font-weight: 600;
     letter-spacing: -1.4px;
     line-height: 1.12;
-    max-width: 12em;
   }
   .why-copy {
+    margin: 22px auto 0;
     max-width: 28em;
-    padding-bottom: 4px;
   }
   .why-lead {
     margin: 0 0 16px;
@@ -862,17 +860,6 @@ const marquee = "Resurface it. Just before it sinks. ";
     letter-spacing: -0.2px;
     line-height: 1.5;
     color: var(--on-blue-soft);
-  }
-
-  @media (max-width: 800px) {
-    .why-inner {
-      grid-template-columns: 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-    .why h2 {
-      max-width: none;
-    }
   }
 
   /* ------------------------------------------------------------- SUBJECTS */

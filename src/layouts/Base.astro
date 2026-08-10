@@ -62,10 +62,11 @@ const {
     --line: #e3e9f8;
     --line-strong: #cfd9ee;
 
-    /* Objects on the field are translucent white rather than solid, so
-       they pick up the blue behind them the way the comp's cards do. */
-    --glass: rgba(255, 255, 255, 0.14);
-    --glass-line: rgba(255, 255, 255, 0.24);
+    /* Frosted objects on the field. 0.10 is measured off the reference
+       comp — low enough that the blurred backdrop, not the fill, is what
+       you actually see. There is deliberately no companion line/border
+       token: the comp's cards have no rim. */
+    --glass: rgba(255, 255, 255, 0.1);
     --on-blue-soft: rgba(255, 255, 255, 0.78);
 
     --radius-pill: 999px;

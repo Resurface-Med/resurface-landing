@@ -583,16 +583,28 @@ const marquee = "Resurface it. Just before it sinks. ";
     filter: drop-shadow(0 26px 40px rgba(15, 30, 90, 0.28));
   }
 
+  /* Frosted, and deliberately rimless.
+
+     Measured off the reference comp: the card lifts whatever sits behind
+     it by ~10% white, and there is no border at all — scanning across its
+     edge, the rim's luminance (142.8 left, 123.3 right) falls inside the
+     interior's own range (118.9–146.7). A 1px white border would spike
+     well above that. The interior isn't flat either; it varies with the
+     backdrop, which is what makes it read as glass rather than as a
+     translucent panel. So: low-alpha fill, real blur, no outline. */
   .chip {
     position: absolute;
     display: flex;
     flex-direction: column;
     gap: 2px;
     background: var(--glass);
-    border: 1px solid var(--glass-line);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
+    /* Unprefixed only. Writing the -webkit- alias by hand made Lightning
+       CSS collapse the pair and emit *just* the prefixed one, which
+       Chromium no longer recognises — the declaration was dropped and
+       backdrop-filter computed to `none`, i.e. no frost at all. Left
+       alone, the minifier prefixes correctly for the real targets. */
+    backdrop-filter: blur(16px) saturate(140%);
+    border-radius: 18px;
     padding: 16px 20px;
     color: #fff;
     min-width: 150px;

@@ -420,7 +420,7 @@ const marquee = "Resurface it. Just before it sinks. ";
 
   <!-- ------------------------------------------------------------- FOOT -->
   <footer class="foot">
-    <div class="wrap foot-grid">
+    <div class="wrap foot-top">
       <div class="foot-brand">
         <img src="/logo-lockup.png" alt="Resurface" width="560" height="131" />
         <p>
@@ -429,20 +429,12 @@ const marquee = "Resurface it. Just before it sinks. ";
         </p>
       </div>
 
-      <nav class="foot-col" aria-label="Product">
-        <h4>Product</h4>
+      <nav class="foot-nav" aria-label="Product">
         <a href="#subjects">Try a question</a>
         <a href="#ai">AI questions</a>
         <a href="#how">How it works</a>
         <a href={APP_URL}>Start studying</a>
       </nav>
-
-      <div class="foot-col">
-        <h4>Status</h4>
-        <span>Free while in testing</span>
-        <span>No account needed</span>
-        <span>497 questions, 9 subjects</span>
-      </div>
     </div>
 
     <div class="wrap foot-base">
@@ -1487,10 +1479,14 @@ const marquee = "Resurface it. Just before it sinks. ";
     background: var(--panel);
     padding: clamp(40px, 6vh, 64px) 0 26px;
   }
-  .foot-grid {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr;
-    gap: 34px;
+  .foot-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: clamp(28px, 4vw, 64px);
+  }
+  .foot-brand {
+    max-width: 38ch;
   }
   .foot-brand img {
     width: 150px;
@@ -1500,27 +1496,22 @@ const marquee = "Resurface it. Just before it sinks. ";
     margin-top: 14px;
     font-size: 14.5px;
     color: var(--ink-soft);
-    max-width: 34ch;
+    line-height: 1.45;
   }
-  .foot-col {
+  .foot-nav {
     display: flex;
-    flex-direction: column;
-    gap: 9px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px 22px;
+    padding-top: 6px;
   }
-  .foot-col h4 {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-    color: var(--ink);
-    margin-bottom: 3px;
-  }
-  .foot-col a,
-  .foot-col span {
+  .foot-nav a {
     font-size: 14.5px;
+    font-weight: 500;
     color: var(--ink-soft);
+    white-space: nowrap;
   }
-  .foot-col a:hover {
+  .foot-nav a:hover {
     color: var(--blue);
   }
   .foot-base {

@@ -143,32 +143,6 @@ const marquee = "Don't let the lecture sink. ";
           width="580"
           height="839"
         />
-
-        <div class="chip chip-streak">
-          <span class="chip-label">Streak</span>
-          <span class="chip-value">12 <em>days</em></span>
-          <svg class="bars" viewBox="0 0 124 32" aria-hidden="true">
-            <g fill="#fff">
-              <rect x="0" y="22" width="14" height="10" rx="4" opacity=".55"
-              ></rect>
-              <rect x="22" y="18" width="14" height="14" rx="4" opacity=".64"
-              ></rect>
-              <rect x="44" y="14" width="14" height="18" rx="4" opacity=".73"
-              ></rect>
-              <rect x="66" y="9" width="14" height="23" rx="4" opacity=".82"
-              ></rect>
-              <rect x="88" y="5" width="14" height="27" rx="4" opacity=".91"
-              ></rect>
-              <rect x="110" y="0" width="14" height="32" rx="4"></rect>
-            </g>
-          </svg>
-        </div>
-
-        <div class="chip chip-acc">
-          <span class="chip-value big">84%</span>
-          <span class="chip-label">Accuracy</span>
-          <span class="bar"><i style="width:84%"></i></span>
-        </div>
       </div>
     </section>
 
@@ -727,67 +701,6 @@ const marquee = "Don't let the lecture sink. ";
     width: clamp(180px, 20vw, 268px);
     height: auto;
     filter: drop-shadow(0 26px 40px rgba(15, 30, 90, 0.28));
-  }
-
-  .chip {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    background: var(--glass);
-    backdrop-filter: blur(16px) saturate(140%);
-    border-radius: 18px;
-    padding: 16px 20px;
-    color: #fff;
-    min-width: 150px;
-  }
-  .chip-label {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.8);
-    font-weight: 500;
-  }
-  .chip-value {
-    font-size: 24px;
-    font-weight: 700;
-    letter-spacing: -0.6px;
-    line-height: 1.15;
-  }
-  .chip-value em {
-    font-style: normal;
-    font-size: 14px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.8);
-  }
-  .chip-value.big {
-    font-size: 32px;
-  }
-  .chip-streak {
-    top: 4%;
-    right: -6%;
-  }
-  .chip-acc {
-    bottom: 11%;
-    right: -2%;
-  }
-  .bars {
-    width: 112px;
-    height: 29px;
-    margin-top: 6px;
-  }
-  .bar {
-    display: block;
-    margin-top: 10px;
-    height: 5px;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.28);
-    border-radius: 99px;
-    overflow: hidden;
-  }
-  .bar i {
-    display: block;
-    height: 100%;
-    background: #fff;
-    border-radius: 99px;
   }
 
   /* --------------------------------------------------------------- RIBBON */
@@ -1654,15 +1567,6 @@ const marquee = "Don't let the lecture sink. ";
   }
 
   /* ================================================================ SMALL */
-
-  @media (max-width: 1240px) {
-    .chip-streak {
-      right: 0;
-    }
-    .chip-acc {
-      right: 2%;
-    }
-  }
 
   @media (max-width: 1040px) {
     .hero {

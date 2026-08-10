@@ -181,7 +181,7 @@ const marquee = "Resurface it. Just before it sinks. ";
          glyphs get squashed with everything else. Uniform scale instead:
          width drives it, height follows from the viewBox aspect. -->
     <div class="ribbon" aria-hidden="true">
-      <svg viewBox="0 0 1440 250">
+      <svg class="ribbon-curve" viewBox="0 0 1440 280">
         <path
           class="ribbon-fill"
           d="M-160,96 C160,8 520,8 800,96 C1080,184 1300,184 1600,96 L1600,188 C1300,276 1080,276 800,188 C520,100 160,100 -160,188 Z"
@@ -204,6 +204,15 @@ const marquee = "Resurface it. Just before it sinks. ";
           </textPath>
         </text>
       </svg>
+
+      <!-- Flat marquee for small screens — curved textPath gets clipped and
+           oversized when the SVG shrinks to phone width. -->
+      <div class="ribbon-flat">
+        <div class="ribbon-flat-track">
+          <span>{marquee.repeat(4)}</span>
+          <span>{marquee.repeat(4)}</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -341,7 +350,6 @@ const marquee = "Resurface it. Just before it sinks. ";
             </div>
             <div class="ready-reveal" data-preview>
               <div class="ready-preview">
-                <span class="ready-tag">From your slides</span>
                 <p class="ready-stem">
                   Which hormone lowers blood glucose?
                 </p>
@@ -805,17 +813,14 @@ const marquee = "Resurface it. Just before it sinks. ";
     line-height: 0;
     margin-top: clamp(28px, 5vh, 56px);
   }
-  .ribbon svg {
+  .ribbon-curve {
     width: 100%;
-    height: auto; /* aspect comes from the viewBox — do not pin this */
+    height: auto;
     display: block;
   }
   .ribbon-fill {
     fill: #fff;
   }
-  /* In viewBox units, so it scales with the ribbon. Bumped on narrow
-     screens because uniform scaling shrinks the whole band there, and at
-     the desktop size the text would come out around 11px on a phone. */
   .ribbon-text {
     fill: var(--blue);
     font-family: "Poppins", sans-serif;
@@ -823,18 +828,55 @@ const marquee = "Resurface it. Just before it sinks. ";
     font-weight: 700;
     letter-spacing: -0.5px;
   }
-  @media (max-width: 900px) {
-    .ribbon-text {
-      font-size: 62px;
+  .ribbon-flat {
+    display: none;
+  }
+
+  @media (max-width: 700px) {
+    .ribbon-curve {
+      display: none;
+    }
+    .ribbon-flat {
+      display: block;
+      overflow: hidden;
+      background: #fff;
+      padding: 16px 0;
+      width: 112%;
+      margin-left: -6%;
+      transform: rotate(-3deg);
+      box-shadow: 0 8px 24px rgba(15, 27, 61, 0.08);
+    }
+    .ribbon-flat-track {
+      display: flex;
+      width: max-content;
+      gap: 0;
+      animation: ribbon-scroll 22s linear infinite;
+    }
+    .ribbon-flat-track span {
+      flex-shrink: 0;
+      white-space: nowrap;
+      padding-right: 0.35em;
+      font-family: "Poppins", sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--blue);
+      line-height: 1.2;
     }
   }
-  /* Capped at 76: the text baseline rides y=158 and the band's top edge
-     is y=96, so there are only 62 user units of headroom. Poppins'
-     ascender is ~0.75em, which puts anything over ~80 through the top of
-     the ribbon. */
-  @media (max-width: 560px) {
-    .ribbon-text {
-      font-size: 76px;
+
+  @keyframes ribbon-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ribbon-flat-track {
+      animation: none;
     }
   }
 
@@ -1474,18 +1516,6 @@ const marquee = "Resurface it. Just before it sinks. ";
       margin-top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
       padding-top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
       border-top-color 0.35s ease 0.1s;
-  }
-  .ready-tag {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.45px;
-    text-transform: uppercase;
-    color: var(--blue);
-    background: var(--wash);
-    border-radius: var(--radius-pill);
-    padding: 4px 9px;
-    margin-bottom: 10px;
   }
   .ready-stem {
     margin: 0 0 12px;

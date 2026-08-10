@@ -814,21 +814,36 @@ const marquee = "Don't let the lecture sink. ";
     letter-spacing: -0.5px;
   }
 
-  /* On phones, 100% width shrinks the whole curve so text goes tiny.
-     Widen the SVG past the viewport instead of inflating font-size
-     (which was what made glyphs clip out of the band). */
+  /* Mobile: keep the curve, but crop to a thinner band and lift it so
+     Safari's bottom chrome doesn't eat the strip. */
   @media (max-width: 700px) {
+    .hero {
+      padding-bottom: 12px;
+    }
+    .field {
+      padding-bottom: 22px;
+    }
+    .ribbon {
+      margin-top: 16px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+    }
     .ribbon-curve {
-      width: 240%;
+      width: 175%;
       max-width: none;
-      margin-left: -70%;
+      margin-left: -37.5%;
+      flex: none;
     }
   }
 
   @media (max-width: 400px) {
+    .ribbon {
+      height: 50px;
+    }
     .ribbon-curve {
-      width: 280%;
-      margin-left: -90%;
+      width: 190%;
+      margin-left: -45%;
     }
   }
 

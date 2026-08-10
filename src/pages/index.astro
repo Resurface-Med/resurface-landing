@@ -345,7 +345,7 @@ const marquee = "Resurface it. Just before it sinks. ";
               <span class="ready-count" data-ready-count>0</span>
               <span class="ready-label">questions ready</span>
             </div>
-            <div class="ready-preview" data-preview hidden>
+            <div class="ready-preview" data-preview>
               <span class="ready-tag">From your slides</span>
               <p class="ready-stem">
                 Which hormone lowers blood glucose?
@@ -1340,8 +1340,11 @@ const marquee = "Resurface it. Just before it sinks. ";
     font-size: 12.5px;
     font-weight: 700;
     letter-spacing: -0.1px;
+    line-height: 1;
     color: var(--blue);
     min-width: 8ch;
+    /* Lockup word sits optically lower than the image box centre. */
+    transform: translateY(3px);
   }
   .ai-stage.is-working .ai-bridge-pill {
     box-shadow:
@@ -1377,7 +1380,6 @@ const marquee = "Resurface it. Just before it sinks. ";
     padding: clamp(16px, 2.5vw, 20px);
     border: 1px solid var(--line);
     box-shadow: 0 10px 28px rgba(20, 44, 130, 0.06);
-    min-height: 72px;
   }
   .ready-top {
     display: flex;
@@ -1402,9 +1404,11 @@ const marquee = "Resurface it. Just before it sinks. ";
     margin-top: 16px;
     padding-top: 16px;
     border-top: 1px solid var(--line);
+    opacity: 0;
+    transition: opacity 0.4s ease;
   }
-  .ready-preview[hidden] {
-    display: none;
+  .ready-preview.is-in {
+    opacity: 1;
   }
   .ready-tag {
     display: inline-block;
@@ -1444,20 +1448,6 @@ const marquee = "Resurface it. Just before it sinks. ";
     color: #146c3d;
     font-weight: 700;
   }
-  .ready-preview.is-in {
-    animation: opt-in 0.5s ease both;
-  }
-
-  @keyframes opt-in {
-    from {
-      opacity: 0;
-      transform: translateY(6px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 
   @media (max-width: 700px) {
     .ai-heading {
@@ -1473,11 +1463,13 @@ const marquee = "Resurface it. Just before it sinks. ";
 
   @media (prefers-reduced-motion: reduce) {
     .ai-stage.has-file .file-chip,
-    .ready-preview.is-in {
+    .ready-preview {
       animation: none;
       transition: none;
-      opacity: 1;
       transform: none;
+    }
+    .ready-preview.is-in {
+      opacity: 1;
     }
   }
 
@@ -1863,7 +1855,6 @@ const marquee = "Resurface it. Just before it sinks. ";
       status.textContent = "Waiting…";
       bar.style.width = "0%";
       count.textContent = "0";
-      preview.hidden = true;
       preview.classList.remove("is-in");
     };
 
@@ -1873,7 +1864,6 @@ const marquee = "Resurface it. Just before it sinks. ";
       status.textContent = "Done";
       bar.style.width = "100%";
       count.textContent = String(TARGET);
-      preview.hidden = false;
       preview.classList.add("is-in");
     };
 
@@ -1907,9 +1897,6 @@ const marquee = "Resurface it. Just before it sinks. ";
       stage.classList.add("is-done");
       status.textContent = "Done";
       count.textContent = String(TARGET);
-      preview.hidden = false;
-      preview.classList.remove("is-in");
-      void preview.offsetWidth;
       preview.classList.add("is-in");
 
       if (!(await wait(3800, id))) return;

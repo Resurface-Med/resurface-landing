@@ -136,18 +136,14 @@ const marquee = "Don't let the lecture sink. ";
       </div>
 
       <div class="stage" id="hero-stage">
-        <div class="books-scene">
-          <div class="books-tilt" data-books-tilt>
-            <div class="books-float">
-              <img
-                class="books"
-                src="/books.webp"
-                alt="Two stacked textbooks"
-                width="580"
-                height="839"
-              />
-            </div>
-          </div>
+        <div class="books-float" data-books-float>
+          <img
+            class="books"
+            src="/books.webp"
+            alt="Two stacked textbooks"
+            width="580"
+            height="839"
+          />
         </div>
       </div>
     </section>
@@ -702,61 +698,46 @@ const marquee = "Don't let the lecture sink. ";
     position: relative;
     display: flex;
     justify-content: center;
-    perspective: 1100px;
-    perspective-origin: 50% 35%;
-  }
-  .books-scene {
-    transform-style: preserve-3d;
-  }
-  .books-tilt {
-    transform-style: preserve-3d;
-    transform: rotateX(14deg) rotateY(-28deg) translate3d(0, 36px, -80px)
-      scale(0.9);
-    opacity: 0;
-    transition:
-      opacity 1.05s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 1.05s cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: transform, opacity;
-  }
-  .stage.is-in .books-tilt {
-    opacity: 1;
-    transform: rotateX(var(--books-rx, 9deg)) rotateY(var(--books-ry, -14deg))
-      translate3d(0, var(--books-y, 0px), var(--books-z, 0px)) scale(1);
-  }
-  .stage.is-live .books-tilt {
-    transition: opacity 0.3s ease, transform 0s;
   }
   .books-float {
-    transform-style: preserve-3d;
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
   }
   .stage.is-in .books-float {
-    animation: books-bob 5.2s ease-in-out infinite;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .stage.is-live .books-float {
+    animation: books-bob 5.6s ease-in-out infinite;
   }
   .books {
     width: clamp(180px, 20vw, 268px);
     height: auto;
     display: block;
-    transform: translateZ(20px);
-    filter: drop-shadow(0 28px 42px rgba(15, 30, 90, 0.32));
+    filter: drop-shadow(0 26px 40px rgba(15, 30, 90, 0.28));
   }
 
   @keyframes books-bob {
     0%,
     100% {
-      transform: translate3d(0, 0, 0) rotateZ(-0.4deg);
+      transform: translateY(0);
     }
     50% {
-      transform: translate3d(0, -14px, 18px) rotateZ(0.5deg);
+      transform: translateY(-8px);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .books-tilt {
+    .books-float {
       opacity: 1;
       transform: none;
       transition: none;
     }
-    .stage.is-in .books-float {
+    .stage.is-live .books-float {
       animation: none;
     }
   }
@@ -1692,11 +1673,10 @@ const marquee = "Don't let the lecture sink. ";
 </style>
 
 <script>
-  // Hero books: 3D entrance, idle float, pointer tilt, scroll depth.
+  // Hero books: soft entrance, then a light idle float.
   (() => {
     const stage = document.querySelector<HTMLElement>("#hero-stage");
-    const tilt = stage?.querySelector<HTMLElement>("[data-books-tilt]");
-    if (!stage || !tilt) return;
+    if (!stage) return;
 
     const calm = matchMedia("(prefers-reduced-motion: reduce)");
     if (calm.matches) {
@@ -1704,38 +1684,9 @@ const marquee = "Don't let the lecture sink. ";
       return;
     }
 
-    let px = 0;
-    let py = 0;
-    let tx = 0;
-    let ty = 0;
-    let scrolling = 0;
-    let raf = 0;
-
-    const paint = () => {
-      raf = 0;
-      tx += (px - tx) * 0.12;
-      ty += (py - ty) * 0.12;
-      const rx = 9 + ty * -7 + scrolling * 0.012;
-      const ry = -14 + tx * 12;
-      const y = scrolling * 0.14;
-      const z = scrolling * -0.08;
-      stage.style.setProperty("--books-rx", `${rx.toFixed(2)}deg`);
-      stage.style.setProperty("--books-ry", `${ry.toFixed(2)}deg`);
-      stage.style.setProperty("--books-y", `${y.toFixed(1)}px`);
-      stage.style.setProperty("--books-z", `${z.toFixed(1)}px`);
-      if (Math.abs(px - tx) > 0.002 || Math.abs(py - ty) > 0.002) {
-        raf = requestAnimationFrame(paint);
-      }
-    };
-
-    const kick = () => {
-      if (!raf) raf = requestAnimationFrame(paint);
-    };
-
     const reveal = () => {
       stage.classList.add("is-in");
-      kick();
-      window.setTimeout(() => stage.classList.add("is-live"), 1050);
+      window.setTimeout(() => stage.classList.add("is-live"), 900);
     };
 
     if (stage.getBoundingClientRect().top < window.innerHeight * 0.9) {
@@ -1752,35 +1703,6 @@ const marquee = "Don't let the lecture sink. ";
       );
       io.observe(stage);
     }
-
-    stage.addEventListener(
-      "pointermove",
-      (e) => {
-        const r = stage.getBoundingClientRect();
-        px = ((e.clientX - r.left) / r.width - 0.5) * 2;
-        py = ((e.clientY - r.top) / r.height - 0.5) * 2;
-        kick();
-      },
-      { passive: true }
-    );
-    stage.addEventListener(
-      "pointerleave",
-      () => {
-        px = 0;
-        py = 0;
-        kick();
-      },
-      { passive: true }
-    );
-
-    window.addEventListener(
-      "scroll",
-      () => {
-        scrolling = Math.min(Math.max(window.scrollY, 0), 480);
-        kick();
-      },
-      { passive: true }
-    );
   })();
 
   // Types the subject in the hero headline. The markup already ships a real

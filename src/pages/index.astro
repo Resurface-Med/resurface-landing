@@ -100,7 +100,6 @@ const marquee = "Resurface it. Just before it sinks. ";
       <span class="blob b1"></span>
       <span class="blob b2"></span>
       <span class="blob b3"></span>
-      <span class="grain"></span>
     </div>
 
     <!-- ----------------------------------------------------------- HERO -->
@@ -149,11 +148,9 @@ const marquee = "Resurface it. Just before it sinks. ";
       </div>
 
       <!-- The books are the original artwork (RGBA, transparent corners,
-           so it sits on the field with no white box behind it). The halo
-           rings sit behind it and the contact shadow beneath, so it reads
-           as standing on something rather than pasted on. -->
+           so it sits on the field with no white box behind it). The two
+           cards float over it the way the comp has them. -->
       <div class="stage">
-        <span class="halo" aria-hidden="true"></span>
         <img
           class="books"
           src="/books.webp"
@@ -161,6 +158,26 @@ const marquee = "Resurface it. Just before it sinks. ";
           width="580"
           height="839"
         />
+
+        <div class="chip chip-streak">
+          <span class="chip-label">Streak</span>
+          <span class="chip-value">12 <em>days</em></span>
+          <svg class="spark" viewBox="0 0 120 28" aria-hidden="true">
+            <polyline
+              points="0,22 14,18 28,20 42,12 56,15 70,8 84,11 98,5 120,7"
+              fill="none"
+              stroke="rgba(255,255,255,.85)"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></polyline>
+          </svg>
+        </div>
+
+        <div class="chip chip-acc">
+          <span class="chip-value big">84%</span>
+          <span class="chip-label">Accuracy</span>
+          <span class="bar"><i style="width:84%"></i></span>
+        </div>
       </div>
     </section>
 
@@ -325,35 +342,10 @@ const marquee = "Resurface it. Just before it sinks. ";
     padding: 0 24px;
   }
 
-  /* A fixed nav lands on top of whatever an in-page link scrolls to. */
-  #how,
-  #subjects,
-  #modes {
-    scroll-margin-top: calc(var(--nav-h) + 20px);
-  }
-
   /* ================================================================ FIELD */
   .field {
     position: relative;
-    /* Not a flat fill. A light source top-right, a weaker bounce
-       bottom-left, and a vertical ramp that deepens toward the sheet so
-       the sheet reads as lifted off the field rather than pasted onto it.
-       Gradients rather than blurred boxes — no filter cost, no banding at
-       these radii, and they scale with the viewport for free. */
-    background:
-      radial-gradient(
-        1000px 760px at 76% 4%,
-        rgba(255, 255, 255, 0.15),
-        rgba(255, 255, 255, 0) 62%
-      ),
-      radial-gradient(
-        760px 620px at 4% 66%,
-        rgba(255, 255, 255, 0.075),
-        rgba(255, 255, 255, 0) 64%
-      ),
-      linear-gradient(178deg, #3d69f7 0%, var(--blue) 40%, #2a55ec 100%);
-    /* Replaces the flow space the now-fixed nav gave up. */
-    padding-top: var(--nav-h);
+    background: var(--blue);
     isolation: isolate;
     /* Establishes a block formatting context. Without it the sheet's
        negative bottom margin collapses out through .wrap and drags the
@@ -372,67 +364,38 @@ const marquee = "Resurface it. Just before it sinks. ";
     overflow: hidden;
     z-index: 0;
   }
-  /* Soft-edged rather than hard organic shapes. A hard-edged 6%-white
-     blob on blue reads as a smudge; feathering the edge with a radial
-     gradient makes the same shape read as light instead. */
   .blob {
     position: absolute;
     display: block;
+    background: rgba(255, 255, 255, 0.07);
     border-radius: 58% 42% 47% 53% / 45% 51% 49% 55%;
-    background: radial-gradient(
-      closest-side,
-      rgba(255, 255, 255, 0.085),
-      rgba(255, 255, 255, 0.02) 62%,
-      rgba(255, 255, 255, 0) 100%
-    );
   }
   .b1 {
-    width: 700px;
-    height: 620px;
-    top: 10px;
-    right: -140px;
+    width: 640px;
+    height: 560px;
+    top: 40px;
+    right: -120px;
   }
   .b2 {
-    width: 560px;
-    height: 520px;
-    top: 330px;
-    right: 280px;
+    width: 520px;
+    height: 480px;
+    top: 320px;
+    right: 260px;
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 44% 56% 62% 38% / 55% 42% 58% 45%;
-    opacity: 0.7;
   }
   .b3 {
-    width: 460px;
-    height: 430px;
-    top: 640px;
-    right: -80px;
-    opacity: 0.6;
-  }
-
-  /* Fine grain over the whole field. Inline SVG turbulence, so it costs
-     no request and cannot 404. Very low opacity — it should register as
-     texture, never as visible noise. */
-  .grain {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    opacity: 0.05;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+    width: 420px;
+    height: 400px;
+    top: 620px;
+    right: -60px;
+    background: rgba(255, 255, 255, 0.045);
   }
 
   /* ------------------------------------------------------------------ NAV */
-  /* Fixed, not sticky, and not in flow. Sticky left an 84px strip above
-     .field painted with the flat body colour, while the field's own top
-     is a gradient plus an off-centre glow — that mismatch showed as a
-     hard line under the nav (#3562F5 -> #3F6AF5, worst 27 at the right).
-     No flat colour can match a horizontally varying gradient, so the
-     field has to start at y=0 and the nav has to float over it.
-     .field reclaims the lost flow space with padding-top. */
   .nav-wrap {
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
     z-index: 40;
     padding: 18px 24px 0;
   }
@@ -615,51 +578,72 @@ const marquee = "Resurface it. Just before it sinks. ";
     justify-content: center;
   }
   .books {
-    position: relative;
-    z-index: 2; /* over the halo and its own contact shadow */
     width: clamp(180px, 20vw, 268px);
     height: auto;
     filter: drop-shadow(0 26px 40px rgba(15, 30, 90, 0.28));
   }
 
-  /* Concentric rings, drawn as spread-only box-shadows on one circle —
-     cheaper than stacked blurred elements and it stays crisp at any size. */
-  .halo {
+  .chip {
     position: absolute;
-    z-index: 0;
-    top: 50%;
-    left: 50%;
-    width: 128px;
-    height: 128px;
-    margin: -64px 0 0 -64px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow:
-      0 0 0 1px rgba(255, 255, 255, 0.1),
-      0 0 0 62px rgba(255, 255, 255, 0.032),
-      0 0 0 63px rgba(255, 255, 255, 0.075),
-      0 0 0 134px rgba(255, 255, 255, 0.024),
-      0 0 0 135px rgba(255, 255, 255, 0.055),
-      0 0 0 214px rgba(255, 255, 255, 0.016),
-      0 0 0 215px rgba(255, 255, 255, 0.038);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: var(--glass);
+    border: 1px solid var(--glass-line);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 16px 20px;
+    color: #fff;
+    min-width: 150px;
   }
-
-  /* Contact shadow. Without it the books hover with nothing under them. */
-  .stage::after {
-    content: "";
-    position: absolute;
-    z-index: 1;
-    bottom: 4%;
-    left: 50%;
-    width: 58%;
-    height: 34px;
-    transform: translateX(-50%);
-    border-radius: 50%;
-    background: radial-gradient(
-      ellipse at center,
-      rgba(9, 24, 78, 0.42),
-      rgba(9, 24, 78, 0) 70%
-    );
+  .chip-label {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+  }
+  .chip-value {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    line-height: 1.15;
+  }
+  .chip-value em {
+    font-style: normal;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  .chip-value.big {
+    font-size: 32px;
+  }
+  .chip-streak {
+    top: 4%;
+    right: -6%;
+  }
+  .spark {
+    width: 110px;
+    height: 26px;
+    margin-top: 2px;
+  }
+  .chip-acc {
+    bottom: 11%;
+    right: -2%;
+  }
+  .bar {
+    display: block;
+    margin-top: 10px;
+    height: 5px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .bar i {
+    display: block;
+    height: 100%;
+    background: #fff;
+    border-radius: 99px;
   }
 
   /* ---------------------------------------------------------------- PROOF */
@@ -695,9 +679,7 @@ const marquee = "Resurface it. Just before it sinks. ";
     margin-bottom: -96px;
     background: var(--panel);
     border-radius: var(--radius-xl);
-    /* Inset highlight along the top edge — catches the field's light
-       source and keeps the sheet from reading as a flat cut-out. */
-    box-shadow: var(--shadow-sheet), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    box-shadow: var(--shadow-sheet);
     padding: 40px 20px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -886,14 +868,8 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
 
   /* -------------------------------------------------------------- CLOSER */
-  /* Linear only, and it must start on exactly var(--blue): the marquee
-     above is a flat SVG fill of that colour, so anything brighter at this
-     element's top edge shows as a hard line. A radial glow here measured
-     #3562F5 -> #4E75F6 at centre while matching at the edges, which reads
-     as a seam straight across the page. The ramp down to #2a55ec carries
-     the depth instead, and the footer continues it. */
   .closer {
-    background: linear-gradient(180deg, var(--blue) 0%, #2a55ec 100%);
+    background: var(--blue);
     color: #fff;
     padding: clamp(64px, 10vh, 104px) 0;
   }
@@ -913,7 +889,7 @@ const marquee = "Resurface it. Just before it sinks. ";
 
   /* ---------------------------------------------------------------- FOOT */
   .foot {
-    background: #2a55ec; /* picks up where the closer's ramp ends */
+    background: var(--blue);
     padding: 8px 0 30px;
   }
   .foot-inner {
@@ -927,9 +903,22 @@ const marquee = "Resurface it. Just before it sinks. ";
 
   /* ================================================================ SMALL */
 
-  /* The stage collapses first: below this the books and their halo have
-     less room than the halo's outermost ring, so the artwork would crowd
-     the copy column exactly the way the old hero's did. */
+  /* The stat chips hang off the stage by a negative percentage, which is
+     fine at full width but pushes past the viewport once the hero column
+     narrows — .chip-streak was the whole of a 7px horizontal scroll at
+     1180px. Tuck them in before that happens. */
+  @media (max-width: 1240px) {
+    .chip-streak {
+      right: 0;
+    }
+    .chip-acc {
+      right: 2%;
+    }
+  }
+
+  /* The stage collapses first: below this the books and the stat chips
+     have less room than the chips' own min-width, so they'd overlap the
+     copy column exactly the way the old hero's artwork did. */
   @media (max-width: 1040px) {
     .hero {
       grid-template-columns: 1fr;

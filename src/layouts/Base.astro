@@ -62,11 +62,11 @@ const {
     --line: #e3e9f8;
     --line-strong: #cfd9ee;
 
+    /* Objects on the field are translucent white rather than solid, so
+       they pick up the blue behind them the way the comp's cards do. */
+    --glass: rgba(255, 255, 255, 0.14);
+    --glass-line: rgba(255, 255, 255, 0.24);
     --on-blue-soft: rgba(255, 255, 255, 0.78);
-
-    /* Height the fixed nav occupies, including its 18px top offset. The
-       field pads by this, and anchor targets clear it by this plus a gap. */
-    --nav-h: 84px;
 
     --radius-pill: 999px;
     --radius-xl: 34px;

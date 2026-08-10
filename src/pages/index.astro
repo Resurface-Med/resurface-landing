@@ -285,32 +285,40 @@ const marquee = "Resurface it. Just before it sinks. ";
   <section class="light ai-band" id="ai">
     <div class="wrap">
       <h2 class="ai-heading section-h">
-        From your slides to a question, in seconds.
+        Upload your lectures. Get questions that match.
       </h2>
       <p class="ai-lead">
-        Resurface AI reads your lecture and writes practice that matches it.
+        Resurface AI reads your slides and writes the practice for you.
       </p>
 
       <div
         class="ai-stage"
         id="ai-stage"
-        aria-label="Demo: AI writing a question from a lecture slide"
+        aria-label="Demo: upload a lecture and get AI questions"
       >
         <article class="ai-panel">
-          <div class="slide-sheet">
-            <header class="slide-meta">
-              <span class="slide-dot" aria-hidden="true"></span>
-              <span class="slide-name">Anatomy · Cranial nerves.pdf</span>
-            </header>
-            <h3 class="slide-title">Exits of the cranial nerves</h3>
-            <p class="slide-body">
-              Cranial nerves III–XII leave the skull through named foramina.
-              <mark class="slide-mark"
-                >CN X (vagus) exits via the jugular foramen, with CN IX and
-                XI.</mark
-              >
-              Knowing the foramen helps localise lesions on exam questions.
-            </p>
+          <div class="upload-row" data-upload>
+            <div class="file-chip" aria-hidden="true">
+              <span class="file-icon">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+                  <path
+                    d="M7 3.5h7.2L19 8.3V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 6 20V5A1.5 1.5 0 0 1 7.5 3.5"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linejoin="round"></path>
+                  <path
+                    d="M14 3.5V8h4.8"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </span>
+              <span class="file-meta">
+                <span class="file-name">Anatomy · Week 4.pdf</span>
+                <span class="file-sub">Your lecture slides</span>
+              </span>
+            </div>
+            <div class="upload-hint" data-upload-hint>Drop in a lecture</div>
           </div>
 
           <div class="ai-bridge" aria-hidden="true">
@@ -323,21 +331,31 @@ const marquee = "Resurface it. Just before it sinks. ";
                 height="131"
                 class="ai-bridge-logo"
               />
-              <span class="ai-bridge-status" data-ai-status>Reading…</span>
+              <span class="ai-bridge-status" data-ai-status>Waiting…</span>
             </span>
             <span class="ai-bridge-line"></span>
           </div>
 
-          <div class="gen-q" data-gen-q>
-            <span class="gen-label">Practice question</span>
-            <p class="gen-stem">
-              <span data-gen-stem></span><span class="gen-caret" data-gen-caret
-              ></span>
-            </p>
-            <div class="gen-opts" data-gen-opts hidden>
-              <span>CN VII</span>
-              <span class="right">CN X</span>
-              <span>CN XII</span>
+          <div class="ai-progress" data-progress aria-hidden="true">
+            <span class="ai-progress-bar" data-progress-bar></span>
+          </div>
+
+          <div class="ready-card" data-ready>
+            <div class="ready-top">
+              <span class="ready-count" data-ready-count>0</span>
+              <span class="ready-label">questions ready</span>
+            </div>
+            <div class="ready-preview" data-preview hidden>
+              <span class="ready-tag">From your slides</span>
+              <p class="ready-stem">
+                Which cranial nerve exits the skull through the jugular
+                foramen?
+              </p>
+              <div class="ready-opts">
+                <span>CN VII</span>
+                <span class="right">CN X</span>
+                <span>CN XII</span>
+              </div>
             </div>
           </div>
         </article>
@@ -1180,12 +1198,12 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
   .ai-heading {
     text-align: center;
-    max-width: 22ch;
+    max-width: 20ch;
     margin: 0 auto;
   }
   .ai-lead {
     margin: 14px auto 0;
-    max-width: 36ch;
+    max-width: 34ch;
     text-align: center;
     font-size: clamp(16px, 1.7vw, 18px);
     font-weight: 500;
@@ -1196,7 +1214,7 @@ const marquee = "Resurface it. Just before it sinks. ";
 
   .ai-stage {
     margin-top: clamp(28px, 4vh, 44px);
-    max-width: 640px;
+    max-width: 560px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -1207,77 +1225,91 @@ const marquee = "Resurface it. Just before it sinks. ";
         rgba(161, 192, 255, 0.45) 0%,
         transparent 55%
       ),
-      linear-gradient(180deg, #eef3ff 0%, #ffffff 42%);
+      linear-gradient(180deg, #eef3ff 0%, #ffffff 48%);
     border-radius: 28px;
-    padding: clamp(18px, 3vw, 26px);
+    padding: clamp(20px, 3vw, 28px);
     box-shadow:
       0 4px 14px rgba(20, 44, 130, 0.04),
       0 22px 48px rgba(20, 44, 130, 0.1);
   }
 
-  .slide-sheet {
-    background: var(--white);
-    border-radius: 18px;
-    padding: clamp(16px, 2.5vw, 22px);
-    border: 1px solid var(--line);
-    box-shadow: 0 10px 28px rgba(20, 44, 130, 0.06);
+  .upload-row {
+    position: relative;
+    min-height: 72px;
+    display: grid;
+    place-items: center;
   }
-  .slide-meta {
+  .file-chip {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 14px;
+    gap: 12px;
+    width: 100%;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 14px 16px;
+    box-shadow: 0 10px 28px rgba(20, 44, 130, 0.06);
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+    pointer-events: none;
   }
-  .slide-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--blue);
-    box-shadow: 0 0 0 4px rgba(53, 98, 245, 0.15);
+  .ai-stage.has-file .file-chip {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.45s ease,
+      transform 0.45s ease;
   }
-  .slide-name {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.01em;
+  .file-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--wash);
+    color: var(--blue);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+  .file-meta {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+  .file-name {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.25px;
+    color: var(--ink);
+  }
+  .file-sub {
+    font-size: 12.5px;
+    font-weight: 500;
     color: var(--ink-faint);
   }
-  .slide-title {
-    margin: 0 0 10px;
-    font-size: clamp(17px, 2vw, 20px);
-    font-weight: 700;
-    letter-spacing: -0.4px;
-    color: var(--ink);
-  }
-  .slide-body {
-    margin: 0;
-    font-size: clamp(14px, 1.5vw, 15.5px);
-    font-weight: 500;
-    line-height: 1.55;
-    letter-spacing: -0.15px;
+  .upload-hint {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    border: 1.5px dashed #c5d3f5;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.55);
     color: var(--ink-soft);
-  }
-  .slide-mark {
-    background: linear-gradient(
-      180deg,
-      rgba(53, 98, 245, 0.12) 0%,
-      rgba(53, 98, 245, 0.22) 100%
-    );
-    color: var(--ink);
+    font-size: 14px;
     font-weight: 600;
-    border-radius: 4px;
-    padding: 1px 4px;
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
+    letter-spacing: -0.15px;
+    transition: opacity 0.3s ease;
   }
-  .ai-stage.is-reading .slide-mark {
-    animation: mark-pulse 1.1s ease-in-out infinite;
+  .ai-stage.has-file .upload-hint {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .ai-bridge {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin: 18px 0;
+    margin: 18px 0 12px;
   }
   .ai-bridge-line {
     flex: 1;
@@ -1310,23 +1342,72 @@ const marquee = "Resurface it. Just before it sinks. ";
     font-weight: 700;
     letter-spacing: -0.1px;
     color: var(--blue);
-    min-width: 7.5ch;
+    min-width: 8ch;
   }
-  .ai-stage.is-writing .ai-bridge-pill {
+  .ai-stage.is-working .ai-bridge-pill {
     box-shadow:
       0 0 0 4px rgba(53, 98, 245, 0.1),
       0 8px 20px rgba(20, 44, 130, 0.1);
   }
 
-  .gen-q {
+  .ai-progress {
+    height: 6px;
+    border-radius: 999px;
+    background: #e4ebfb;
+    overflow: hidden;
+    margin-bottom: 16px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .ai-stage.is-working .ai-progress,
+  .ai-stage.is-done .ai-progress {
+    opacity: 1;
+  }
+  .ai-progress-bar {
+    display: block;
+    height: 100%;
+    width: 0%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #6e8ff7, var(--blue));
+    transition: width 0.35s ease;
+  }
+
+  .ready-card {
     background: var(--white);
     border-radius: 18px;
     padding: clamp(16px, 2.5vw, 20px);
     border: 1px solid var(--line);
-    min-height: 148px;
     box-shadow: 0 10px 28px rgba(20, 44, 130, 0.06);
+    min-height: 72px;
   }
-  .gen-label {
+  .ready-top {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .ready-count {
+    font-size: clamp(28px, 4vw, 34px);
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: var(--blue);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .ready-label {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    color: var(--ink-soft);
+  }
+  .ready-preview {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .ready-preview[hidden] {
+    display: none;
+  }
+  .ready-tag {
     display: inline-block;
     font-size: 11px;
     font-weight: 700;
@@ -1336,38 +1417,21 @@ const marquee = "Resurface it. Just before it sinks. ";
     background: var(--wash);
     border-radius: var(--radius-pill);
     padding: 4px 9px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
-  .gen-stem {
-    margin: 0 0 14px;
-    min-height: 2.7em;
-    font-size: clamp(15px, 1.7vw, 17px);
+  .ready-stem {
+    margin: 0 0 12px;
+    font-size: clamp(15px, 1.7vw, 16.5px);
     font-weight: 600;
     letter-spacing: -0.25px;
     line-height: 1.35;
     color: var(--ink);
   }
-  .gen-caret {
-    display: inline-block;
-    width: 2px;
-    height: 1em;
-    margin-left: 1px;
-    vertical-align: -0.12em;
-    background: var(--blue);
-    opacity: 0;
-  }
-  .ai-stage.is-writing .gen-caret {
-    opacity: 1;
-    animation: caret-blink 0.85s steps(1) infinite;
-  }
-  .gen-opts {
+  .ready-opts {
     display: grid;
     gap: 7px;
   }
-  .gen-opts[hidden] {
-    display: none;
-  }
-  .gen-opts span {
+  .ready-opts span {
     display: block;
     border-radius: 999px;
     padding: 9px 13px;
@@ -1376,43 +1440,15 @@ const marquee = "Resurface it. Just before it sinks. ";
     background: var(--panel);
     color: var(--ink-soft);
   }
-  .gen-opts .right {
+  .ready-opts .right {
     background: #e7f6ed;
     color: #146c3d;
     font-weight: 700;
   }
-  .gen-opts.is-in span {
-    animation: opt-in 0.45s ease both;
-  }
-  .gen-opts.is-in span:nth-child(2) {
-    animation-delay: 0.08s;
-  }
-  .gen-opts.is-in span:nth-child(3) {
-    animation-delay: 0.16s;
+  .ready-preview.is-in {
+    animation: opt-in 0.5s ease both;
   }
 
-  @keyframes caret-blink {
-    50% {
-      opacity: 0;
-    }
-  }
-  @keyframes mark-pulse {
-    0%,
-    100% {
-      background: linear-gradient(
-        180deg,
-        rgba(53, 98, 245, 0.12) 0%,
-        rgba(53, 98, 245, 0.22) 100%
-      );
-    }
-    50% {
-      background: linear-gradient(
-        180deg,
-        rgba(53, 98, 245, 0.22) 0%,
-        rgba(53, 98, 245, 0.34) 100%
-      );
-    }
-  }
   @keyframes opt-in {
     from {
       opacity: 0;
@@ -1437,10 +1473,12 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .ai-stage.is-reading .slide-mark,
-    .ai-stage.is-writing .gen-caret,
-    .gen-opts.is-in span {
+    .ai-stage.has-file .file-chip,
+    .ready-preview.is-in {
       animation: none;
+      transition: none;
+      opacity: 1;
+      transform: none;
     }
   }
 
@@ -1802,18 +1840,17 @@ const marquee = "Resurface it. Just before it sinks. ";
     next.addEventListener("click", () => select((current + 1) % samples.length));
   }
 
-  // AI section: lecture highlight → status → typed question → options.
+  // AI section: upload lecture → AI works → questions ready.
   (() => {
     const stage = document.querySelector<HTMLElement>("#ai-stage");
     if (!stage) return;
     const status = stage.querySelector<HTMLElement>("[data-ai-status]");
-    const stem = stage.querySelector<HTMLElement>("[data-gen-stem]");
-    const caret = stage.querySelector<HTMLElement>("[data-gen-caret]");
-    const opts = stage.querySelector<HTMLElement>("[data-gen-opts]");
-    if (!status || !stem || !caret || !opts) return;
+    const bar = stage.querySelector<HTMLElement>("[data-progress-bar]");
+    const count = stage.querySelector<HTMLElement>("[data-ready-count]");
+    const preview = stage.querySelector<HTMLElement>("[data-preview]");
+    if (!status || !bar || !count || !preview) return;
 
-    const STEM =
-      "Which cranial nerve exits the skull through the jugular foramen?";
+    const TARGET = 12;
     const calm = matchMedia("(prefers-reduced-motion: reduce)");
     let gen = 0;
 
@@ -1823,21 +1860,22 @@ const marquee = "Resurface it. Just before it sinks. ";
       });
 
     const paintIdle = () => {
-      stage.classList.remove("is-reading", "is-writing");
-      status.textContent = "Reading…";
-      stem.textContent = "";
-      caret.hidden = false;
-      opts.hidden = true;
-      opts.classList.remove("is-in");
+      stage.classList.remove("has-file", "is-working", "is-done");
+      status.textContent = "Waiting…";
+      bar.style.width = "0%";
+      count.textContent = "0";
+      preview.hidden = true;
+      preview.classList.remove("is-in");
     };
 
     const paintDone = () => {
-      stage.classList.remove("is-reading", "is-writing");
+      stage.classList.add("has-file", "is-done");
+      stage.classList.remove("is-working");
       status.textContent = "Done";
-      stem.textContent = STEM;
-      caret.hidden = true;
-      opts.hidden = false;
-      opts.classList.add("is-in");
+      bar.style.width = "100%";
+      count.textContent = String(TARGET);
+      preview.hidden = false;
+      preview.classList.add("is-in");
     };
 
     const run = async () => {
@@ -1849,31 +1887,33 @@ const marquee = "Resurface it. Just before it sinks. ";
         return;
       }
 
-      stage.classList.add("is-reading");
+      if (!(await wait(500, id))) return;
+      stage.classList.add("has-file");
       status.textContent = "Reading…";
-      if (!(await wait(1100, id))) return;
+      if (!(await wait(700, id))) return;
 
-      stage.classList.remove("is-reading");
-      stage.classList.add("is-writing");
+      stage.classList.add("is-working");
       status.textContent = "Writing…";
 
-      for (let i = 1; i <= STEM.length; i++) {
+      for (let p = 8; p <= 100; p += 8) {
         if (id !== gen) return;
-        stem.textContent = STEM.slice(0, i);
-        const pause = i > 28 && STEM[i - 1] === " " ? 42 : 26;
-        if (!(await wait(pause, id))) return;
+        bar.style.width = `${p}%`;
+        const n = Math.min(TARGET, Math.round((p / 100) * TARGET));
+        count.textContent = String(n);
+        if (!(await wait(110, id))) return;
       }
 
       if (id !== gen) return;
-      caret.hidden = true;
-      stage.classList.remove("is-writing");
+      stage.classList.remove("is-working");
+      stage.classList.add("is-done");
       status.textContent = "Done";
-      opts.hidden = false;
-      opts.classList.remove("is-in");
-      void opts.offsetWidth;
-      opts.classList.add("is-in");
+      count.textContent = String(TARGET);
+      preview.hidden = false;
+      preview.classList.remove("is-in");
+      void preview.offsetWidth;
+      preview.classList.add("is-in");
 
-      if (!(await wait(3200, id))) return;
+      if (!(await wait(3800, id))) return;
       void run();
     };
 

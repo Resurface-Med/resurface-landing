@@ -273,21 +273,22 @@ const marquee = "Resurface it. Just before it sinks. ";
   <!-- ============================================== LIGHT: AI GENERATE -->
   <section class="light ai-band" id="ai">
     <div class="wrap">
-      <div class="ai-intro">
-        <h2 class="ai-heading section-h">
-          Most question banks miss the details in your lectures.
-        </h2>
-        <p class="ai-solve">
-          Upload your lectures to Resurface, and it writes questions that
-          don’t miss those details.
-        </p>
-      </div>
+      <div class="ai-layout">
+        <div class="ai-intro">
+          <h2 class="ai-heading section-h">
+            Most question banks miss the details in your lectures.
+          </h2>
+          <p class="ai-solve">
+            Upload your lectures to Resurface, and it writes questions that
+            don’t miss those details.
+          </p>
+        </div>
 
-      <div
-        class="ai-stage"
-        id="ai-stage"
-        aria-label="Demo: upload a lecture and get AI questions"
-      >
+        <div
+          class="ai-stage"
+          id="ai-stage"
+          aria-label="Demo: upload a lecture and get AI questions"
+        >
         <article class="ai-panel">
           <div class="upload-row" data-upload>
             <div class="file-chip" aria-hidden="true">
@@ -353,6 +354,7 @@ const marquee = "Resurface it. Just before it sinks. ";
             </div>
           </div>
         </article>
+      </div>
       </div>
     </div>
   </section>
@@ -1207,35 +1209,32 @@ const marquee = "Resurface it. Just before it sinks. ";
     scroll-margin-top: 100px;
     border-top: 1px solid var(--line);
   }
+  .ai-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: clamp(28px, 4vw, 56px);
+    align-items: center;
+  }
   .ai-intro {
-    text-align: center;
-    max-width: 28rem;
-    margin: 0 auto;
+    text-align: left;
+    max-width: 18em;
   }
   .ai-heading {
     margin: 0;
   }
   .ai-solve {
-    margin: 16px 0 0;
-    font-size: clamp(20px, 2.4vw, 26px);
+    margin: 18px 0 0;
+    font-size: clamp(18px, 2vw, 24px);
     font-weight: 600;
-    letter-spacing: -0.6px;
-    line-height: 1.3;
+    letter-spacing: -0.5px;
+    line-height: 1.35;
     color: var(--blue);
   }
 
-  @media (max-width: 700px) {
-    .ai-intro {
-      max-width: none;
-      padding: 0 4px;
-    }
-  }
-
   .ai-stage {
-    margin-top: clamp(28px, 4vh, 44px);
-    max-width: 560px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0;
+    min-width: 0;
+    width: 100%;
   }
   .ai-panel {
     background:
@@ -1246,10 +1245,24 @@ const marquee = "Resurface it. Just before it sinks. ";
       ),
       linear-gradient(180deg, #eef3ff 0%, #ffffff 48%);
     border-radius: 28px;
-    padding: clamp(20px, 3vw, 28px);
+    padding: clamp(18px, 2.5vw, 26px);
     box-shadow:
       0 4px 14px rgba(20, 44, 130, 0.04),
       0 22px 48px rgba(20, 44, 130, 0.1);
+  }
+
+  @media (max-width: 860px) {
+    .ai-layout {
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+    .ai-intro {
+      max-width: none;
+    }
+    .ai-stage {
+      max-width: 440px;
+      margin-inline: auto;
+    }
   }
 
   .upload-row {

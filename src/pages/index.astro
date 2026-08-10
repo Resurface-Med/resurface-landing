@@ -284,43 +284,33 @@ const marquee = "Resurface it. Just before it sinks. ";
   <!-- ============================================== LIGHT: AI GENERATE -->
   <section class="light ai-band" id="ai">
     <div class="wrap">
-      <div class="ai-compact">
-        <span class="pill">Why AI is here</span>
-        <h2 class="section-h">
-          Most question banks are written for everyone.
-        </h2>
-        <p>
-          They aim at the mass audience and leave out the specific details your
-          lectures actually go into — the slides, the handouts, the bits only
-          your year got taught. Upload or paste that material into Resurface and
-          AI writes custom practice questions from it, so those details don't get
-          dropped.
-        </p>
-      </div>
+      <h2 class="ai-heading section-h">Generic banks miss what your lectures cover.</h2>
 
       <div class="ai-compare" aria-label="Generic banks versus Resurface AI">
-        <div class="compare-col">
-          <div class="compare-card">
+        <article class="compare-card">
+          <header class="compare-head">
             <h3 class="compare-title">Most question banks</h3>
-            <div class="compare-art miss" aria-hidden="true">
-              <div class="mini-q">
-                <span class="mini-tag vague">Vague</span>
-                <p class="mini-stem">How many cranial nerves are there?</p>
-                <div class="mini-opts">
-                  <span>10</span>
-                  <span class="on">12</span>
-                  <span>14</span>
-                </div>
+          </header>
+          <div class="compare-art miss" aria-hidden="true">
+            <div class="mini-q">
+              <span class="mini-tag vague">Vague</span>
+              <p class="mini-stem">How many cranial nerves are there?</p>
+              <div class="mini-opts">
+                <span>10</span>
+                <span class="on">12</span>
+                <span>14</span>
               </div>
             </div>
           </div>
           <p class="compare-sub">
             Stays broad — skips lecture-specific detail.
           </p>
-        </div>
+        </article>
 
-        <div class="compare-col">
-          <div class="compare-card">
+        <div class="compare-vs" aria-hidden="true">vs</div>
+
+        <article class="compare-card">
+          <header class="compare-head">
             <h3 class="compare-title compare-brand">
               <img
                 src="/logo-lockup.png"
@@ -329,25 +319,25 @@ const marquee = "Resurface it. Just before it sinks. ";
                 height="131"
               />
             </h3>
-            <div class="compare-art keep" aria-hidden="true">
-              <div class="mini-q">
-                <span class="mini-tag specific">From your slides</span>
-                <p class="mini-stem">
-                  Which cranial nerve exits the skull through the jugular
-                  foramen?
-                </p>
-                <div class="mini-opts">
-                  <span>CN VII</span>
-                  <span class="right">CN X</span>
-                  <span>CN XII</span>
-                </div>
+          </header>
+          <div class="compare-art keep" aria-hidden="true">
+            <div class="mini-q">
+              <span class="mini-tag specific">From your slides</span>
+              <p class="mini-stem">
+                Which cranial nerve exits the skull through the jugular
+                foramen?
+              </p>
+              <div class="mini-opts">
+                <span>CN VII</span>
+                <span class="right">CN X</span>
+                <span>CN XII</span>
               </div>
             </div>
           </div>
           <p class="compare-sub accent">
             Asks about the specific bits you were taught.
           </p>
-        </div>
+        </article>
       </div>
     </div>
   </section>
@@ -1181,36 +1171,37 @@ const marquee = "Resurface it. Just before it sinks. ";
 
   /* ---------------------------------------------------------- AI SECTION */
   .ai-band {
-    padding: clamp(28px, 4vh, 48px) 0 clamp(40px, 6vh, 64px);
+    padding: clamp(36px, 5vh, 64px) 0 clamp(44px, 6vh, 72px);
     scroll-margin-top: 100px;
     border-top: 1px solid var(--line);
   }
-  .ai-compact {
-    max-width: 640px;
-  }
-  .ai-compact .pill {
-    margin-bottom: 12px;
-  }
-  .ai-compact p {
-    margin-top: 12px;
-    font-size: 16.5px;
-    line-height: 1.55;
-    color: var(--ink-soft);
+  .ai-heading {
+    text-align: center;
+    max-width: 18ch;
+    margin: 0 auto;
   }
 
   .ai-compare {
-    margin-top: clamp(28px, 4vh, 40px);
+    margin-top: clamp(28px, 4vh, 44px);
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(18px, 3vw, 28px);
-    align-items: start;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: clamp(12px, 2vw, 20px);
+    align-items: stretch;
   }
-  .compare-col {
+  .compare-vs {
+    align-self: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--ink-soft);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
     display: grid;
-    grid-template-rows: 1fr auto;
-    gap: 12px;
-    min-width: 0;
-    height: 100%;
+    place-items: center;
+    box-shadow: 0 4px 14px rgba(20, 44, 130, 0.08);
   }
   .compare-card {
     background: var(--white);
@@ -1218,17 +1209,20 @@ const marquee = "Resurface it. Just before it sinks. ";
     box-shadow:
       0 4px 14px rgba(20, 44, 130, 0.04),
       0 18px 40px rgba(20, 44, 130, 0.08);
-    padding: 18px 16px 16px;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .compare-head {
+    padding: 18px 18px 0;
   }
   .compare-title {
     font-size: 14px;
     font-weight: 700;
     letter-spacing: -0.2px;
     color: var(--ink);
-    margin: 0 0 12px;
+    margin: 0;
     min-height: 36px;
     display: flex;
     align-items: center;
@@ -1237,19 +1231,8 @@ const marquee = "Resurface it. Just before it sinks. ";
     width: min(168px, 72%);
     height: auto;
   }
-  .compare-sub {
-    margin: 0;
-    padding: 0 4px;
-    font-size: clamp(16px, 1.7vw, 18px);
-    font-weight: 600;
-    letter-spacing: -0.3px;
-    line-height: 1.35;
-    color: var(--ink);
-  }
-  .compare-sub.accent {
-    color: var(--blue);
-  }
   .compare-art {
+    margin: 14px 16px 0;
     border-radius: 22px;
     padding: 16px;
     display: grid;
@@ -1262,6 +1245,23 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
   .compare-art.keep {
     background: linear-gradient(160deg, #9eb8ff 0%, #6e8ff7 100%);
+  }
+  .compare-sub {
+    margin: 0;
+    margin-top: 14px;
+    padding: 16px 18px 18px;
+    border-top: 1px solid var(--line);
+    background: #fafbff;
+    font-size: clamp(15px, 1.6vw, 17px);
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .compare-sub.accent {
+    color: var(--blue);
+    background: #eef3ff;
+    border-top-color: #d7e2ff;
   }
 
   .mini-q {
@@ -1324,6 +1324,14 @@ const marquee = "Resurface it. Just before it sinks. ";
     .ai-compare {
       grid-template-columns: 1fr;
       max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .compare-vs {
+      justify-self: center;
+    }
+    .ai-heading {
+      max-width: none;
     }
   }
 

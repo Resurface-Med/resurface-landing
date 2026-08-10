@@ -162,14 +162,25 @@ const marquee = "Resurface it. Just before it sinks. ";
         <div class="chip chip-streak">
           <span class="chip-label">Streak</span>
           <span class="chip-value">12 <em>days</em></span>
-          <svg class="spark" viewBox="0 0 120 28" aria-hidden="true">
-            <polyline
-              points="0,22 14,18 28,20 42,12 56,15 70,8 84,11 98,5 120,7"
+          <!-- Catmull-Rom through the values, converted to cubic beziers,
+               rather than a polyline — the corners were the jagged look.
+               Area fill underneath so it reads as a trend, not a wire. -->
+          <!-- 124 wide, not 120: the end dot has r=2.6, so at cx=120 it
+               would clip against the right edge of a 120-wide box. -->
+          <svg class="spark" viewBox="0 0 124 32" aria-hidden="true">
+            <!-- No area fill. Closing the curve to a baseline left a hard
+                 vertical cut where the line ends, which read as a bright
+                 block against the frosted card — worse than the jaggedness
+                 it was meant to soften. -->
+            <path
               fill="none"
-              stroke="rgba(255,255,255,.85)"
+              stroke="rgba(255,255,255,.92)"
               stroke-width="2"
               stroke-linecap="round"
-              stroke-linejoin="round"></polyline>
+              stroke-linejoin="round"
+              d="M0,26 C2.5,25.5 10,23.3 15,23 C20,22.7 25,24.8 30,24 C35,23.2 40,18.8 45,18 C50,17.2 55,19.8 60,19 C65,18.2 70,14.1 75,13 C80,11.9 85,13.5 90,12.5 C95,11.5 100,8.2 105,7 C110,5.8 117.5,5.3 120,5"
+            ></path>
+            <circle cx="120" cy="5" r="2.6" fill="#fff"></circle>
           </svg>
         </div>
 
@@ -633,10 +644,12 @@ const marquee = "Resurface it. Just before it sinks. ";
     top: 4%;
     right: -6%;
   }
+  /* Aspect matches the 124x32 viewBox, so the curve isn't letterboxed. */
   .spark {
-    width: 110px;
-    height: 26px;
-    margin-top: 2px;
+    width: 112px;
+    height: 29px;
+    margin-top: 4px;
+    overflow: visible;
   }
   .chip-acc {
     bottom: 11%;

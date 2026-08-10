@@ -1663,6 +1663,49 @@ const marquee = "Don't let the lecture sink. ";
 </style>
 
 <script>
+  // Hero books: float in, then ease down a little as you scroll.
+  (() => {
+    const stage = document.querySelector<HTMLElement>("#hero-stage");
+    const motion = stage?.querySelector<HTMLElement>("[data-books-motion]");
+    if (!stage || !motion) return;
+
+    const calm = matchMedia("(prefers-reduced-motion: reduce)");
+    if (calm.matches) {
+      stage.classList.add("is-in");
+      return;
+    }
+
+    const reveal = () => stage.classList.add("is-in");
+    if (stage.getBoundingClientRect().top < window.innerHeight * 0.9) {
+      requestAnimationFrame(reveal);
+    } else {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((e) => e.isIntersecting)) {
+            reveal();
+            io.disconnect();
+          }
+        },
+        { threshold: 0.2 }
+      );
+      io.observe(stage);
+    }
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        if (!stage.classList.contains("is-in")) return;
+        const shift = Math.min(Math.max(window.scrollY, 0), 420) * 0.18;
+        stage.style.setProperty("--books-shift", `${shift}px`);
+      });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  })();
+
   // Types the subject in the hero headline. The markup already ships a real
   // subject, so this only ever replaces one valid word with another.
   const out = document.querySelector<HTMLElement>(".typed-out");

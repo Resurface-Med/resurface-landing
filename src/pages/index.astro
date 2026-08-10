@@ -135,14 +135,16 @@ const marquee = "Don't let the lecture sink. ";
         </p>
       </div>
 
-      <div class="stage">
-        <img
-          class="books"
-          src="/books.webp"
-          alt="Two stacked textbooks"
-          width="580"
-          height="839"
-        />
+      <div class="stage" id="hero-stage">
+        <div class="books-motion" data-books-motion>
+          <img
+            class="books"
+            src="/books.webp"
+            alt="Two stacked textbooks"
+            width="580"
+            height="839"
+          />
+        </div>
       </div>
     </section>
 
@@ -697,10 +699,31 @@ const marquee = "Don't let the lecture sink. ";
     display: flex;
     justify-content: center;
   }
+  .books-motion {
+    will-change: transform, opacity;
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.96);
+    transition:
+      opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .stage.is-in .books-motion {
+    opacity: 1;
+    transform: translate3d(0, var(--books-shift, 0px), 0) scale(1);
+  }
   .books {
     width: clamp(180px, 20vw, 268px);
     height: auto;
+    display: block;
     filter: drop-shadow(0 26px 40px rgba(15, 30, 90, 0.28));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .books-motion {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 
   /* --------------------------------------------------------------- RIBBON */

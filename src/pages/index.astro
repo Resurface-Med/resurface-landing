@@ -273,11 +273,12 @@ const marquee = "Resurface it. Just before it sinks. ";
   <!-- ============================================== LIGHT: AI GENERATE -->
   <section class="light ai-band" id="ai">
     <div class="wrap">
-      <h2 class="ai-heading section-h">Most question banks stay general.</h2>
-      <p class="ai-lead">
-        They're written for everyone. They rarely go into the exact detail your
-        lectures covered.
-      </p>
+      <div class="ai-intro">
+        <p class="ai-eyebrow">Generic banks miss lecture detail.</p>
+        <h2 class="ai-heading section-h">
+          Upload your lectures. Get questions that match.
+        </h2>
+      </div>
 
       <div
         class="ai-stage"
@@ -1203,20 +1204,20 @@ const marquee = "Resurface it. Just before it sinks. ";
     scroll-margin-top: 100px;
     border-top: 1px solid var(--line);
   }
+  .ai-intro {
+    text-align: center;
+  }
+  .ai-eyebrow {
+    margin: 0 0 12px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.15px;
+    color: var(--ink-soft);
+  }
   .ai-heading {
     text-align: center;
     max-width: 20ch;
     margin: 0 auto;
-  }
-  .ai-lead {
-    margin: 14px auto 0;
-    max-width: 38ch;
-    text-align: center;
-    font-size: clamp(16px, 1.7vw, 18px);
-    font-weight: 500;
-    letter-spacing: -0.2px;
-    line-height: 1.4;
-    color: var(--ink-soft);
   }
 
   .ai-stage {

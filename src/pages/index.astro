@@ -1,190 +1,601 @@
 ---
 import Base from "../layouts/Base.astro";
 
-// Placeholder until the real domain is wired up.
 const APP_URL = import.meta.env.PUBLIC_APP_URL || "#";
 
 const features = [
   {
+    kicker: "Timing",
     title: "Questions come back before you forget them",
     body: "An SM-2 schedule with Anki-style learning steps decides when each question resurfaces. Get one wrong and it returns in a minute, not a week.",
   },
   {
+    kicker: "Your material",
     title: "Built from your own lectures",
     body: "Upload a slide deck or paste your notes and get exam-shaped questions back — five options, an explanation for the right answer, and one for every wrong one.",
   },
   {
+    kicker: "Modes",
     title: "Three ways to study",
     body: "Practice a topic, race a timer, or work the review queue. Wrong answers collect in one place so you can go back to what actually caught you out.",
   },
 ];
+
+const subjects = [
+  "Anatomy",
+  "Biochemistry",
+  "Embryology",
+  "Genetics",
+  "Histology",
+  "Immunology",
+  "Pathology",
+  "Pharmacology",
+  "Physiology",
+];
+
+const marquee = "Resurface it. Just before it sinks. ";
 ---
 
 <Base
   title="Resurface — spaced repetition for medical school"
   description="A spaced-repetition study app for medical students. Questions resurface right before you forget them."
 >
-  <main>
-    <section class="hero">
-      <p class="eyebrow">For Year 1 MBChB</p>
+  <!-- ---------------------------------------------------------------- NAV -->
+  <header class="nav-wrap">
+    <nav class="nav">
+      <a class="brand" href="/">
+        <img
+          src="/logo-lockup.png"
+          alt="Resurface"
+          width="560"
+          height="131"
+          fetchpriority="high"
+        />
+      </a>
+
+      <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#subjects">Subjects</a>
+        <a href="#modes">Modes</a>
+      </div>
+
+      <a class="nav-cta" href={APP_URL}>Start studying</a>
+    </nav>
+  </header>
+
+  <!-- --------------------------------------------------------------- HERO -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <a class="pill-note" href="#subjects">
+        <span class="pill-flag">497</span>
+        questions across nine subjects
+        <span class="pill-arrow">→</span>
+      </a>
+
       <h1>
         Everything you learn<br />
-        <span class="grad">resurfaces</span> before it sinks.
+        <span class="hl">resurfaces</span> before it sinks.
       </h1>
+
       <p class="sub">
-        A spaced-repetition question bank for medical students. It tracks what you're
-        about to forget and puts it back in front of you at the moment it counts.
+        A spaced-repetition question bank for medical students. It tracks what
+        you're about to forget and puts it back in front of you at the moment
+        it counts.
       </p>
+
       <div class="cta">
-        <a class="primary" href={APP_URL}>Start studying</a>
-        <a class="secondary" href="#how">How it works</a>
+        <a class="btn-primary" href={APP_URL}>Start studying <span>→</span></a>
+        <a class="btn-ghost" href="#how">How it works</a>
       </div>
+
       <p class="note">Free while it's in testing. No account needed.</p>
-    </section>
+    </div>
+  </section>
 
-    <section class="features" id="how">
-      {
-        features.map((f) => (
-          <article class="card">
-            <h2>{f.title}</h2>
-            <p>{f.body}</p>
-          </article>
-        ))
-      }
-    </section>
+  <!-- ------------------------------------------------------------ MARQUEE -->
+  <div class="band" aria-hidden="true">
+    <svg viewBox="0 0 1440 250" preserveAspectRatio="none" class="band-svg">
+      <path
+        class="band-fill"
+        d="M-160,96 C160,8 520,8 800,96 C1080,184 1300,184 1600,96 L1600,188 C1300,276 1080,276 800,188 C520,100 160,100 -160,188 Z"
+      ></path>
+      <path
+        id="bandline"
+        fill="none"
+        d="M-160,158 C160,70 520,70 800,158 C1080,246 1300,246 1600,158"
+      ></path>
+      <text class="band-text">
+        <textPath href="#bandline" startOffset="0%">
+          {marquee.repeat(6)}
+          <animate
+            attributeName="startOffset"
+            from="0%"
+            to="-25%"
+            dur="24s"
+            repeatCount="indefinite"
+          />
+        </textPath>
+      </text>
+    </svg>
+  </div>
 
-    <footer>
+  <!-- ----------------------------------------------------------- FEATURES -->
+  <section class="features" id="how">
+    <div class="wrap">
+      <h2 class="section-h">
+        Studying is a memory problem.<br />
+        <span class="dim">This is built for that.</span>
+      </h2>
+
+      <div class="grid">
+        {
+          features.map((f) => (
+            <article class="card">
+              <span class="kicker">{f.kicker}</span>
+              <h3>{f.title}</h3>
+              <p>{f.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------------------------------------------- SUBJECTS -->
+  <section class="subjects wrap" id="subjects">
+    <div class="subjects-head">
+      <h2 class="section-h">Nine subjects, ready to go.</h2>
+      <p>
+        Year 1 MBChB, written and checked by hand — not scraped, not
+        auto-padded. Add your own on top whenever you like.
+      </p>
+    </div>
+    <ul class="chips">
+      {subjects.map((s) => <li>{s}</li>)}
+    </ul>
+  </section>
+
+  <!-- -------------------------------------------------------------- MODES -->
+  <section class="modes wrap" id="modes">
+    <div class="mode-card">
+      <span class="num">01</span>
+      <h3>Practice</h3>
+      <p>Pick a subject and work through it. No clock, no pressure.</p>
+    </div>
+    <div class="mode-card">
+      <span class="num">02</span>
+      <h3>Timed</h3>
+      <p>Race the clock the way the real paper makes you.</p>
+    </div>
+    <div class="mode-card">
+      <span class="num">03</span>
+      <h3>Review queue</h3>
+      <p>Only what's due today, decided by the schedule.</p>
+    </div>
+  </section>
+
+  <!-- ---------------------------------------------------------------- CTA -->
+  <section class="closer">
+    <div class="wrap closer-inner">
+      <h2>Start with today's queue.</h2>
+      <p>Nothing to install. Your progress stays on your device.</p>
+      <a class="btn-white big" href={APP_URL}>Start studying <span>→</span></a>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <div class="wrap foot-inner">
       <span>© Resurface {new Date().getFullYear()}</span>
-    </footer>
-  </main>
+      <span class="foot-note">Made for Year 1 MBChB</span>
+    </div>
+  </footer>
 </Base>
 
 <style>
-  main {
-    max-width: 1040px;
+  .wrap {
+    max-width: var(--wrap);
     margin: 0 auto;
     padding: 0 24px;
   }
 
-  .hero {
-    padding: clamp(80px, 14vh, 160px) 0 clamp(60px, 10vh, 110px);
-    max-width: 720px;
+  /* ---------------------------------------------------------------- NAV */
+  .nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    padding: 16px 24px 0;
   }
 
-  .eyebrow {
-    font-size: 13px;
+  .nav {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-lift);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 9px 9px 9px 22px;
+  }
+
+  .brand {
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+  }
+  .brand img {
+    width: 152px;
+    height: auto;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 26px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .nav-links a:hover {
+    color: var(--blue);
+  }
+
+  .nav-cta {
+    background: var(--blue);
+    color: #fff;
     font-weight: 600;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-    color: var(--bright);
-    margin-bottom: 20px;
+    font-size: 15px;
+    padding: 11px 22px;
+    border-radius: var(--radius-pill);
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+  .nav-cta:hover {
+    background: var(--blue-deep);
+    transform: translateY(-1px);
   }
 
-  h1 {
-    font-size: clamp(40px, 7vw, 68px);
+  /* --------------------------------------------------------------- HERO */
+  /* The books are the original artwork, used as a background image rather
+     than an element. Backgrounds paint behind content unconditionally, so
+     this cannot cover the headline the way a positioned <img> could. */
+  .hero {
+    padding: clamp(72px, 12vh, 128px) 0 clamp(80px, 11vh, 116px);
+    background-image: url("/books.webp");
+    background-repeat: no-repeat;
+    background-position: right max(24px, calc((100% - var(--wrap)) / 2 + 24px))
+      center;
+    background-size: clamp(200px, 23vw, 320px) auto;
+  }
+
+  .hero-inner {
+    max-width: 560px;
+  }
+
+  .pill-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-pill);
+    padding: 6px 16px 6px 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    box-shadow: var(--shadow-lift);
+    transition: transform 0.18s ease;
+  }
+  .pill-note:hover {
+    transform: translateY(-2px);
+  }
+  .pill-flag {
+    background: var(--blue);
+    color: #fff;
     font-weight: 700;
-    line-height: 1.05;
+    font-size: 12px;
+    padding: 4px 11px;
+    border-radius: var(--radius-pill);
+  }
+  .pill-arrow {
+    color: var(--blue);
+    font-weight: 700;
+  }
+
+  /* Poppins runs wider than Outfit, so it needs less negative tracking. */
+  h1 {
+    margin-top: 30px;
+    font-size: clamp(40px, 5.9vw, 70px);
+    font-weight: 700;
+    line-height: 1.08;
     letter-spacing: -2px;
   }
 
-  .grad {
-    background: linear-gradient(100deg, var(--bright), #7ab0ff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+  .hl {
+    color: var(--blue);
+    white-space: nowrap;
   }
 
   .sub {
-    margin-top: 26px;
-    font-size: clamp(17px, 2vw, 20px);
-    color: var(--muted);
-    max-width: 560px;
-    font-weight: 300;
+    margin-top: 24px;
+    font-size: clamp(16px, 1.6vw, 18px);
+    color: var(--ink-soft);
+    max-width: 500px;
   }
 
   .cta {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 40px;
+    gap: 12px;
+    margin-top: 36px;
   }
 
-  .primary,
-  .secondary {
-    display: inline-block;
-    padding: 14px 30px;
-    border-radius: 12px;
+  .btn-primary,
+  .btn-ghost,
+  .btn-white {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 15px 30px;
+    border-radius: var(--radius-pill);
     font-size: 16px;
     font-weight: 600;
-    text-decoration: none;
-    transition:
-      transform 0.18s ease,
-      box-shadow 0.18s ease,
-      background 0.18s ease;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  }
+  .btn-primary span,
+  .btn-white span {
+    transition: transform 0.18s ease;
+  }
+  .btn-primary:hover span,
+  .btn-white:hover span {
+    transform: translateX(4px);
   }
 
-  .primary {
-    background: linear-gradient(135deg, var(--deep), var(--bright));
+  .btn-primary {
+    background: var(--blue);
     color: #fff;
-    box-shadow: 0 8px 26px rgba(29, 78, 216, 0.34);
+    box-shadow: var(--shadow-pop);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    background: var(--blue-deep);
   }
 
-  .secondary {
-    border: 1px solid var(--border);
-    color: var(--text);
-    background: rgba(255, 255, 255, 0.02);
+  .btn-ghost {
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+    background: var(--white);
+  }
+  .btn-ghost:hover {
+    background: var(--tint);
+    border-color: var(--blue);
+    color: var(--blue);
   }
 
-  .primary:hover,
-  .secondary:hover {
+  .btn-white {
+    background: #fff;
+    color: var(--blue);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+  }
+  .btn-white:hover {
     transform: translateY(-2px);
   }
-
-  .primary:hover {
-    box-shadow: 0 12px 32px rgba(29, 78, 216, 0.46);
-  }
-
-  .secondary:hover {
-    background: rgba(255, 255, 255, 0.05);
+  .btn-white.big {
+    padding: 18px 38px;
+    font-size: 18px;
   }
 
   .note {
-    margin-top: 20px;
+    margin-top: 18px;
     font-size: 14px;
-    color: #64748b;
+    color: var(--ink-faint);
+  }
+
+  /* ------------------------------------------------------------ MARQUEE */
+  .band {
+    line-height: 0;
+    margin-bottom: clamp(64px, 9vh, 100px);
+  }
+  .band-svg {
+    width: 100%;
+    height: clamp(140px, 16vw, 230px);
+    display: block;
+  }
+  .band-fill {
+    fill: var(--blue);
+  }
+  .band-text {
+    fill: #fff;
+    font-family: "Poppins", sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  /* ----------------------------------------------------------- FEATURES */
+  .section-h {
+    font-size: clamp(28px, 3.6vw, 41px);
+    font-weight: 700;
+    letter-spacing: -1.1px;
+    line-height: 1.18;
+  }
+  .dim {
+    color: var(--ink-faint);
   }
 
   .features {
+    background: var(--tint);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: clamp(64px, 9vh, 96px) 0;
+  }
+
+  .grid {
+    margin-top: 44px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-    gap: 20px;
-    padding-bottom: 100px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 18px;
   }
 
   .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 30px 26px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 30px 26px 32px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
   }
 
-  .card h2 {
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-    margin-bottom: 12px;
+  .kicker {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: var(--wash);
+    padding: 5px 11px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 16px;
   }
 
+  .card h3 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
   .card p {
     font-size: 15px;
-    color: var(--muted);
-    font-weight: 300;
+    color: var(--ink-soft);
   }
 
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 30px 0 50px;
+  /* ----------------------------------------------------------- SUBJECTS */
+  .subjects {
+    padding-top: clamp(64px, 9vh, 96px);
+    padding-bottom: clamp(56px, 8vh, 84px);
+  }
+  .subjects-head {
+    max-width: 600px;
+  }
+  .subjects-head p {
+    margin-top: 15px;
+    color: var(--ink-soft);
+    font-size: 17px;
+  }
+  .chips {
+    margin-top: 32px;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .chips li {
+    background: var(--white);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-pill);
+    padding: 10px 21px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    transition: all 0.18s ease;
+  }
+  .chips li:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+  }
+
+  /* -------------------------------------------------------------- MODES */
+  .modes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px;
+    padding-bottom: clamp(72px, 10vh, 108px);
+  }
+  .mode-card {
+    background: var(--wash);
+    border-radius: var(--radius-lg);
+    padding: 32px 26px 36px;
+  }
+  .num {
     font-size: 13px;
-    color: #64748b;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--blue-bright);
+  }
+  .mode-card h3 {
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: 700;
+    letter-spacing: -1px;
+  }
+  .mode-card p {
+    margin-top: 8px;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  /* ------------------------------------------------------------- CLOSER */
+  .closer {
+    background: var(--blue);
+    color: #fff;
+    padding: clamp(72px, 11vh, 112px) 0;
+  }
+  .closer-inner {
+    text-align: center;
+  }
+  .closer h2 {
+    font-size: clamp(30px, 4.1vw, 48px);
+    font-weight: 700;
+    letter-spacing: -1.3px;
+  }
+  .closer p {
+    margin: 14px auto 32px;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 17px;
+  }
+
+  /* --------------------------------------------------------------- FOOT */
+  .foot {
+    padding: 28px 0;
+  }
+  .foot-inner {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--ink-faint);
+  }
+
+  /* ------------------------------------------------------------ MOBILE */
+
+  /* Below this the copy column and the books would share the same space,
+     which is exactly the collision that put the books over the headline. */
+  @media (max-width: 1040px) {
+    .hero {
+      background-image: none;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .nav-links {
+      display: none;
+    }
+    .nav {
+      padding-left: 18px;
+    }
+    .hero-inner {
+      max-width: none;
+    }
+    h1 {
+      letter-spacing: -1.2px;
+    }
   }
 </style>

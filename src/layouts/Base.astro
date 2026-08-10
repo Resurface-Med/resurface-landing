@@ -1,5 +1,8 @@
 ---
-const { title = "Resurface", description = "Spaced repetition for medical school." } = Astro.props;
+const {
+  title = "Resurface",
+  description = "Spaced repetition for medical school.",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -9,11 +12,13 @@ const { title = "Resurface", description = "Spaced repetition for medical school
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -23,16 +28,41 @@ const { title = "Resurface", description = "Spaced repetition for medical school
 </html>
 
 <style is:global>
-  /* Shared with resurface-app: the two blues encode depth — deep is
-     submerged, bright is surfaced. */
+  /* ------------------------------------------------------------------
+     TOKENS
+
+     Blues sampled directly out of the logo artwork:
+       #0140D2  book covers      → --blue
+       #2071FD  back book        → --blue-bright
+       #040B28  "Resurface" text → --ink
+
+     White carries the page. Blue arrives in full-bleed blocks — the band
+     and the closer — so it reads as brand, not wallpaper.
+     ------------------------------------------------------------------ */
   :root {
-    --deep: #1d4ed8;
-    --bright: #4d8ef5;
-    --bg: #030812;
-    --surface: #070e1e;
-    --text: #e2eaff;
-    --muted: #94a3b8;
-    --border: rgba(255, 255, 255, 0.08);
+    --white: #ffffff;
+    --tint: #f5f8ff;
+    --wash: #e7eeff;
+
+    --blue: #0140d2;
+    --blue-bright: #2071fd;
+    --blue-deep: #0132a6;
+
+    --ink: #040b28;
+    --ink-soft: #59627a;
+    --ink-faint: #8b93a8;
+
+    --line: #e3eaf8;
+    --line-strong: #cfd9ee;
+
+    --radius-pill: 999px;
+    --radius-lg: 26px;
+    --radius-md: 16px;
+
+    --shadow-lift: 0 8px 26px rgba(4, 11, 40, 0.06);
+    --shadow-pop: 0 12px 30px rgba(1, 64, 210, 0.28);
+
+    --wrap: 1120px;
   }
 
   *,
@@ -44,25 +74,41 @@ const { title = "Resurface", description = "Spaced repetition for medical school
   }
 
   html {
-    background: var(--bg);
+    background: var(--white);
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   body {
-    background:
-      radial-gradient(ellipse 60% 50% at 50% -10%, rgba(77, 142, 245, 0.13) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 35% at 100% 100%, rgba(29, 78, 216, 0.1) 0%, transparent 65%),
-      var(--bg);
-    background-attachment: fixed;
-    color: var(--text);
-    font-family: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--white);
+    color: var(--ink);
+    /* Poppins — geometric, single-storey "a", circular bowls. Chosen to
+       match the wordmark in the logo lockup. */
+    font-family: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    min-height: 100vh;
+    overflow-x: hidden;
   }
 
   a {
     color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+
+  ::selection {
+    background: var(--blue);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 3px;
+    border-radius: 4px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -70,7 +116,9 @@ const { title = "Resurface", description = "Spaced repetition for medical school
     *::before,
     *::after {
       animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 </style>

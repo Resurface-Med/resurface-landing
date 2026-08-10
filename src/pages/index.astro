@@ -722,9 +722,9 @@ const marquee = "Don't let the lecture sink. ";
     opacity: 1;
     transform: rotateX(var(--books-rx, 9deg)) rotateY(var(--books-ry, -14deg))
       translate3d(0, var(--books-y, 0px), var(--books-z, 0px)) scale(1);
-    transition:
-      opacity 1.05s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.18s ease-out;
+  }
+  .stage.is-live .books-tilt {
+    transition: opacity 0.3s ease, transform 0s;
   }
   .books-float {
     transform-style: preserve-3d;
@@ -1723,11 +1723,7 @@ const marquee = "Don't let the lecture sink. ";
       stage.style.setProperty("--books-ry", `${ry.toFixed(2)}deg`);
       stage.style.setProperty("--books-y", `${y.toFixed(1)}px`);
       stage.style.setProperty("--books-z", `${z.toFixed(1)}px`);
-      if (
-        Math.abs(px - tx) > 0.002 ||
-        Math.abs(py - ty) > 0.002 ||
-        stage.classList.contains("is-in")
-      ) {
+      if (Math.abs(px - tx) > 0.002 || Math.abs(py - ty) > 0.002) {
         raf = requestAnimationFrame(paint);
       }
     };
@@ -1739,6 +1735,7 @@ const marquee = "Don't let the lecture sink. ";
     const reveal = () => {
       stage.classList.add("is-in");
       kick();
+      window.setTimeout(() => stage.classList.add("is-live"), 1050);
     };
 
     if (stage.getBoundingClientRect().top < window.innerHeight * 0.9) {

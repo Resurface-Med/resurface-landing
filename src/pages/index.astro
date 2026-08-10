@@ -302,23 +302,36 @@ const marquee = "Resurface it. Just before it sinks. ";
         <figure class="compare">
           <figcaption>Most question banks</figcaption>
           <div class="compare-art miss" aria-hidden="true">
-            <div class="phrase-chip phrase-miss">
-              <span class="miss-x" aria-hidden="true">✕</span>
-              cranial nerves
+            <div class="mini-q">
+              <span class="mini-tag vague">Vague</span>
+              <p class="mini-stem">How many cranial nerves are there?</p>
+              <div class="mini-opts">
+                <span>10</span>
+                <span class="on">12</span>
+                <span>14</span>
+              </div>
             </div>
           </div>
-          <p>Written for everyone — specific lecture details often get left out.</p>
+          <p>Written for everyone — stays broad and skips lecture-specific detail.</p>
         </figure>
 
         <figure class="compare">
           <figcaption>Resurface AI</figcaption>
           <div class="compare-art keep" aria-hidden="true">
-            <div class="phrase-chip phrase-ask">
-              <span class="ask-check" aria-hidden="true">✓</span>
-              cranial nerves
+            <div class="mini-q">
+              <span class="mini-tag specific">From your slides</span>
+              <p class="mini-stem">
+                Which cranial nerve exits the skull through the jugular
+                foramen?
+              </p>
+              <div class="mini-opts">
+                <span>CN VII</span>
+                <span class="right">CN X</span>
+                <span>CN XII</span>
+              </div>
             </div>
           </div>
-          <p>Made from your notes and slides — those details become practice questions.</p>
+          <p>Made from your notes and slides — asks about the specific bits you were taught.</p>
         </figure>
       </div>
     </div>
@@ -1200,10 +1213,10 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
   .compare-art {
     border-radius: 22px;
-    padding: 28px 16px;
+    padding: 16px;
     display: grid;
-    place-items: center;
-    min-height: 112px;
+    place-items: stretch;
+    min-height: 0;
   }
   .compare-art.miss {
     background: linear-gradient(160deg, #e8edf8 0%, #d5def2 100%);
@@ -1212,48 +1225,60 @@ const marquee = "Resurface it. Just before it sinks. ";
     background: linear-gradient(160deg, #9eb8ff 0%, #6e8ff7 100%);
   }
 
-  .phrase-chip {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border-radius: 999px;
-    padding: 14px 20px;
-    font-size: 15px;
+  .mini-q {
+    background: #fff;
+    border-radius: 18px;
+    padding: 14px;
+    box-shadow: 0 8px 20px rgba(20, 44, 130, 0.1);
+  }
+  .mini-tag {
+    display: inline-block;
+    font-size: 10.5px;
     font-weight: 700;
-    letter-spacing: -0.3px;
-    line-height: 1.2;
-    box-shadow: 0 8px 20px rgba(20, 44, 130, 0.12);
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    border-radius: var(--radius-pill);
+    padding: 4px 9px;
+    margin-bottom: 10px;
   }
-  .phrase-miss {
-    background: #fdeaea;
-    color: #b4232c;
-    text-decoration: line-through;
-    text-decoration-thickness: 2px;
+  .mini-tag.vague {
+    background: #edf1fb;
+    color: var(--ink-faint);
   }
-  .phrase-ask {
+  .mini-tag.specific {
+    background: var(--wash);
+    color: var(--blue);
+  }
+  .mini-stem {
+    margin: 0 0 12px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .mini-opts {
+    display: grid;
+    gap: 6px;
+  }
+  .mini-opts span {
+    display: block;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    background: var(--panel);
+    color: var(--ink-soft);
+  }
+  .mini-opts .on {
+    background: #e3e9f8;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .mini-opts .right {
     background: #e7f6ed;
     color: #146c3d;
-  }
-  .miss-x,
-  .ask-check {
-    flex: none;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    font-size: 12px;
-    line-height: 1;
-    text-decoration: none;
-  }
-  .miss-x {
-    background: #d64545;
-    color: #fff;
-  }
-  .ask-check {
-    background: #1f9d55;
-    color: #fff;
+    font-weight: 700;
   }
 
   @media (max-width: 700px) {

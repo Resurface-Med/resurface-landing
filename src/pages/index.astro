@@ -215,8 +215,12 @@ const wiggle =
     <!-- A white ribbon across the blue, text riding its centreline. The
          path overshoots the viewBox on both sides so the band runs off
          screen rather than terminating at the edge. -->
+    <!-- No preserveAspectRatio="none" here. Stretching the viewBox to a
+         fixed CSS height scales x and y by different factors, and the
+         glyphs get squashed with everything else. Uniform scale instead:
+         width drives it, height follows from the viewBox aspect. -->
     <div class="ribbon" aria-hidden="true">
-      <svg viewBox="0 0 1440 250" preserveAspectRatio="none">
+      <svg viewBox="0 0 1440 250">
         <path
           class="ribbon-fill"
           d="M-160,96 C160,8 520,8 800,96 C1080,184 1300,184 1600,96 L1600,188 C1300,276 1080,276 800,188 C520,100 160,100 -160,188 Z"
@@ -795,18 +799,35 @@ const wiggle =
   }
   .ribbon svg {
     width: 100%;
-    height: clamp(120px, 14vw, 210px);
+    height: auto; /* aspect comes from the viewBox — do not pin this */
     display: block;
   }
   .ribbon-fill {
     fill: #fff;
   }
+  /* In viewBox units, so it scales with the ribbon. Bumped on narrow
+     screens because uniform scaling shrinks the whole band there, and at
+     the desktop size the text would come out around 11px on a phone. */
   .ribbon-text {
     fill: var(--blue);
     font-family: "Poppins", sans-serif;
-    font-size: 42px;
+    font-size: 46px;
     font-weight: 700;
     letter-spacing: -0.5px;
+  }
+  @media (max-width: 900px) {
+    .ribbon-text {
+      font-size: 62px;
+    }
+  }
+  /* Capped at 76: the text baseline rides y=158 and the band's top edge
+     is y=96, so there are only 62 user units of headroom. Poppins'
+     ascender is ~0.75em, which puts anything over ~80 through the top of
+     the ribbon. */
+  @media (max-width: 560px) {
+    .ribbon-text {
+      font-size: 76px;
+    }
   }
 
   /* ================================================================ LIGHT */

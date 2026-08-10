@@ -18,24 +18,6 @@ if (samples.some((s) => s.opts.length !== OPTS_PER_Q)) {
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || "#";
 
-const pillars = [
-  {
-    icon: "recall",
-    title: "Active recall",
-    body: "Answer before you look. Five options, an explanation for the right one and for every wrong one.",
-  },
-  {
-    icon: "spaced",
-    title: "Spaced repetition",
-    body: "An SM-2 schedule with Anki-style learning steps decides when each question comes back.",
-  },
-  {
-    icon: "retention",
-    title: "Long-term retention",
-    body: "Study smarter, not longer. Remember it in June, not just the week you covered it.",
-  },
-];
-
 const steps = [
   {
     n: "1",
@@ -198,26 +180,6 @@ const marquee = "Resurface it. Just before it sinks. ";
         </div>
       </div>
     </section>
-
-    <!-- ---------------------------------------------------------- PROOF -->
-    <div class="wrap">
-      <div class="proof">
-        <svg class="proof-icon" viewBox="0 0 20 20" aria-hidden="true">
-          <circle cx="10" cy="10" r="9" fill="rgba(255,255,255,.22)"></circle>
-          <path
-            d="M6 10.2l2.6 2.6L14 7.4"
-            fill="none"
-            stroke="#fff"
-            stroke-width="1.9"
-            stroke-linecap="round"
-            stroke-linejoin="round"></path>
-        </svg>
-        <p>
-          Every question written and checked by hand for Year 1 MBChB — not
-          scraped, not auto-padded.
-        </p>
-      </div>
-    </div>
 
     <!-- --------------------------------------------------------- RIBBON -->
     <!-- A white ribbon across the blue, text riding its centreline. The
@@ -400,40 +362,6 @@ const marquee = "Resurface it. Just before it sinks. ";
   </section>
 
   <Wave from="var(--blue)" to="var(--panel)" />
-
-  <!-- ================================================== LIGHT: PILLARS -->
-  <section class="light pillars-band">
-    <div class="wrap">
-      <div class="sheet">
-        {
-          pillars.map((p) => (
-            <article class="pillar">
-              <span class="tile">
-                {p.icon === "recall" && (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <rect x="3" y="6" width="12" height="14" rx="3" />
-                    <path d="M9 4h9a3 3 0 0 1 3 3v10" />
-                  </svg>
-                )}
-                {p.icon === "spaced" && (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M4 9v6M10 6v12M16 8v8M21 10v4" />
-                  </svg>
-                )}
-                {p.icon === "retention" && (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.6-7 9-7 9z" />
-                  </svg>
-                )}
-              </span>
-              <h3>{p.title}</h3>
-              <p>{p.body}</p>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
 
   <!-- ============================================ LIGHT: HOW IT WORKS -->
   <section class="light how" id="how">
@@ -861,31 +789,6 @@ const marquee = "Resurface it. Just before it sinks. ";
     border-radius: 99px;
   }
 
-  /* ---------------------------------------------------------------- PROOF */
-  .proof {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    width: fit-content;
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: var(--radius-pill);
-    padding: 12px 26px;
-    color: #fff;
-  }
-  .proof p {
-    font-size: 14.5px;
-    line-height: 1.45;
-    color: rgba(255, 255, 255, 0.92);
-    max-width: 42ch;
-  }
-  .proof-icon {
-    width: 20px;
-    height: 20px;
-    flex: none;
-  }
-
   /* --------------------------------------------------------------- RIBBON */
   .ribbon {
     line-height: 0;
@@ -956,52 +859,6 @@ const marquee = "Resurface it. Just before it sinks. ";
   .pill.on-blue {
     background: rgba(255, 255, 255, 0.16);
     color: #fff;
-  }
-
-  /* -------------------------------------------------------------- PILLARS */
-  .pillars-band {
-    padding-bottom: clamp(28px, 5vh, 56px);
-  }
-  .sheet {
-    background: var(--white);
-    border-radius: var(--radius-xl);
-    box-shadow: 0 18px 44px rgba(20, 44, 130, 0.08);
-    padding: 40px 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 12px;
-  }
-  .pillar {
-    padding: 8px 24px;
-  }
-  .tile {
-    display: grid;
-    place-items: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 14px;
-    background: var(--wash);
-    margin-bottom: 14px;
-  }
-  .tile svg {
-    width: 22px;
-    height: 22px;
-    fill: none;
-    stroke: var(--blue);
-    stroke-width: 1.9;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .pillar h3 {
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: -0.4px;
-    color: var(--ink);
-  }
-  .pillar p {
-    margin-top: 6px;
-    font-size: 14.5px;
-    color: var(--ink-soft);
   }
 
   /* --------------------------------------------------------- HOW IT WORKS */
@@ -1566,15 +1423,6 @@ const marquee = "Resurface it. Just before it sinks. ";
     .nav {
       gap: 12px;
       padding-left: 16px;
-    }
-    .sheet {
-      padding: 28px 8px;
-    }
-    .proof {
-      flex-direction: column;
-      text-align: center;
-      padding: 18px 22px;
-      border-radius: var(--radius-lg);
     }
     .foot-grid {
       grid-template-columns: 1fr;

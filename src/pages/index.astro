@@ -1538,11 +1538,12 @@ const marquee = "Resurface it. Just before it sinks. ";
     h1 {
       letter-spacing: -1.4px;
     }
-    .foot-grid {
-      grid-template-columns: 1fr 1fr;
+    .foot-top {
+      flex-direction: column;
+      gap: 24px;
     }
-    .foot-brand {
-      grid-column: 1 / -1;
+    .foot-nav {
+      justify-content: flex-start;
     }
   }
 
@@ -1557,9 +1558,6 @@ const marquee = "Resurface it. Just before it sinks. ";
     .nav {
       gap: 12px;
       padding-left: 16px;
-    }
-    .foot-grid {
-      grid-template-columns: 1fr;
     }
 
     .subj-select-wrap {

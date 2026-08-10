@@ -1,0 +1,191 @@
+[
+  {
+    "subject": "Anatomy",
+    "topic": "Cardiovascular",
+    "q": "Cardiac veins drain into the:",
+    "opts": [
+      "Left atrium",
+      "Right atrium",
+      "Right ventricle",
+      "Aorta",
+      "Superior vena cava"
+    ],
+    "ans": 1,
+    "exp": "Most cardiac venous blood drains into the coronary sinus, which empties into the right atrium.",
+    "optExp": [
+      "LA receives pulmonary veins.",
+      "",
+      "RV receives from RA.",
+      "Aorta receives from LV.",
+      "SVC drains body, not heart."
+    ]
+  },
+  {
+    "subject": "Biochemistry",
+    "topic": "Amino Acids & pH",
+    "q": "Normal arterial blood pH is approximately:",
+    "opts": [
+      "6.8",
+      "7.0",
+      "7.4",
+      "7.8",
+      "8.0"
+    ],
+    "ans": 2,
+    "exp": "Arterial pH is tightly maintained at 7.35-7.45, averaging 7.40.",
+    "optExp": [
+      "Severe acidosis — incompatible with life.",
+      "Neutral pH — outside biological range for blood.",
+      "",
+      "Severe alkalosis.",
+      "Far outside normal."
+    ]
+  },
+  {
+    "subject": "Embryology",
+    "topic": "Trilaminar Disc",
+    "q": "Which germ layer gives rise to the nervous system?",
+    "opts": [
+      "Endoderm",
+      "Mesoderm",
+      "Ectoderm",
+      "Trophoblast",
+      "Hypoblast"
+    ],
+    "ans": 2,
+    "exp": "Neural tube derived from ectoderm forms the CNS; neural crest cells form much of PNS.",
+    "optExp": [
+      "Gut tube and derivatives.",
+      "Connective tissue, muscle, heart, etc.",
+      "",
+      "Forms placenta.",
+      "Replaced during gastrulation."
+    ]
+  },
+  {
+    "subject": "Genetics",
+    "topic": "Genome & Chromosomes",
+    "q": "How many chromosomes are in a normal human somatic cell?",
+    "opts": [
+      "23",
+      "44",
+      "46",
+      "48",
+      "92"
+    ],
+    "ans": 2,
+    "exp": "Human somatic cells are diploid with 46 chromosomes (22 autosome pairs + XX/XY).",
+    "optExp": [
+      "23 is the haploid number (gametes).",
+      "Only autosomes counted; sex chromosomes excluded incorrectly.",
+      "",
+      "Number for great apes.",
+      "92 would be tetraploid."
+    ]
+  },
+  {
+    "subject": "Histology",
+    "topic": "Bone & Cartilage",
+    "q": "Which cell breaks down bone tissue?",
+    "opts": [
+      "Osteoblast",
+      "Osteocyte",
+      "Osteoclast",
+      "Chondrocyte",
+      "Fibroblast"
+    ],
+    "ans": 2,
+    "exp": "Osteoclasts are large multinucleated cells (from monocyte lineage) that resorb bone via H⁺ and proteases.",
+    "optExp": [
+      "Osteoblasts build bone.",
+      "Osteocytes maintain bone matrix.",
+      "",
+      "Chondrocytes are in cartilage.",
+      "Fibroblasts make collagen in connective tissue."
+    ]
+  },
+  {
+    "subject": "Immunology",
+    "topic": "Adaptive Immunity",
+    "q": "The first antibody produced in a primary immune response is:",
+    "opts": [
+      "IgG",
+      "IgM",
+      "IgA",
+      "IgE",
+      "IgD"
+    ],
+    "ans": 1,
+    "exp": "IgM is the first antibody produced in response to a new antigen (primary response).",
+    "optExp": [
+      "IgG dominates the secondary response.",
+      "",
+      "IgA is mucosal.",
+      "IgE for allergies.",
+      "IgD is BCR."
+    ]
+  },
+  {
+    "subject": "Pathology",
+    "topic": "Neoplasia",
+    "q": "A malignant tumour of mesenchymal origin is a:",
+    "opts": [
+      "Carcinoma",
+      "Sarcoma",
+      "Adenoma",
+      "Papilloma",
+      "Teratoma"
+    ],
+    "ans": 1,
+    "exp": "Sarcomas arise from mesenchymal tissue (bone, muscle, fat, fibrous, blood vessels). Carcinomas are epithelial.",
+    "optExp": [
+      "Carcinomas are epithelial.",
+      "",
+      "Adenoma is benign glandular.",
+      "Papilloma is benign epithelial.",
+      "Teratoma arises from germ cells."
+    ]
+  },
+  {
+    "subject": "Pharmacology",
+    "topic": "Pharmacokinetics",
+    "q": "CYP450 enzymes are mainly found in the:",
+    "opts": [
+      "Brain tissue",
+      "Liver tissue",
+      "Kidney tissue",
+      "Pancreatic tissue",
+      "Lung tissue"
+    ],
+    "ans": 1,
+    "exp": "CYP450 enzymes are most concentrated in hepatocyte smooth ER, performing most of Phase I drug metabolism.",
+    "optExp": [
+      "Brain has some CYPs but minor.",
+      "",
+      "Kidneys have some CYPs.",
+      "Pancreas has minor CYP activity.",
+      "Lung has minor CYP activity."
+    ]
+  },
+  {
+    "subject": "Physiology",
+    "topic": "Membrane Potentials & Action Potentials",
+    "q": "The resting membrane potential of a neuron is approximately:",
+    "opts": [
+      "+40 mV",
+      "+20 mV",
+      "−40 mV",
+      "−70 mV",
+      "−100 mV"
+    ],
+    "ans": 3,
+    "exp": "Resting Vm is around −70 mV, established by Na⁺/K⁺-ATPase and K⁺ leak channels.",
+    "optExp": [
+      "+40 mV is the peak of the AP.",
+      "0 mV is the reversal point.",
+      "−40 mV is closer to threshold.",
+      "",
+      "Too hyperpolarised for resting."
+    ]
+  }
+]

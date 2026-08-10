@@ -106,6 +106,14 @@ const {
     text-decoration: none;
   }
 
+  /* The UA rule for [hidden] is display:none at author-origin-beating
+     strength only until something sets an explicit display. The demo's
+     timer (grid) and due badge (inline-block) both do, so they stayed
+     visible in Practice mode. */
+  [hidden] {
+    display: none !important;
+  }
+
   img {
     max-width: 100%;
     display: block;

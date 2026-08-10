@@ -1,6 +1,20 @@
 ---
 import Base from "../layouts/Base.astro";
 import Wave from "../components/Wave.astro";
+/* Nine real questions, one per deck, lifted from the question bank so the
+   demo shows the actual product rather than a mock-up of it. */
+import samples from "../data/sample-questions.json";
+
+/* The card server-renders five option buttons and the script reuses them
+   rather than rebuilding (Astro's scoped CSS wouldn't apply to generated
+   nodes). That couples markup to data, so assert it at build time instead
+   of shipping a question with a missing or orphaned option. */
+const OPTS_PER_Q = 5;
+if (samples.some((s) => s.opts.length !== OPTS_PER_Q)) {
+  throw new Error(
+    `sample-questions.json: every question needs exactly ${OPTS_PER_Q} options`
+  );
+}
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || "#";
 
@@ -56,16 +70,9 @@ const subjects = [
 ];
 
 const modes = [
-  { icon: "book", t: "Practice", d: "Pick a subject and get straight to it." },
-  { icon: "clock", t: "Timed", d: "Race the clock the way the real paper makes you." },
-  { icon: "list", t: "Review queue", d: "Only what's due today, decided by the schedule." },
-];
-
-/* Countable facts only — see the note in the closer section. */
-const stats = [
-  { icon: "doc", v: "497", l: "Questions in the bank" },
-  { icon: "cap", v: "9", l: "Subjects covered" },
-  { icon: "bolt", v: "3", l: "Ways to study" },
+  { key: "practice", icon: "book", t: "Practice" },
+  { key: "timed", icon: "clock", t: "Timed" },
+  { key: "review", icon: "list", t: "Review queue" },
 ];
 
 const marquee = "Resurface it. Just before it sinks. ";
@@ -378,84 +385,136 @@ const marquee = "Resurface it. Just before it sinks. ";
         </p>
       </div>
 
-      <ul class="chips">
-        {subjects.map((s, i) => <li class={i === 0 ? "on" : undefined}>{s}</li>)}
-      </ul>
-
-      <!-- Each card links into the app, so the arrow is a real
-           affordance rather than decoration. -->
-      <div class="modes" id="modes">
+      <!-- Real buttons in a tablist, not <li>s — they drive the card
+           below, so they have to be reachable and announce state. -->
+      <div class="chips" role="tablist" aria-label="Choose a subject">
         {
-          modes.map((m) => (
-            <a class="mode-card" href={APP_URL}>
-              <span class="mode-top">
-                <span class="mode-tile">
-                  {m.icon === "book" && (
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M12 6.6C10.4 5.1 8 4.6 4 4.6v13c4 0 6.4.5 8 2 1.6-1.5 4-2 8-2v-13c-4 0-6.4.5-8 2z" />
-                      <path d="M12 6.6V19.6" />
-                    </svg>
-                  )}
-                  {m.icon === "clock" && (
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <circle cx="12" cy="12" r="8.6" />
-                      <path d="M12 7.2V12l3.4 2" />
-                    </svg>
-                  )}
-                  {m.icon === "list" && (
-                    <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M9 6.5h11M9 12h11M9 17.5h11" />
-                      <path d="M4.4 6.5h.02M4.4 12h.02M4.4 17.5h.02" />
-                    </svg>
-                  )}
-                </span>
-                <span class="mode-go" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M5 12h13M12.5 6l6 6-6 6" />
-                  </svg>
-                </span>
-              </span>
-              <h3>{m.t}</h3>
-              <p>{m.d}</p>
-            </a>
+          subjects.map((s, i) => (
+            <button
+              class:list={["subj", { on: i === 0 }]}
+              role="tab"
+              type="button"
+              id={`tab-${i}`}
+              aria-controls="qcard"
+              aria-selected={i === 0 ? "true" : "false"}
+              tabindex={i === 0 ? 0 : -1}
+              data-i={i}
+            >
+              {s}
+            </button>
           ))
         }
       </div>
 
-      <!-- --------------------------------------------------------- STATS -->
-      <div class="stats">
-        {
-          stats.map((s) => (
-            <div class="stat">
-              <span class="stat-tile">
-                {s.icon === "doc" && (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z" />
-                    <path d="M14 3v5h5M9 13h6M9 17h4" />
-                  </svg>
-                )}
-                {s.icon === "cap" && (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M2 9l10-5 10 5-10 5-10-5z" />
-                    <path d="M6 11.6V16c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.4" />
-                  </svg>
-                )}
-                {s.icon === "bolt" && (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M13 2.5L4.8 13.4H11l-1 8.1 9.2-10.9H13z" />
-                  </svg>
-                )}
-              </span>
-              <span class="stat-text">
-                <span class="stat-v">{s.v}</span>
-                <span class="stat-l">{s.l}</span>
-              </span>
-            </div>
-          ))
-        }
+      <!-- Question 0 is server-rendered in full, so the card reads and
+           looks right with JS off; the script only swaps its contents. -->
+      <div
+        class="qcard"
+        id="qcard"
+        role="tabpanel"
+        aria-labelledby="tab-0"
+        data-mode="practice"
+      >
+        <div class="qcard-top">
+          <span class="qtopic" data-topic>{samples[0].topic}</span>
+
+          <div class="modeseg" role="group" aria-label="Question mode" id="modes">
+            {
+              modes.map((m, i) => (
+                <button
+                  class:list={["seg", { on: i === 0 }]}
+                  type="button"
+                  data-mode={m.key}
+                  title={m.t}
+                  aria-pressed={i === 0 ? "true" : "false"}
+                >
+                  <span class="seg-ico">
+                    {m.icon === "book" && (
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 6.6C10.4 5.1 8 4.6 4 4.6v13c4 0 6.4.5 8 2 1.6-1.5 4-2 8-2v-13c-4 0-6.4.5-8 2z" />
+                        <path d="M12 6.6V19.6" />
+                      </svg>
+                    )}
+                    {m.icon === "clock" && (
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="8.6" />
+                        <path d="M12 7.2V12l3.4 2" />
+                      </svg>
+                    )}
+                    {m.icon === "list" && (
+                      <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M9 6.5h11M9 12h11M9 17.5h11" />
+                        <path d="M4.4 6.5h.02M4.4 12h.02M4.4 17.5h.02" />
+                      </svg>
+                    )}
+                  </span>
+                  <span class="seg-t">{m.t}</span>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Timed mode's ring. Hidden unless that mode is on. -->
+        <div class="timer" data-timer hidden>
+          <svg viewBox="0 0 36 36" aria-hidden="true">
+            <circle class="timer-bg" cx="18" cy="18" r="15.5"></circle>
+            <circle class="timer-fg" cx="18" cy="18" r="15.5"></circle>
+          </svg>
+          <span data-timer-text>30</span>
+        </div>
+
+        <span class="due" data-due hidden>Due today</span>
+
+        <h3 class="qstem" data-stem>{samples[0].q}</h3>
+
+        <!-- The wiggle, doing a job: it redraws whenever a question
+             loads, so the melting line reads as the card refreshing. -->
+        <svg class="qwiggle" viewBox="0 0 240 12" aria-hidden="true">
+          <path
+            d="M2,7 C22,1 42,13 62,7 C82,1 102,13 122,7 C142,1 162,13 182,7 C202,1 222,13 238,6"
+            fill="none"
+            stroke="var(--blue)"
+            stroke-width="2"
+            stroke-linecap="round"></path>
+        </svg>
+
+        <ul class="opts" data-opts>
+          {
+            samples[0].opts.map((o, i) => (
+              <li>
+                <button class="opt" type="button" data-o={i}>
+                  <span class="opt-k">{String.fromCharCode(65 + i)}</span>
+                  <span class="opt-t">{o}</span>
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+
+        <p class="verdict" data-verdict role="status" aria-live="polite"></p>
+        <div class="exp" data-exp hidden></div>
+
+        <div class="qfoot">
+          <span class="qfoot-stats">
+            <b>497</b> questions · <b>9</b> subjects · <b>3</b> ways to study
+          </span>
+          <span class="qfoot-actions">
+            <button class="next" type="button" data-next hidden>
+              Next subject <span aria-hidden="true">→</span>
+            </button>
+            <a class="qfoot-cta" href={APP_URL}>
+              Start studying <span aria-hidden="true">→</span>
+            </a>
+          </span>
+        </div>
       </div>
     </div>
   </section>
+
+  <script is:inline define:vars={{ samples }}>
+    window.__RS_SAMPLES = samples;
+  </script>
 
   <Wave from="var(--panel)" to="var(--blue)" flip />
 
@@ -1080,12 +1139,16 @@ const marquee = "Resurface it. Just before it sinks. ";
 
   .chips {
     margin-top: 30px;
-    list-style: none;
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
   }
-  .chips li {
+  /* .subj, not .chip — the hero's frosted stat cards already own .chip,
+     and sharing it made these inherit position:absolute, so all nine
+     stacked on one rect and the last one swallowed every click. */
+  .subj {
+    font: inherit;
+    cursor: pointer;
     background: var(--white);
     border: 1px solid transparent;
     box-shadow: 0 2px 8px rgba(20, 44, 130, 0.05);
@@ -1095,165 +1158,337 @@ const marquee = "Resurface it. Just before it sinks. ";
     font-weight: 600;
     letter-spacing: -0.2px;
     color: var(--ink);
+    transition: transform 0.18s cubic-bezier(0.34, 1.6, 0.5, 1),
+      background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease,
+      border-color 0.18s ease;
+  }
+  .subj:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+    transform: translateY(-2px);
+  }
+  .subj.on {
+    background: var(--blue);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 6px 16px rgba(20, 44, 130, 0.22);
+    transform: translateY(-1px);
+  }
+
+  /* ----------------------------------------------------------- Q CARD */
+  .qcard {
+    position: relative;
+    margin-top: clamp(26px, 4vh, 38px);
+    background: var(--white);
+    border-radius: 24px;
+    box-shadow: 0 16px 40px rgba(20, 44, 130, 0.09);
+    padding: 26px 28px 22px;
+  }
+  .qcard.shake {
+    animation: shake 0.36s ease;
+  }
+  @keyframes shake {
+    20% {
+      transform: translateX(-6px);
+    }
+    45% {
+      transform: translateX(5px);
+    }
+    70% {
+      transform: translateX(-3px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  .qcard.swap .qstem,
+  .qcard.swap .opts {
+    animation: deal 0.32s ease;
+  }
+  @keyframes deal {
+    from {
+      opacity: 0;
+      transform: translateY(8px) rotate(-0.6deg);
+    }
+  }
+
+  .qcard-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .qtopic {
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.7px;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+
+  .modeseg {
+    display: flex;
+    gap: 4px;
+    background: var(--panel);
+    border-radius: var(--radius-pill);
+    padding: 4px;
+  }
+  .seg {
+    font: inherit;
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border-radius: var(--radius-pill);
+    padding: 7px 14px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .seg:hover {
+    color: var(--blue);
+  }
+  .seg.on {
+    background: var(--white);
+    color: var(--blue);
+    box-shadow: 0 2px 8px rgba(20, 44, 130, 0.12);
+  }
+  .seg-ico svg {
+    display: block;
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .timer {
+    position: absolute;
+    top: 74px;
+    right: 28px;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+  }
+  .timer svg {
+    position: absolute;
+    inset: 0;
+    transform: rotate(-90deg);
+  }
+  .timer circle {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  .timer-bg {
+    stroke: var(--wash);
+  }
+  .timer-fg {
+    stroke: var(--blue);
+    stroke-dasharray: 97.4;
+    stroke-dashoffset: 0;
+  }
+  .timer.run .timer-fg {
+    animation: drain 30s linear forwards;
+  }
+  @keyframes drain {
+    to {
+      stroke-dashoffset: 97.4;
+    }
+  }
+  .timer span {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue);
+  }
+
+  .due {
+    display: inline-block;
+    margin-top: 14px;
+    background: var(--wash);
+    color: var(--blue);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    padding: 5px 12px;
+    border-radius: var(--radius-pill);
+  }
+
+  .qstem {
+    margin-top: 16px;
+    font-size: clamp(19px, 2.1vw, 24px);
+    font-weight: 600;
+    letter-spacing: -0.6px;
+    line-height: 1.3;
+    color: var(--ink);
+    max-width: 46ch;
+  }
+  .qwiggle {
+    display: block;
+    width: 190px;
+    max-width: 60%;
+    height: 11px;
+    margin: 12px 0 4px;
+    opacity: 0.5;
+  }
+  .qcard.swap .qwiggle path {
+    stroke-dasharray: 260;
+    animation: draw 0.55s ease forwards;
+  }
+  @keyframes draw {
+    from {
+      stroke-dashoffset: 260;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .opts {
+    list-style: none;
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .opt {
+    font: inherit;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--panel);
+    border: 1.5px solid transparent;
+    border-radius: 14px;
+    padding: 12px 14px;
+    font-size: 15px;
+    color: var(--ink);
+    transition: background 0.16s ease, border-color 0.16s ease,
+      transform 0.16s ease;
+  }
+  .opt:hover:not(:disabled) {
+    border-color: var(--blue);
+    transform: translateX(3px);
+  }
+  .opt:disabled {
+    cursor: default;
+  }
+  .opt-k {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: var(--white);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--ink-faint);
+  }
+  .opt.right {
+    background: #e7f6ed;
+    border-color: #1f9d55;
+  }
+  .opt.right .opt-k {
+    background: #1f9d55;
+    color: #fff;
+  }
+  .opt.wrong {
+    background: #fdeaea;
+    border-color: #d64545;
+  }
+  .opt.wrong .opt-k {
+    background: #d64545;
+    color: #fff;
+  }
+
+  .verdict {
+    margin-top: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .verdict:empty {
+    display: none;
+  }
+  .exp {
+    margin-top: 8px;
+    background: var(--panel);
+    border-radius: 14px;
+    padding: 14px 16px;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  /* :global because the <b> here is created by the script, so it carries
+     no scope attribute and a plain `.exp b` rule would never match it. */
+  .exp :global(b) {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .qfoot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+  .qfoot-stats {
+    font-size: 13.5px;
+    color: var(--ink-faint);
+  }
+  .qfoot-stats b {
+    color: var(--blue);
+    font-weight: 700;
+  }
+  .qfoot-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .next {
+    font: inherit;
+    cursor: pointer;
+    border: 1.5px solid var(--line);
+    background: var(--white);
+    border-radius: var(--radius-pill);
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
     transition: all 0.18s ease;
   }
-  .chips li:hover {
+  .next:hover {
     border-color: var(--blue);
     color: var(--blue);
   }
-  /* Accent only — these aren't controls, nothing is filtered by them. */
-  .chips li.on {
+  .qfoot-cta {
     background: var(--blue);
     color: #fff;
-    box-shadow: 0 6px 16px rgba(20, 44, 130, 0.22);
-  }
-  .chips li.on:hover {
-    border-color: transparent;
-    color: #fff;
-  }
-
-  /* ---------------------------------------------------------------- MODES */
-  .modes {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-top: clamp(32px, 5vh, 48px);
-    scroll-margin-top: 100px;
-  }
-  .mode-card {
-    display: block;
-    background: var(--white);
-    border-radius: 22px;
-    box-shadow: 0 12px 32px rgba(20, 44, 130, 0.07);
-    padding: 26px 26px 30px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .mode-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 18px 42px rgba(20, 44, 130, 0.13);
-  }
-  .mode-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    margin-bottom: 22px;
-  }
-  .mode-tile {
-    display: grid;
-    place-items: center;
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
-    background: var(--wash);
-  }
-  .mode-tile svg {
-    width: 24px;
-    height: 24px;
-    fill: none;
-    stroke: var(--blue);
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .mode-go {
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--wash);
-    transition: background 0.18s ease, transform 0.18s ease;
-  }
-  .mode-go svg {
-    width: 16px;
-    height: 16px;
-    fill: none;
-    stroke: var(--blue);
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .mode-card:hover .mode-go {
-    background: var(--blue);
-    transform: translateX(3px);
-  }
-  .mode-card:hover .mode-go svg {
-    stroke: #fff;
-  }
-  .mode-card h3 {
-    font-size: 21px;
-    font-weight: 700;
-    letter-spacing: -0.6px;
-    color: var(--ink);
-  }
-  .mode-card p {
-    margin-top: 7px;
-    color: var(--ink-soft);
-    font-size: 15px;
-    max-width: 24ch;
-  }
-
-  /* ---------------------------------------------------------------- STATS */
-  /* Three fixed columns rather than auto-fit. auto-fit passes through a
-     two-column state where the third stat wraps onto a new row and picks
-     up a left divider with nothing to its left. Fixed columns make the
-     divider direction knowable: vertical in a row, horizontal stacked. */
-  .stats {
-    background: var(--wash);
-    border-radius: 22px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    margin-top: 20px;
-    padding: 8px 0;
-  }
-  .stat {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 22px 28px;
-  }
-  .stat + .stat {
-    box-shadow: inset 1px 0 0 rgba(20, 44, 130, 0.1);
-  }
-  @media (max-width: 780px) {
-    .stats {
-      grid-template-columns: 1fr;
-      padding: 0;
-    }
-    .stat + .stat {
-      box-shadow: inset 0 1px 0 rgba(20, 44, 130, 0.1);
-    }
-  }
-  .stat-tile {
-    display: grid;
-    place-items: center;
-    flex: none;
-    width: 48px;
-    height: 48px;
-    border-radius: 15px;
-    background: var(--white);
-  }
-  .stat-tile svg {
-    width: 22px;
-    height: 22px;
-    fill: none;
-    stroke: var(--blue);
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .stat-v {
-    display: block;
-    font-size: clamp(26px, 2.8vw, 34px);
-    font-weight: 700;
-    letter-spacing: -1.2px;
-    color: var(--blue);
-    line-height: 1.15;
-  }
-  .stat-l {
-    display: block;
+    border-radius: var(--radius-pill);
+    padding: 10px 20px;
     font-size: 14px;
-    color: var(--ink-soft);
+    font-weight: 600;
+    transition: background 0.18s ease;
+  }
+  .qfoot-cta:hover {
+    background: var(--blue-deep);
+  }
+
+  #modes {
+    scroll-margin-top: 100px;
   }
 
   /* --------------------------------------------------------------- CLOSER */
@@ -1406,6 +1641,44 @@ const marquee = "Resurface it. Just before it sinks. ";
     .foot-grid {
       grid-template-columns: 1fr;
     }
+
+    /* Nine chips at desktop size run to five rows here. */
+    .subj {
+      padding: 9px 16px;
+      font-size: 14px;
+    }
+
+    /* "Review queue" cannot fit beside the other two labels in the card's
+       ~286px of inner width — it wrapped and broke out of its segment.
+       Icons only, with the label kept for assistive tech and as a title
+       for pointer users. */
+    .qcard {
+      padding: 22px 18px 18px;
+    }
+    .qcard-top {
+      gap: 14px;
+    }
+    .modeseg {
+      width: 100%;
+    }
+    .seg {
+      flex: 1;
+      justify-content: center;
+      padding: 9px 0;
+    }
+    .seg-t {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .seg-ico svg {
+      width: 17px;
+      height: 17px;
+    }
   }
 
   /* Must come after the 560px block — same specificity, source order wins.
@@ -1466,5 +1739,192 @@ const marquee = "Resurface it. Just before it sinks. ";
     };
 
     setTimeout(tick, HOLD);
+  }
+</script>
+
+<script>
+  // The subject demo. Everything it renders already exists in the markup
+  // for subject 0, so with JS off the card is a complete, readable
+  // question — this only swaps contents and wires up answering.
+  type Sample = {
+    subject: string;
+    topic: string;
+    q: string;
+    opts: string[];
+    ans: number;
+    exp: string;
+    optExp: string[];
+  };
+
+  const samples: Sample[] = (window as any).__RS_SAMPLES ?? [];
+  const card = document.querySelector<HTMLElement>("#qcard");
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>(".subj")];
+
+  if (card && tabs.length && samples.length) {
+    const calm = matchMedia("(prefers-reduced-motion: reduce)");
+    const $ = <T extends Element>(s: string) => card.querySelector<T>(s)!;
+
+    const stem = $<HTMLElement>("[data-stem]");
+    const topic = $<HTMLElement>("[data-topic]");
+    const optList = $<HTMLElement>("[data-opts]");
+    // Reused, never regenerated. Astro scopes its CSS with a data-astro-cid
+    // attribute, so anything built here with innerHTML matches no rule and
+    // renders unstyled. Mutating the server-rendered buttons keeps the
+    // scope attribute — and the frontmatter guarantees five of them.
+    const optButtons = [...optList.querySelectorAll<HTMLButtonElement>(".opt")];
+    const verdict = $<HTMLElement>("[data-verdict]");
+    const exp = $<HTMLElement>("[data-exp]");
+    const next = $<HTMLButtonElement>("[data-next]");
+    const timer = $<HTMLElement>("[data-timer]");
+    const timerText = $<HTMLElement>("[data-timer-text]");
+    const due = $<HTMLElement>("[data-due]");
+
+    let current = 0;
+    let mode = "practice";
+    let answered = false;
+    let countdown: number | undefined;
+    let ticker: number | undefined;
+
+    const letter = (i: number) => String.fromCharCode(65 + i);
+
+    const stopTimer = () => {
+      clearTimeout(countdown);
+      clearInterval(ticker);
+      timer.classList.remove("run");
+      timerText.textContent = "30";
+    };
+
+    const reveal = (picked: number | null) => {
+      if (answered) return;
+      answered = true;
+      stopTimer();
+      const s = samples[current];
+
+      optButtons.forEach((b, i) => {
+        b.disabled = true;
+        if (i === s.ans) b.classList.add("right");
+        else if (i === picked) b.classList.add("wrong");
+      });
+
+      const right = picked === s.ans;
+      verdict.textContent =
+        picked === null
+          ? "Time's up."
+          : right
+            ? "Correct."
+            : `Not quite — it's ${letter(s.ans)}.`;
+
+      // The per-option explanation is the point: you get told why *your*
+      // answer was wrong, not just what the right one was.
+      const why =
+        picked !== null && !right && s.optExp[picked]
+          ? `<b>${letter(picked)}:</b> ${s.optExp[picked]}<br />`
+          : "";
+      exp.innerHTML = `${why}<b>${letter(s.ans)}:</b> ${s.exp}`;
+      exp.hidden = false;
+      next.hidden = false;
+
+      if (!right && !calm.matches) {
+        card.classList.add("shake");
+        setTimeout(() => card.classList.remove("shake"), 400);
+      }
+    };
+
+    const startTimer = () => {
+      stopTimer();
+      if (mode !== "timed" || answered) return;
+      if (calm.matches) return; // a 30s countdown is motion too
+      timer.classList.add("run");
+      let left = 30;
+      ticker = window.setInterval(() => {
+        left -= 1;
+        timerText.textContent = String(Math.max(0, left));
+      }, 1000);
+      countdown = window.setTimeout(() => reveal(null), 30000);
+    };
+
+    const render = (i: number, animate = true) => {
+      current = i;
+      answered = false;
+      const s = samples[i];
+
+      topic.textContent = s.topic;
+      stem.textContent = s.q;
+      optButtons.forEach((btn, k) => {
+        btn.disabled = false;
+        btn.classList.remove("right", "wrong");
+        // textContent, not innerHTML — a stem or option containing markup
+        // characters can then never inject into the card.
+        btn.querySelector<HTMLElement>(".opt-k")!.textContent = letter(k);
+        btn.querySelector<HTMLElement>(".opt-t")!.textContent = s.opts[k];
+      });
+
+      verdict.textContent = "";
+      exp.hidden = true;
+      exp.textContent = "";
+      next.hidden = true;
+      due.hidden = mode !== "review";
+
+      if (animate && !calm.matches) {
+        card.classList.remove("swap");
+        void card.offsetWidth; // restart the animation
+        card.classList.add("swap");
+      }
+      startTimer();
+    };
+
+    const select = (i: number, focus = false) => {
+      tabs.forEach((t, k) => {
+        const on = k === i;
+        t.classList.toggle("on", on);
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      card.setAttribute("aria-labelledby", `tab-${i}`);
+      render(i);
+      if (focus) tabs[i].focus();
+    };
+
+    tabs.forEach((t, i) => t.addEventListener("click", () => select(i)));
+
+    // Roving tabindex: a tablist should move with the arrow keys.
+    document
+      .querySelector(".chips")!
+      .addEventListener("keydown", (e: Event) => {
+        const k = (e as KeyboardEvent).key;
+        const at = tabs.findIndex((t) => t === document.activeElement);
+        if (at < 0) return;
+        let to = at;
+        if (k === "ArrowRight" || k === "ArrowDown") to = (at + 1) % tabs.length;
+        else if (k === "ArrowLeft" || k === "ArrowUp")
+          to = (at - 1 + tabs.length) % tabs.length;
+        else if (k === "Home") to = 0;
+        else if (k === "End") to = tabs.length - 1;
+        else return;
+        e.preventDefault();
+        select(to, true);
+      });
+
+    optList.addEventListener("click", (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>(".opt");
+      if (b) reveal(Number(b.dataset.o));
+    });
+
+    next.addEventListener("click", () => select((current + 1) % samples.length));
+
+    card.querySelectorAll<HTMLButtonElement>(".seg").forEach((seg) => {
+      seg.addEventListener("click", () => {
+        mode = seg.dataset.mode ?? "practice";
+        card.dataset.mode = mode;
+        card.querySelectorAll(".seg").forEach((s) => {
+          const on = s === seg;
+          s.classList.toggle("on", on);
+          s.setAttribute("aria-pressed", String(on));
+        });
+        timer.hidden = mode !== "timed";
+        due.hidden = mode !== "review";
+        startTimer();
+      });
+    });
   }
 </script>

@@ -216,35 +216,24 @@ const marquee = "Resurface it. Just before it sinks. ";
         <h2 class="section-h">Go on, have a go.</h2>
       </div>
 
-      <!-- Real buttons in a tablist, not <li>s — they drive the card
-           below, so they have to be reachable and announce state. -->
-      <div class="chips" role="tablist" aria-label="Choose a subject">
-        {
-          subjects.map((s, i) => (
-            <button
-              class:list={["subj", { on: i === 0 }]}
-              role="tab"
-              type="button"
-              id={`tab-${i}`}
-              aria-controls="qcard"
-              aria-selected={i === 0 ? "true" : "false"}
-              tabindex={i === 0 ? 0 : -1}
-              data-i={i}
-            >
-              {s}
-            </button>
-          ))
-        }
+      <div class="subj-pick">
+        <label class="subj-pick-label" for="subj-select">Subject</label>
+        <div class="subj-select-wrap">
+          <select id="subj-select" class="subj-select" aria-controls="qcard">
+            {
+              subjects.map((s, i) => (
+                <option value={i} selected={i === 0}>
+                  {s}
+                </option>
+              ))
+            }
+          </select>
+        </div>
       </div>
 
       <!-- Question 0 is server-rendered in full, so the card reads and
            looks right with JS off; the script only swaps its contents. -->
-      <div
-        class="qcard"
-        id="qcard"
-        role="tabpanel"
-        aria-labelledby="tab-0"
-      >
+      <div class="qcard" id="qcard">
         <span class="qtopic" data-topic>{samples[0].topic}</span>
 
         <h3 class="qstem" data-stem>{samples[0].q}</h3>
@@ -970,42 +959,63 @@ const marquee = "Resurface it. Just before it sinks. ";
     max-width: 620px;
   }
 
-  .chips {
+  .subj-pick {
     margin-top: 18px;
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    align-items: center;
+    gap: 10px 14px;
   }
-  /* .subj, not .chip — the hero's frosted stat cards already own .chip,
-     and sharing it made these inherit position:absolute, so all nine
-     stacked on one rect and the last one swallowed every click. */
-  .subj {
+  .subj-pick-label {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.15px;
+    color: var(--ink-soft);
+  }
+  .subj-select-wrap {
+    position: relative;
+    min-width: min(240px, 100%);
+  }
+  .subj-select-wrap::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid var(--blue);
+    border-bottom: 2px solid var(--blue);
+    transform: translateY(-65%) rotate(45deg);
+    pointer-events: none;
+  }
+  .subj-select {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
     font: inherit;
     cursor: pointer;
     background: var(--white);
-    border: 1px solid transparent;
+    border: 1px solid var(--line);
     box-shadow: 0 2px 8px rgba(20, 44, 130, 0.05);
     border-radius: var(--radius-pill);
-    padding: 9px 18px;
-    font-size: 14.5px;
+    padding: 11px 42px 11px 18px;
+    font-size: 15px;
     font-weight: 600;
     letter-spacing: -0.2px;
     color: var(--ink);
-    transition: transform 0.18s cubic-bezier(0.34, 1.6, 0.5, 1),
-      background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease,
-      border-color 0.18s ease;
+    transition:
+      border-color 0.18s ease,
+      box-shadow 0.18s ease;
   }
-  .subj:hover {
+  .subj-select:hover {
+    border-color: #c5d3f5;
+  }
+  .subj-select:focus {
+    outline: none;
     border-color: var(--blue);
-    color: var(--blue);
-    transform: translateY(-2px);
-  }
-  .subj.on {
-    background: var(--blue);
-    color: #fff;
-    border-color: transparent;
-    box-shadow: 0 6px 16px rgba(20, 44, 130, 0.22);
-    transform: translateY(-1px);
+    box-shadow:
+      0 0 0 3px rgba(53, 98, 245, 0.15),
+      0 2px 8px rgba(20, 44, 130, 0.05);
   }
 
   /* ----------------------------------------------------------- Q CARD */
@@ -1654,10 +1664,9 @@ const marquee = "Resurface it. Just before it sinks. ";
       grid-template-columns: 1fr;
     }
 
-    /* Nine chips at desktop size run to five rows here. */
-    .subj {
-      padding: 9px 16px;
-      font-size: 14px;
+    .subj-select-wrap {
+      min-width: 0;
+      flex: 1;
     }
 
     .qcard {
@@ -1747,9 +1756,9 @@ const marquee = "Resurface it. Just before it sinks. ";
 
   const samples: Sample[] = (window as any).__RS_SAMPLES ?? [];
   const card = document.querySelector<HTMLElement>("#qcard");
-  const tabs = [...document.querySelectorAll<HTMLButtonElement>(".subj")];
+  const selectEl = document.querySelector<HTMLSelectElement>("#subj-select");
 
-  if (card && tabs.length && samples.length) {
+  if (card && selectEl && samples.length) {
     const calm = matchMedia("(prefers-reduced-motion: reduce)");
     const $ = <T extends Element>(s: string) => card.querySelector<T>(s)!;
 
@@ -1830,37 +1839,14 @@ const marquee = "Resurface it. Just before it sinks. ";
       }
     };
 
-    const select = (i: number, focus = false) => {
-      tabs.forEach((t, k) => {
-        const on = k === i;
-        t.classList.toggle("on", on);
-        t.setAttribute("aria-selected", String(on));
-        t.tabIndex = on ? 0 : -1;
-      });
-      card.setAttribute("aria-labelledby", `tab-${i}`);
+    const select = (i: number) => {
+      selectEl.value = String(i);
       render(i);
-      if (focus) tabs[i].focus();
     };
 
-    tabs.forEach((t, i) => t.addEventListener("click", () => select(i)));
-
-    // Roving tabindex: a tablist should move with the arrow keys.
-    document
-      .querySelector(".chips")!
-      .addEventListener("keydown", (e: Event) => {
-        const k = (e as KeyboardEvent).key;
-        const at = tabs.findIndex((t) => t === document.activeElement);
-        if (at < 0) return;
-        let to = at;
-        if (k === "ArrowRight" || k === "ArrowDown") to = (at + 1) % tabs.length;
-        else if (k === "ArrowLeft" || k === "ArrowUp")
-          to = (at - 1 + tabs.length) % tabs.length;
-        else if (k === "Home") to = 0;
-        else if (k === "End") to = tabs.length - 1;
-        else return;
-        e.preventDefault();
-        select(to, true);
-      });
+    selectEl.addEventListener("change", () => {
+      select(Number(selectEl.value));
+    });
 
     optList.addEventListener("click", (e) => {
       const b = (e.target as HTMLElement).closest<HTMLButtonElement>(".opt");

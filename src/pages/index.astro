@@ -371,17 +371,11 @@ const marquee = "Resurface it. Just before it sinks. ";
   <section class="light subjects-band" id="subjects">
     <div class="wrap">
       <div class="sub-head">
-        <span class="pill pill-icon">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M2 9l10-5 10 5-10 5-10-5z"></path>
-            <path d="M6 11.6V16c0 1.6 2.7 3 6 3s6-1.4 6-3v-4.4"></path>
-          </svg>
-          Your Year 1 MBChB subjects
-        </span>
-        <h2 class="section-h">Nine subjects,<br />ready to go.</h2>
+        <h2 class="section-h">Pick a subject.<br />Answer one.</h2>
         <p class="sub-copy">
-          Year 1 MBChB, written and checked by hand. Add your own on top
-          whenever you like.
+          Every question below is a real one, straight out of the bank. Get it
+          right and you'll know why. Get it wrong and you'll know exactly
+          where — that's the bit that sticks.
         </p>
       </div>
 
@@ -467,17 +461,6 @@ const marquee = "Resurface it. Just before it sinks. ";
         <span class="due" data-due hidden>Due today</span>
 
         <h3 class="qstem" data-stem>{samples[0].q}</h3>
-
-        <!-- The wiggle, doing a job: it redraws whenever a question
-             loads, so the melting line reads as the card refreshing. -->
-        <svg class="qwiggle" viewBox="0 0 240 12" aria-hidden="true">
-          <path
-            d="M2,7 C22,1 42,13 62,7 C82,1 102,13 122,7 C142,1 162,13 182,7 C202,1 222,13 238,6"
-            fill="none"
-            stroke="var(--blue)"
-            stroke-width="2"
-            stroke-linecap="round"></path>
-        </svg>
 
         <ul class="opts" data-opts>
           {
@@ -1114,22 +1097,6 @@ const marquee = "Resurface it. Just before it sinks. ";
   .sub-head {
     max-width: 620px;
   }
-  .pill-icon {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--white);
-    box-shadow: 0 2px 10px rgba(20, 44, 130, 0.06);
-  }
-  .pill-icon svg {
-    width: 16px;
-    height: 16px;
-    fill: none;
-    stroke: var(--blue);
-    stroke-width: 1.8;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
   .sub-copy {
     margin-top: 15px;
     color: var(--ink-soft);
@@ -1330,32 +1297,11 @@ const marquee = "Resurface it. Just before it sinks. ";
     color: var(--ink);
     max-width: 46ch;
   }
-  .qwiggle {
-    display: block;
-    width: 190px;
-    max-width: 60%;
-    height: 11px;
-    margin: 12px 0 4px;
-    opacity: 0.5;
-  }
-  .qcard.swap .qwiggle path {
-    stroke-dasharray: 260;
-    animation: draw 0.55s ease forwards;
-  }
-  @keyframes draw {
-    from {
-      stroke-dashoffset: 260;
-    }
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
-
   .opts {
     list-style: none;
     display: grid;
     gap: 8px;
-    margin-top: 12px;
+    margin-top: 18px;
   }
   .opt {
     font: inherit;

@@ -22,20 +22,20 @@ const steps = [
   {
     n: "1",
     art: "answer",
-    title: "Answer",
-    body: "Work through multiple-choice questions under exam conditions. Five options, one right.",
+    title: "Practise from the bank",
+    body: "Work through multiple-choice questions across the subjects on your course. Five options, one right.",
   },
   {
     n: "2",
-    art: "track",
-    title: "We track",
-    body: "The schedule records what you got wrong — and what you only just scraped.",
+    art: "generate",
+    title: "Generate more when you need it",
+    body: "Paste notes or upload slides, a PDF, or an image, and AI writes extra questions from that material.",
   },
   {
     n: "3",
-    art: "return",
-    title: "It comes back",
-    body: "The question returns at the point you'd otherwise have forgotten it.",
+    art: "track",
+    title: "Spend time where you're weak",
+    body: "Resurface keeps a record of what you're struggling with, so later sessions lean into those topics.",
   },
 ];
 
@@ -55,8 +55,8 @@ const marquee = "Resurface it. Just before it sinks. ";
 ---
 
 <Base
-  title="Resurface — spaced repetition for medical school"
-  description="A spaced-repetition study app for medical students. Questions resurface right before you forget them."
+  title="Resurface — practice questions for UK medical students"
+  description="A question bank for UK medical students that follows the topics on your course, with AI that can write extra questions from your study material."
 >
   <!-- -------------------------------------------------------------- NAV -->
   <!-- Outside .field deliberately. A sticky element only sticks within its
@@ -74,7 +74,8 @@ const marquee = "Resurface it. Just before it sinks. ";
       </a>
 
       <div class="nav-links">
-        <a href="#subjects">Subjects</a>
+        <a href="#subjects">Try a question</a>
+        <a href="#ai">AI questions</a>
         <a href="#how">How it works</a>
       </div>
 
@@ -116,7 +117,7 @@ const marquee = "Resurface it. Just before it sinks. ";
 
         <div class="cta">
           <a class="btn-white" href={APP_URL}>Start studying <span>→</span></a>
-          <a class="btn-ghost" href="#how">How it works</a>
+          <a class="btn-ghost" href="#ai">See how AI helps</a>
         </div>
 
         <p class="note">
@@ -280,6 +281,58 @@ const marquee = "Resurface it. Just before it sinks. ";
     window.__RS_SAMPLES = samples;
   </script>
 
+  <!-- ============================================== LIGHT: AI GENERATE -->
+  <section class="light ai-band" id="ai">
+    <div class="wrap ai-grid">
+      <div class="ai-copy">
+        <span class="pill">AI generation</span>
+        <h2 class="section-h">Extra questions from your own study material</h2>
+        <p>
+          The bank covers the topics on your course. When you want more
+          practice on something specific, you can give Resurface your notes,
+          lecture slides, a PDF, or an image, and it will write additional
+          multiple-choice questions from that material.
+        </p>
+        <ul class="ai-sources">
+          <li>Pasted notes</li>
+          <li>PowerPoint decks</li>
+          <li>PDFs</li>
+          <li>Photos of handouts</li>
+        </ul>
+      </div>
+
+      <div class="ai-stage" aria-hidden="true">
+        <div class="ai-src">
+          <span class="ai-src-label">Your notes</span>
+          <p>
+            Cardiac veins accompany the arteries in the atrioventricular
+            groove and drain into the coronary sinus…
+          </p>
+        </div>
+        <div class="ai-arrow">
+          <svg viewBox="0 0 48 24" width="48" height="24">
+            <path
+              d="M2 12h36M30 4l10 8-10 8"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.4"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <div class="ai-out">
+          <span class="ai-out-label">Generated question</span>
+          <p class="ai-out-q">Cardiac veins drain into the:</p>
+          <div class="ai-out-opts">
+            <span>A Right atrium</span>
+            <span>B Left atrium</span>
+            <span>C Aorta</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <Wave from="var(--panel)" to="var(--blue)" flip />
 
   <!-- ============================================= BLUE: WHY IT WORKS -->
@@ -288,10 +341,10 @@ const marquee = "Resurface it. Just before it sinks. ";
       <span class="pill on-blue">Why it works</span>
       <h2>You forget most of a lecture within a week.</h2>
       <p>
-        Revisiting material at widening intervals beats rereading it — it is
-        one of the most reliably reproduced findings in memory research.
-        Resurface runs that schedule for you, so the decision about what to
-        study today isn't yours to make.
+        Practising with questions beats rereading notes on its own. Resurface
+        keeps track of what you're finding hard, so the time you spend studying
+        goes toward the topics that still need work — not only the ones that
+        already feel familiar.
       </p>
     </div>
   </section>
@@ -322,6 +375,19 @@ const marquee = "Resurface it. Just before it sinks. ";
                     <rect x="37" y="47" width="22" height="4.5" rx="2.25" fill="#dbe4ff" />
                   </svg>
                 )}
+                {s.art === "generate" && (
+                  <svg viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="8" y="14" width="34" height="44" rx="8" fill="#fff" stroke="#d6e0f5" />
+                    <rect x="14" y="22" width="22" height="3.5" rx="1.75" fill="#dbe4ff" />
+                    <rect x="14" y="30" width="18" height="3.5" rx="1.75" fill="#dbe4ff" />
+                    <rect x="14" y="38" width="20" height="3.5" rx="1.75" fill="#dbe4ff" />
+                    <path d="M46 36h8M50 32l8 4-8 4" fill="none" stroke="#3562f5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                    <rect x="54" y="14" width="34" height="44" rx="8" fill="#3562f5" />
+                    <rect x="60" y="24" width="22" height="3.5" rx="1.75" fill="#a1c0ff" />
+                    <rect x="60" y="34" width="16" height="8" rx="4" fill="#fff" opacity=".9" />
+                    <rect x="60" y="46" width="16" height="8" rx="4" fill="#fff" opacity=".55" />
+                  </svg>
+                )}
                 {s.art === "track" && (
                   <svg viewBox="0 0 96 72" aria-hidden="true">
                     <rect x="5" y="14" width="40" height="45" rx="8" fill="#fff" stroke="#d6e0f5" />
@@ -332,22 +398,6 @@ const marquee = "Resurface it. Just before it sinks. ";
                     <path d="M68 27l6 6M74 27l-6 6" stroke="#e5484d" stroke-width="2.4" stroke-linecap="round" />
                     <rect x="15" y="46" width="20" height="4" rx="2" fill="#dbe4ff" />
                     <rect x="61" y="46" width="20" height="4" rx="2" fill="#dbe4ff" />
-                  </svg>
-                )}
-                {s.art === "return" && (
-                  <svg viewBox="0 0 96 72" aria-hidden="true">
-                    <rect x="20" y="12" width="56" height="50" rx="9" fill="#fff" stroke="#d6e0f5" />
-                    <path d="M20 21a9 9 0 0 1 9-9h38a9 9 0 0 1 9 9v5H20z" fill="#3562f5" />
-                    <rect x="31" y="6" width="5" height="12" rx="2.5" fill="#1e42c9" />
-                    <rect x="60" y="6" width="5" height="12" rx="2.5" fill="#1e42c9" />
-                    <g fill="#dbe4ff">
-                      <rect x="28" y="33" width="8" height="7" rx="2" />
-                      <rect x="42" y="33" width="8" height="7" rx="2" />
-                      <rect x="56" y="33" width="8" height="7" rx="2" />
-                      <rect x="28" y="45" width="8" height="7" rx="2" />
-                      <rect x="56" y="45" width="8" height="7" rx="2" />
-                    </g>
-                    <rect x="42" y="45" width="8" height="7" rx="2" fill="#3562f5" />
                   </svg>
                 )}
               </div>
@@ -365,8 +415,8 @@ const marquee = "Resurface it. Just before it sinks. ";
   <!-- ------------------------------------------------------------ CLOSER -->
   <section class="closer">
     <div class="wrap closer-inner">
-      <h2>Stop rereading. Start remembering.</h2>
-      <p>Built for Year 1 MBChB. Your progress stays on your device.</p>
+      <h2>Stop rereading. Start practising.</h2>
+      <p>Built for Year 1 MBChB. Free while it's in testing.</p>
       <a class="btn-white big" href={APP_URL}>Start studying <span>→</span></a>
       <p class="fine">Free while it's in testing. No account, no payment.</p>
     </div>
@@ -380,14 +430,15 @@ const marquee = "Resurface it. Just before it sinks. ";
       <div class="foot-brand">
         <img src="/logo-lockup.png" alt="Resurface" width="560" height="131" />
         <p>
-          A spaced-repetition question bank for Year 1 MBChB. Built by a
-          medical student, for medical students.
+          A question bank for UK medical students, with AI that can write
+          extra questions from your own study material.
         </p>
       </div>
 
       <nav class="foot-col" aria-label="Product">
         <h4>Product</h4>
-        <a href="#subjects">Subjects</a>
+        <a href="#subjects">Try a question</a>
+        <a href="#ai">AI questions</a>
         <a href="#how">How it works</a>
         <a href={APP_URL}>Start studying</a>
       </nav>
@@ -1109,6 +1160,108 @@ const marquee = "Resurface it. Just before it sinks. ";
     transform: translateY(-1px);
   }
 
+  /* ---------------------------------------------------------- AI SECTION */
+  .ai-band {
+    padding: clamp(28px, 5vh, 56px) 0 clamp(40px, 6vh, 64px);
+    scroll-margin-top: 100px;
+    border-top: 1px solid var(--line);
+  }
+  .ai-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(28px, 5vw, 56px);
+    align-items: center;
+  }
+  .ai-copy .pill {
+    margin-bottom: 14px;
+  }
+  .ai-copy p {
+    margin-top: 14px;
+    font-size: 16.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 46ch;
+  }
+  .ai-sources {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .ai-sources li {
+    background: var(--white);
+    border-radius: var(--radius-pill);
+    padding: 8px 14px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink);
+    box-shadow: 0 2px 8px rgba(20, 44, 130, 0.05);
+  }
+
+  .ai-stage {
+    display: grid;
+    gap: 12px;
+    justify-items: stretch;
+  }
+  .ai-src,
+  .ai-out {
+    background: var(--white);
+    border-radius: 24px;
+    box-shadow:
+      0 4px 16px rgba(20, 44, 130, 0.04),
+      0 18px 40px rgba(20, 44, 130, 0.08);
+    padding: 18px 20px;
+  }
+  .ai-src-label,
+  .ai-out-label {
+    display: inline-block;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.55px;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: var(--wash);
+    border-radius: var(--radius-pill);
+    padding: 5px 10px;
+    margin-bottom: 10px;
+  }
+  .ai-src p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .ai-arrow {
+    display: grid;
+    place-items: center;
+    color: var(--blue);
+  }
+  .ai-out-q {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+  .ai-out-opts {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .ai-out-opts span {
+    display: block;
+    background: var(--panel);
+    border-radius: var(--radius-pill);
+    padding: 10px 14px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .ai-out-opts span:first-child {
+    background: #e7f6ed;
+    color: #146c3d;
+  }
+
   /* --------------------------------------------------------------- CLOSER */
   .closer {
     background: var(--blue);
@@ -1214,6 +1367,13 @@ const marquee = "Resurface it. Just before it sinks. ";
     }
     .stage {
       display: none;
+    }
+    .ai-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .ai-arrow svg {
+      transform: rotate(90deg);
     }
   }
 

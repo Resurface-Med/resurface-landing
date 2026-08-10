@@ -51,12 +51,6 @@ const subjects = [
   "Physiology",
 ];
 
-const modes = [
-  { key: "practice", icon: "book", t: "Practice" },
-  { key: "timed", icon: "clock", t: "Timed" },
-  { key: "review", icon: "list", t: "Review queue" },
-];
-
 const marquee = "Resurface it. Just before it sinks. ";
 ---
 
@@ -79,12 +73,8 @@ const marquee = "Resurface it. Just before it sinks. ";
         />
       </a>
 
-      <!-- Ordered to match the page, not habit: the demo now sits above
-           How it works, and in-page links that jump backwards are
-           disorienting. -->
       <div class="nav-links">
         <a href="#subjects">Subjects</a>
-        <a href="#modes">Question modes</a>
         <a href="#how">How it works</a>
       </div>
 
@@ -253,58 +243,8 @@ const marquee = "Resurface it. Just before it sinks. ";
         id="qcard"
         role="tabpanel"
         aria-labelledby="tab-0"
-        data-mode="practice"
       >
-        <div class="qcard-top">
-          <span class="qtopic" data-topic>{samples[0].topic}</span>
-
-          <div class="modeseg" role="group" aria-label="Question mode" id="modes">
-            {
-              modes.map((m, i) => (
-                <button
-                  class:list={["seg", { on: i === 0 }]}
-                  type="button"
-                  data-mode={m.key}
-                  title={m.t}
-                  aria-pressed={i === 0 ? "true" : "false"}
-                >
-                  <span class="seg-ico">
-                    {m.icon === "book" && (
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M12 6.6C10.4 5.1 8 4.6 4 4.6v13c4 0 6.4.5 8 2 1.6-1.5 4-2 8-2v-13c-4 0-6.4.5-8 2z" />
-                        <path d="M12 6.6V19.6" />
-                      </svg>
-                    )}
-                    {m.icon === "clock" && (
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <circle cx="12" cy="12" r="8.6" />
-                        <path d="M12 7.2V12l3.4 2" />
-                      </svg>
-                    )}
-                    {m.icon === "list" && (
-                      <svg viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M9 6.5h11M9 12h11M9 17.5h11" />
-                        <path d="M4.4 6.5h.02M4.4 12h.02M4.4 17.5h.02" />
-                      </svg>
-                    )}
-                  </span>
-                  <span class="seg-t">{m.t}</span>
-                </button>
-              ))
-            }
-          </div>
-        </div>
-
-        <!-- Timed mode's ring. Hidden unless that mode is on. -->
-        <div class="timer" data-timer hidden>
-          <svg viewBox="0 0 36 36" aria-hidden="true">
-            <circle class="timer-bg" cx="18" cy="18" r="15.5"></circle>
-            <circle class="timer-fg" cx="18" cy="18" r="15.5"></circle>
-          </svg>
-          <span data-timer-text>30</span>
-        </div>
-
-        <span class="due" data-due hidden>Due today</span>
+        <span class="qtopic" data-topic>{samples[0].topic}</span>
 
         <h3 class="qstem" data-stem>{samples[0].q}</h3>
 
@@ -325,19 +265,18 @@ const marquee = "Resurface it. Just before it sinks. ";
         <div class="exp" data-exp hidden></div>
 
         <div class="qfoot">
-          <span class="qfoot-stats">
-            <b>497</b> questions · <b>9</b> subjects · <b>3</b> ways to study
-          </span>
-          <span class="qfoot-actions">
-            <button class="next" type="button" data-next hidden>
-              Next subject <span aria-hidden="true">→</span>
-            </button>
-            <a class="qfoot-cta" href={APP_URL}>
-              Start studying <span aria-hidden="true">→</span>
-            </a>
-          </span>
+          <button class="next" type="button" data-next hidden>
+            Next subject <span aria-hidden="true">→</span>
+          </button>
+          <a class="qfoot-cta" href={APP_URL}>
+            Start studying <span aria-hidden="true">→</span>
+          </a>
         </div>
       </div>
+
+      <p class="qmeta">
+        <b>497</b> questions · <b>9</b> subjects
+      </p>
     </div>
   </section>
 
@@ -453,7 +392,6 @@ const marquee = "Resurface it. Just before it sinks. ";
       <nav class="foot-col" aria-label="Product">
         <h4>Product</h4>
         <a href="#subjects">Subjects</a>
-        <a href="#modes">Question modes</a>
         <a href="#how">How it works</a>
         <a href={APP_URL}>Start studying</a>
       </nav>
@@ -994,11 +932,13 @@ const marquee = "Resurface it. Just before it sinks. ";
   /* ----------------------------------------------------------- Q CARD */
   .qcard {
     position: relative;
-    margin-top: clamp(26px, 4vh, 38px);
+    margin-top: clamp(28px, 4vh, 40px);
     background: var(--white);
-    border-radius: 24px;
-    box-shadow: 0 16px 40px rgba(20, 44, 130, 0.09);
-    padding: 26px 28px 22px;
+    border-radius: 32px;
+    box-shadow:
+      0 4px 16px rgba(20, 44, 130, 0.04),
+      0 24px 56px rgba(20, 44, 130, 0.1);
+    padding: clamp(28px, 4vw, 40px);
   }
   .qcard.shake {
     animation: shake 0.36s ease;
@@ -1028,129 +968,32 @@ const marquee = "Resurface it. Just before it sinks. ";
     }
   }
 
-  .qcard-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
   .qtopic {
-    font-size: 12.5px;
+    display: inline-block;
+    background: var(--wash);
+    border-radius: var(--radius-pill);
+    padding: 7px 14px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.7px;
+    letter-spacing: 0.6px;
     text-transform: uppercase;
     color: var(--blue);
   }
 
-  .modeseg {
-    display: flex;
-    gap: 4px;
-    background: var(--panel);
-    border-radius: var(--radius-pill);
-    padding: 4px;
-  }
-  .seg {
-    font: inherit;
-    cursor: pointer;
-    border: 0;
-    background: transparent;
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    border-radius: var(--radius-pill);
-    padding: 7px 14px;
-    font-size: 13.5px;
-    font-weight: 600;
-    color: var(--ink-soft);
-    transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
-  }
-  .seg:hover {
-    color: var(--blue);
-  }
-  .seg.on {
-    background: var(--white);
-    color: var(--blue);
-    box-shadow: 0 2px 8px rgba(20, 44, 130, 0.12);
-  }
-  .seg-ico svg {
-    display: block;
-    width: 15px;
-    height: 15px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.9;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .timer {
-    position: absolute;
-    top: 74px;
-    right: 28px;
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-  }
-  .timer svg {
-    position: absolute;
-    inset: 0;
-    transform: rotate(-90deg);
-  }
-  .timer circle {
-    fill: none;
-    stroke-width: 3;
-    stroke-linecap: round;
-  }
-  .timer-bg {
-    stroke: var(--wash);
-  }
-  .timer-fg {
-    stroke: var(--blue);
-    stroke-dasharray: 97.4;
-    stroke-dashoffset: 0;
-  }
-  .timer.run .timer-fg {
-    animation: drain 30s linear forwards;
-  }
-  @keyframes drain {
-    to {
-      stroke-dashoffset: 97.4;
-    }
-  }
-  .timer span {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--blue);
-  }
-
-  .due {
-    display: inline-block;
-    margin-top: 14px;
-    background: var(--wash);
-    color: var(--blue);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.4px;
-    padding: 5px 12px;
-    border-radius: var(--radius-pill);
-  }
-
   .qstem {
-    margin-top: 16px;
-    font-size: clamp(19px, 2.1vw, 24px);
+    margin-top: 18px;
+    font-size: clamp(20px, 2.2vw, 26px);
     font-weight: 600;
-    letter-spacing: -0.6px;
-    line-height: 1.3;
+    letter-spacing: -0.7px;
+    line-height: 1.28;
     color: var(--ink);
     max-width: 46ch;
   }
   .opts {
     list-style: none;
     display: grid;
-    gap: 8px;
-    margin-top: 18px;
+    gap: 10px;
+    margin-top: 22px;
   }
   .opt {
     font: inherit;
@@ -1159,19 +1002,21 @@ const marquee = "Resurface it. Just before it sinks. ";
     text-align: left;
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     background: var(--panel);
     border: 1.5px solid transparent;
-    border-radius: 14px;
-    padding: 12px 14px;
-    font-size: 15px;
+    border-radius: 999px;
+    padding: 14px 18px;
+    font-size: 15.5px;
     color: var(--ink);
     transition: background 0.16s ease, border-color 0.16s ease,
-      transform 0.16s ease;
+      transform 0.16s ease, box-shadow 0.16s ease;
   }
   .opt:hover:not(:disabled) {
-    border-color: var(--blue);
-    transform: translateX(3px);
+    border-color: rgba(53, 98, 245, 0.35);
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(20, 44, 130, 0.07);
+    transform: translateY(-1px);
   }
   .opt:disabled {
     cursor: default;
@@ -1180,11 +1025,11 @@ const marquee = "Resurface it. Just before it sinks. ";
     flex: none;
     display: grid;
     place-items: center;
-    width: 26px;
-    height: 26px;
-    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     background: var(--white);
-    font-size: 12.5px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--ink-faint);
   }
@@ -1206,7 +1051,7 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
 
   .verdict {
-    margin-top: 14px;
+    margin-top: 16px;
     font-size: 15px;
     font-weight: 700;
     color: var(--ink);
@@ -1215,10 +1060,10 @@ const marquee = "Resurface it. Just before it sinks. ";
     display: none;
   }
   .exp {
-    margin-top: 8px;
+    margin-top: 10px;
     background: var(--panel);
-    border-radius: 14px;
-    padding: 14px 16px;
+    border-radius: 20px;
+    padding: 16px 18px;
     font-size: 14.5px;
     line-height: 1.5;
     color: var(--ink-soft);
@@ -1233,25 +1078,10 @@ const marquee = "Resurface it. Just before it sinks. ";
   .qfoot {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 18px;
-    padding-top: 16px;
-    border-top: 1px solid var(--line);
-  }
-  .qfoot-stats {
-    font-size: 13.5px;
-    color: var(--ink-faint);
-  }
-  .qfoot-stats b {
-    color: var(--blue);
-    font-weight: 700;
-  }
-  .qfoot-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    gap: 10px;
+    margin-top: 22px;
   }
   .next {
     font: inherit;
@@ -1259,7 +1089,7 @@ const marquee = "Resurface it. Just before it sinks. ";
     border: 1.5px solid var(--line);
     background: var(--white);
     border-radius: var(--radius-pill);
-    padding: 9px 18px;
+    padding: 11px 20px;
     font-size: 14px;
     font-weight: 600;
     color: var(--ink);
@@ -1273,17 +1103,25 @@ const marquee = "Resurface it. Just before it sinks. ";
     background: var(--blue);
     color: #fff;
     border-radius: var(--radius-pill);
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 12px 22px;
+    font-size: 14.5px;
     font-weight: 600;
-    transition: background 0.18s ease;
+    transition: background 0.18s ease, transform 0.18s ease;
   }
   .qfoot-cta:hover {
     background: var(--blue-deep);
+    transform: translateY(-1px);
   }
 
-  #modes {
-    scroll-margin-top: 100px;
+  .qmeta {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--ink-faint);
+  }
+  .qmeta b {
+    color: var(--blue);
+    font-weight: 700;
   }
 
   /* --------------------------------------------------------------- CLOSER */
@@ -1434,36 +1272,13 @@ const marquee = "Resurface it. Just before it sinks. ";
       font-size: 14px;
     }
 
-    /* "Review queue" cannot fit beside the other two labels in the card's
-       ~286px of inner width — it wrapped and broke out of its segment.
-       Icons only, with the label kept for assistive tech and as a title
-       for pointer users. */
     .qcard {
-      padding: 22px 18px 18px;
+      padding: 24px 18px 22px;
+      border-radius: 28px;
     }
-    .qcard-top {
-      gap: 14px;
-    }
-    .modeseg {
-      width: 100%;
-    }
-    .seg {
-      flex: 1;
-      justify-content: center;
-      padding: 9px 0;
-    }
-    .seg-t {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      margin: -1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
-    }
-    .seg-ico svg {
-      width: 17px;
-      height: 17px;
+    .opt {
+      border-radius: 22px;
+      padding: 12px 14px;
     }
   }
 
@@ -1561,29 +1376,15 @@ const marquee = "Resurface it. Just before it sinks. ";
     const verdict = $<HTMLElement>("[data-verdict]");
     const exp = $<HTMLElement>("[data-exp]");
     const next = $<HTMLButtonElement>("[data-next]");
-    const timer = $<HTMLElement>("[data-timer]");
-    const timerText = $<HTMLElement>("[data-timer-text]");
-    const due = $<HTMLElement>("[data-due]");
 
     let current = 0;
-    let mode = "practice";
     let answered = false;
-    let countdown: number | undefined;
-    let ticker: number | undefined;
 
     const letter = (i: number) => String.fromCharCode(65 + i);
 
-    const stopTimer = () => {
-      clearTimeout(countdown);
-      clearInterval(ticker);
-      timer.classList.remove("run");
-      timerText.textContent = "30";
-    };
-
-    const reveal = (picked: number | null) => {
+    const reveal = (picked: number) => {
       if (answered) return;
       answered = true;
-      stopTimer();
       const s = samples[current];
 
       optButtons.forEach((b, i) => {
@@ -1593,17 +1394,14 @@ const marquee = "Resurface it. Just before it sinks. ";
       });
 
       const right = picked === s.ans;
-      verdict.textContent =
-        picked === null
-          ? "Time's up."
-          : right
-            ? "Correct."
-            : `Not quite — it's ${letter(s.ans)}.`;
+      verdict.textContent = right
+        ? "Correct."
+        : `Not quite — it's ${letter(s.ans)}.`;
 
       // The per-option explanation is the point: you get told why *your*
       // answer was wrong, not just what the right one was.
       const why =
-        picked !== null && !right && s.optExp[picked]
+        !right && s.optExp[picked]
           ? `<b>${letter(picked)}:</b> ${s.optExp[picked]}<br />`
           : "";
       exp.innerHTML = `${why}<b>${letter(s.ans)}:</b> ${s.exp}`;
@@ -1614,19 +1412,6 @@ const marquee = "Resurface it. Just before it sinks. ";
         card.classList.add("shake");
         setTimeout(() => card.classList.remove("shake"), 400);
       }
-    };
-
-    const startTimer = () => {
-      stopTimer();
-      if (mode !== "timed" || answered) return;
-      if (calm.matches) return; // a 30s countdown is motion too
-      timer.classList.add("run");
-      let left = 30;
-      ticker = window.setInterval(() => {
-        left -= 1;
-        timerText.textContent = String(Math.max(0, left));
-      }, 1000);
-      countdown = window.setTimeout(() => reveal(null), 30000);
     };
 
     const render = (i: number, animate = true) => {
@@ -1649,14 +1434,12 @@ const marquee = "Resurface it. Just before it sinks. ";
       exp.hidden = true;
       exp.textContent = "";
       next.hidden = true;
-      due.hidden = mode !== "review";
 
       if (animate && !calm.matches) {
         card.classList.remove("swap");
         void card.offsetWidth; // restart the animation
         card.classList.add("swap");
       }
-      startTimer();
     };
 
     const select = (i: number, focus = false) => {
@@ -1697,20 +1480,5 @@ const marquee = "Resurface it. Just before it sinks. ";
     });
 
     next.addEventListener("click", () => select((current + 1) % samples.length));
-
-    card.querySelectorAll<HTMLButtonElement>(".seg").forEach((seg) => {
-      seg.addEventListener("click", () => {
-        mode = seg.dataset.mode ?? "practice";
-        card.dataset.mode = mode;
-        card.querySelectorAll(".seg").forEach((s) => {
-          const on = s === seg;
-          s.classList.toggle("on", on);
-          s.setAttribute("aria-pressed", String(on));
-        });
-        timer.hidden = mode !== "timed";
-        due.hidden = mode !== "review";
-        startTimer();
-      });
-    });
   }
 </script>

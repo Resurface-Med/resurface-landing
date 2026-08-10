@@ -204,15 +204,6 @@ const marquee = "Resurface it. Just before it sinks. ";
           </textPath>
         </text>
       </svg>
-
-      <!-- Flat marquee for small screens — curved textPath gets clipped and
-           oversized when the SVG shrinks to phone width. -->
-      <div class="ribbon-flat">
-        <div class="ribbon-flat-track">
-          <span>{marquee.repeat(4)}</span>
-          <span>{marquee.repeat(4)}</span>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -812,6 +803,7 @@ const marquee = "Resurface it. Just before it sinks. ";
   .ribbon {
     line-height: 0;
     margin-top: clamp(28px, 5vh, 56px);
+    overflow: hidden;
   }
   .ribbon-curve {
     width: 100%;
@@ -821,6 +813,8 @@ const marquee = "Resurface it. Just before it sinks. ";
   .ribbon-fill {
     fill: #fff;
   }
+  /* In viewBox units. Keep under ~80 — baseline is y=158 and the band
+     top is ~96, so bigger glyphs punch through the white. */
   .ribbon-text {
     fill: var(--blue);
     font-family: "Poppins", sans-serif;
@@ -828,55 +822,22 @@ const marquee = "Resurface it. Just before it sinks. ";
     font-weight: 700;
     letter-spacing: -0.5px;
   }
-  .ribbon-flat {
-    display: none;
-  }
 
+  /* On phones, 100% width shrinks the whole curve so text goes tiny.
+     Widen the SVG past the viewport instead of inflating font-size
+     (which was what made glyphs clip out of the band). */
   @media (max-width: 700px) {
     .ribbon-curve {
-      display: none;
-    }
-    .ribbon-flat {
-      display: block;
-      overflow: hidden;
-      background: #fff;
-      padding: 16px 0;
-      width: 112%;
-      margin-left: -6%;
-      transform: rotate(-3deg);
-      box-shadow: 0 8px 24px rgba(15, 27, 61, 0.08);
-    }
-    .ribbon-flat-track {
-      display: flex;
-      width: max-content;
-      gap: 0;
-      animation: ribbon-scroll 22s linear infinite;
-    }
-    .ribbon-flat-track span {
-      flex-shrink: 0;
-      white-space: nowrap;
-      padding-right: 0.35em;
-      font-family: "Poppins", sans-serif;
-      font-size: 17px;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      color: var(--blue);
-      line-height: 1.2;
+      width: 240%;
+      max-width: none;
+      margin-left: -70%;
     }
   }
 
-  @keyframes ribbon-scroll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .ribbon-flat-track {
-      animation: none;
+  @media (max-width: 400px) {
+    .ribbon-curve {
+      width: 280%;
+      margin-left: -90%;
     }
   }
 

@@ -300,8 +300,8 @@ const marquee = "Resurface it. Just before it sinks. ";
 
       <div class="ai-compare" aria-label="Generic banks versus Resurface AI">
         <div class="compare-col">
-          <h3 class="compare-title">Most question banks</h3>
           <div class="compare-card">
+            <h3 class="compare-title">Most question banks</h3>
             <div class="compare-art miss" aria-hidden="true">
               <div class="mini-q">
                 <span class="mini-tag vague">Vague</span>
@@ -320,15 +320,15 @@ const marquee = "Resurface it. Just before it sinks. ";
         </div>
 
         <div class="compare-col">
-          <h3 class="compare-title compare-brand">
-            <img
-              src="/logo-lockup.png"
-              alt="Resurface"
-              width="560"
-              height="131"
-            />
-          </h3>
           <div class="compare-card">
+            <h3 class="compare-title compare-brand">
+              <img
+                src="/logo-lockup.png"
+                alt="Resurface"
+                width="560"
+                height="131"
+              />
+            </h3>
             <div class="compare-art keep" aria-hidden="true">
               <div class="mini-q">
                 <span class="mini-tag specific">From your slides</span>
@@ -1203,29 +1203,14 @@ const marquee = "Resurface it. Just before it sinks. ";
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(18px, 3vw, 28px);
+    align-items: start;
   }
   .compare-col {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 1fr auto;
     gap: 12px;
     min-width: 0;
-  }
-  .compare-title {
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
-    color: var(--ink);
-    margin: 0;
-    padding: 0 4px;
-  }
-  .compare-brand {
-    display: flex;
-    align-items: center;
-    min-height: 1.2em;
-  }
-  .compare-brand img {
-    width: min(168px, 70%);
-    height: auto;
+    height: 100%;
   }
   .compare-card {
     background: var(--white);
@@ -1233,7 +1218,24 @@ const marquee = "Resurface it. Just before it sinks. ";
     box-shadow:
       0 4px 14px rgba(20, 44, 130, 0.04),
       0 18px 40px rgba(20, 44, 130, 0.08);
-    padding: 16px;
+    padding: 18px 16px 16px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .compare-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: var(--ink);
+    margin: 0 0 12px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+  }
+  .compare-brand img {
+    width: min(168px, 72%);
+    height: auto;
   }
   .compare-sub {
     margin: 0;
@@ -1253,6 +1255,7 @@ const marquee = "Resurface it. Just before it sinks. ";
     display: grid;
     place-items: stretch;
     min-height: 0;
+    flex: 1;
   }
   .compare-art.miss {
     background: linear-gradient(160deg, #e8edf8 0%, #d5def2 100%);

@@ -327,14 +327,17 @@ const marquee = "Resurface it. Just before it sinks. ";
   <!-- ============================================= BLUE: WHY IT WORKS -->
   <section class="why">
     <div class="wrap why-inner">
-      <span class="pill on-blue">Why it works</span>
       <h2>You forget most of a lecture within a week.</h2>
-      <p>
-        Practising with questions beats rereading notes on its own. Resurface
-        keeps track of what you're finding hard, so the time you spend studying
-        goes toward the topics that still need work — not only the ones that
-        already feel familiar.
-      </p>
+      <div class="why-copy">
+        <p class="why-lead">
+          Practising with questions beats rereading notes on its own.
+        </p>
+        <p>
+          Resurface keeps track of what you’re finding hard, so the time you
+          spend studying goes toward the topics that still need work — not only
+          the ones that already feel familiar.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -822,22 +825,52 @@ const marquee = "Resurface it. Just before it sinks. ";
   .why {
     background: var(--blue);
     color: #fff;
-    padding: clamp(40px, 7vh, 76px) 0 clamp(48px, 8vh, 88px);
+    padding: clamp(48px, 8vh, 92px) 0;
   }
   .why-inner {
-    max-width: 760px;
-    text-align: center;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(28px, 4vw, 64px);
+    align-items: end;
   }
   .why h2 {
-    font-size: clamp(26px, 3.4vw, 40px);
+    margin: 0;
+    font-size: clamp(30px, 4vw, 48px);
     font-weight: 600;
-    letter-spacing: -1.1px;
-    line-height: 1.2;
+    letter-spacing: -1.4px;
+    line-height: 1.12;
+    max-width: 12em;
   }
-  .why p {
-    margin-top: 18px;
-    font-size: 17px;
+  .why-copy {
+    max-width: 34em;
+    padding-bottom: 4px;
+  }
+  .why-lead {
+    margin: 0 0 14px;
+    font-size: clamp(18px, 2vw, 22px);
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    line-height: 1.35;
+    color: #fff;
+  }
+  .why-copy > p:last-child {
+    margin: 0;
+    font-size: clamp(16px, 1.5vw, 17.5px);
+    font-weight: 500;
+    letter-spacing: -0.15px;
+    line-height: 1.55;
     color: var(--on-blue-soft);
+  }
+
+  @media (max-width: 800px) {
+    .why-inner {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .why h2 {
+      max-width: none;
+    }
   }
 
   /* ------------------------------------------------------------- SUBJECTS */

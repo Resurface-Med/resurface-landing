@@ -299,40 +299,55 @@ const marquee = "Resurface it. Just before it sinks. ";
       </div>
 
       <div class="ai-compare" aria-label="Generic banks versus Resurface AI">
-        <figure class="compare">
-          <figcaption>Most question banks</figcaption>
-          <div class="compare-art miss" aria-hidden="true">
-            <div class="mini-q">
-              <span class="mini-tag vague">Vague</span>
-              <p class="mini-stem">How many cranial nerves are there?</p>
-              <div class="mini-opts">
-                <span>10</span>
-                <span class="on">12</span>
-                <span>14</span>
+        <div class="compare-col">
+          <h3 class="compare-title">Most question banks</h3>
+          <div class="compare-card">
+            <div class="compare-art miss" aria-hidden="true">
+              <div class="mini-q">
+                <span class="mini-tag vague">Vague</span>
+                <p class="mini-stem">How many cranial nerves are there?</p>
+                <div class="mini-opts">
+                  <span>10</span>
+                  <span class="on">12</span>
+                  <span>14</span>
+                </div>
               </div>
             </div>
           </div>
-          <p>Stays broad — skips lecture-specific detail.</p>
-        </figure>
+          <p class="compare-sub">
+            Stays broad — skips lecture-specific detail.
+          </p>
+        </div>
 
-        <figure class="compare">
-          <figcaption>Resurface AI</figcaption>
-          <div class="compare-art keep" aria-hidden="true">
-            <div class="mini-q">
-              <span class="mini-tag specific">From your slides</span>
-              <p class="mini-stem">
-                Which cranial nerve exits the skull through the jugular
-                foramen?
-              </p>
-              <div class="mini-opts">
-                <span>CN VII</span>
-                <span class="right">CN X</span>
-                <span>CN XII</span>
+        <div class="compare-col">
+          <h3 class="compare-title compare-brand">
+            <img
+              src="/logo-lockup.png"
+              alt="Resurface"
+              width="560"
+              height="131"
+            />
+          </h3>
+          <div class="compare-card">
+            <div class="compare-art keep" aria-hidden="true">
+              <div class="mini-q">
+                <span class="mini-tag specific">From your slides</span>
+                <p class="mini-stem">
+                  Which cranial nerve exits the skull through the jugular
+                  foramen?
+                </p>
+                <div class="mini-opts">
+                  <span>CN VII</span>
+                  <span class="right">CN X</span>
+                  <span>CN XII</span>
+                </div>
               </div>
             </div>
           </div>
-          <p>Asks about the specific bits you were taught.</p>
-        </figure>
+          <p class="compare-sub accent">
+            Asks about the specific bits you were taught.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -1187,33 +1202,49 @@ const marquee = "Resurface it. Just before it sinks. ";
     margin-top: clamp(28px, 4vh, 40px);
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(14px, 2.5vw, 22px);
+    gap: clamp(18px, 3vw, 28px);
   }
-  .compare {
+  .compare-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+  .compare-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+    color: var(--ink);
     margin: 0;
+    padding: 0 4px;
+  }
+  .compare-brand {
+    display: flex;
+    align-items: center;
+    min-height: 1.2em;
+  }
+  .compare-brand img {
+    width: min(168px, 70%);
+    height: auto;
+  }
+  .compare-card {
     background: var(--white);
     border-radius: 28px;
     box-shadow:
       0 4px 14px rgba(20, 44, 130, 0.04),
       0 18px 40px rgba(20, 44, 130, 0.08);
-    padding: 20px 18px 20px;
+    padding: 16px;
   }
-  .compare figcaption {
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
-    color: var(--ink);
-    margin-bottom: 12px;
-  }
-  .compare p {
-    margin-top: 16px;
+  .compare-sub {
+    margin: 0;
+    padding: 0 4px;
     font-size: clamp(16px, 1.7vw, 18px);
     font-weight: 600;
     letter-spacing: -0.3px;
     line-height: 1.35;
     color: var(--ink);
   }
-  .compare:last-child p {
+  .compare-sub.accent {
     color: var(--blue);
   }
   .compare-art {

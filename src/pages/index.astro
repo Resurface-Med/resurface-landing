@@ -3,21 +3,41 @@ import Base from "../layouts/Base.astro";
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || "#";
 
+/* The three pillars on the sheet that overlaps the field. Kept to claims
+   the app actually delivers — see the stat cards note below. */
+const pillars = [
+  {
+    icon: "recall",
+    title: "Active recall",
+    body: "Answer before you look. Five options, an explanation for the right one and for every wrong one.",
+  },
+  {
+    icon: "spaced",
+    title: "Spaced repetition",
+    body: "An SM-2 schedule with Anki-style learning steps decides when each question comes back.",
+  },
+  {
+    icon: "retention",
+    title: "Long-term retention",
+    body: "Study smarter, not longer. Remember it in June, not just the week you covered it.",
+  },
+];
+
 const features = [
   {
     kicker: "Timing",
     title: "Questions come back before you forget them",
-    body: "An SM-2 schedule with Anki-style learning steps decides when each question resurfaces. Get one wrong and it returns in a minute, not a week.",
+    body: "Get one wrong and it returns in a minute, not a week. Get it right repeatedly and it stretches out to weeks.",
   },
   {
     kicker: "Your material",
     title: "Built from your own lectures",
-    body: "Upload a slide deck or paste your notes and get exam-shaped questions back — five options, an explanation for the right answer, and one for every wrong one.",
+    body: "Upload a slide deck or paste your notes and get exam-shaped questions back, written in the style of the real paper.",
   },
   {
     kicker: "Modes",
     title: "Three ways to study",
-    body: "Practice a topic, race a timer, or work the review queue. Wrong answers collect in one place so you can go back to what actually caught you out.",
+    body: "Practice a topic, race a timer, or work the review queue. Wrong answers collect in one place so you can go back to them.",
   },
 ];
 
@@ -33,6 +53,12 @@ const subjects = [
   "Physiology",
 ];
 
+const modes = [
+  { n: "01", t: "Practice", d: "Pick a subject and work through it. No clock, no pressure." },
+  { n: "02", t: "Timed", d: "Race the clock the way the real paper makes you." },
+  { n: "03", t: "Review queue", d: "Only what's due today, decided by the schedule." },
+];
+
 const marquee = "Resurface it. Just before it sinks. ";
 ---
 
@@ -40,7 +66,11 @@ const marquee = "Resurface it. Just before it sinks. ";
   title="Resurface — spaced repetition for medical school"
   description="A spaced-repetition study app for medical students. Questions resurface right before you forget them."
 >
-  <!-- ---------------------------------------------------------------- NAV -->
+  <!-- ================================================== THE BLUE FIELD -->
+  <!-- -------------------------------------------------------------- NAV -->
+  <!-- Sits outside .field deliberately. A sticky element only sticks
+       within its own container, and .field ends at the feature sheet —
+       nested in there the nav would unstick a third of the way down. -->
   <header class="nav-wrap">
     <nav class="nav">
       <a class="brand" href="/">
@@ -56,72 +86,151 @@ const marquee = "Resurface it. Just before it sinks. ";
       <div class="nav-links">
         <a href="#how">How it works</a>
         <a href="#subjects">Subjects</a>
-        <a href="#modes">Modes</a>
+        <a href="#modes">Question modes</a>
       </div>
 
       <a class="nav-cta" href={APP_URL}>Start studying</a>
     </nav>
   </header>
 
-  <!-- --------------------------------------------------------------- HERO -->
-  <section class="hero">
-    <div class="wrap hero-inner">
-      <a class="pill-note" href="#subjects">
-        <span class="pill-flag">497</span>
-        questions across nine subjects
-        <span class="pill-arrow">→</span>
-      </a>
+  <div class="field">
+    <!-- Oversized soft shapes, the comp's background texture. Purely
+         decorative and behind everything via z-index on .field > *. -->
+    <div class="blobs" aria-hidden="true">
+      <span class="blob b1"></span>
+      <span class="blob b2"></span>
+      <span class="blob b3"></span>
+    </div>
 
-      <h1>
-        Everything you learn<br />
-        <span class="hl">resurfaces</span> before it sinks.
-      </h1>
+    <!-- ----------------------------------------------------------- HERO -->
+    <section class="hero wrap">
+      <div class="hero-copy">
+        <a class="badge" href="#subjects">
+          <span class="badge-num">497</span>
+          questions across nine subjects
+          <span class="badge-arrow">→</span>
+        </a>
 
-      <p class="sub">
-        A spaced-repetition question bank for medical students. It tracks what
-        you're about to forget and puts it back in front of you at the moment
-        it counts.
-      </p>
+        <h1>
+          Everything you learn <span class="hl">resurfaces</span> before it sinks.
+        </h1>
 
-      <div class="cta">
-        <a class="btn-primary" href={APP_URL}>Start studying <span>→</span></a>
-        <a class="btn-ghost" href="#how">How it works</a>
+        <p class="sub">
+          A spaced-repetition question bank for medical students. It tracks
+          what you're about to forget and puts it back in front of you at the
+          moment it counts.
+        </p>
+
+        <div class="cta">
+          <a class="btn-white" href={APP_URL}>Start studying <span>→</span></a>
+          <a class="btn-ghost" href="#how">How it works</a>
+        </div>
+
+        <p class="note">
+          <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true">
+            <circle cx="10" cy="10" r="9" fill="rgba(255,255,255,.22)"></circle>
+            <path
+              d="M6 10.2l2.6 2.6L14 7.4"
+              fill="none"
+              stroke="#fff"
+              stroke-width="1.9"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+          Free while it's in testing. No account needed.
+        </p>
       </div>
 
-      <p class="note">Free while it's in testing. No account needed.</p>
-    </div>
-  </section>
+      <!-- The books are the original artwork (RGBA, transparent corners,
+           so it sits on the field with no white box behind it). The two
+           cards float over it the way the comp has them. -->
+      <div class="stage">
+        <img
+          class="books"
+          src="/books.webp"
+          alt="Two stacked textbooks"
+          width="580"
+          height="839"
+        />
 
-  <!-- ------------------------------------------------------------ MARQUEE -->
-  <div class="band" aria-hidden="true">
-    <svg viewBox="0 0 1440 250" preserveAspectRatio="none" class="band-svg">
-      <path
-        class="band-fill"
-        d="M-160,96 C160,8 520,8 800,96 C1080,184 1300,184 1600,96 L1600,188 C1300,276 1080,276 800,188 C520,100 160,100 -160,188 Z"
-      ></path>
-      <path
-        id="bandline"
-        fill="none"
-        d="M-160,158 C160,70 520,70 800,158 C1080,246 1300,246 1600,158"
-      ></path>
-      <text class="band-text">
-        <textPath href="#bandline" startOffset="0%">
-          {marquee.repeat(6)}
-          <animate
-            attributeName="startOffset"
-            from="0%"
-            to="-25%"
-            dur="24s"
-            repeatCount="indefinite"
-          />
-        </textPath>
-      </text>
-    </svg>
+        <div class="chip chip-streak">
+          <span class="chip-label">Streak</span>
+          <span class="chip-value">12 <em>days</em></span>
+          <svg class="spark" viewBox="0 0 120 28" aria-hidden="true">
+            <polyline
+              points="0,22 14,18 28,20 42,12 56,15 70,8 84,11 98,5 120,7"
+              fill="none"
+              stroke="rgba(255,255,255,.85)"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"></polyline>
+          </svg>
+        </div>
+
+        <div class="chip chip-acc">
+          <span class="chip-value big">84%</span>
+          <span class="chip-label">Accuracy</span>
+          <span class="bar"><i style="width:84%"></i></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------- PROOF -->
+    <div class="wrap">
+      <div class="proof">
+        <span class="glyphs" aria-hidden="true">
+          <i>An</i><i>Ph</i><i>Im</i>
+        </span>
+        <!-- No <br> here on purpose: the minifier strips the whitespace
+             around it, so hiding the break on mobile welded "hand" and
+             "for" together. A max-width does the two-line break instead. -->
+        <p>
+          Every question written and checked by hand for Year 1 MBChB — not
+          scraped, not auto-padded.
+        </p>
+      </div>
+    </div>
+
+    <!-- --------------------------------------------------------- SHEET -->
+    <!-- Hangs off the bottom of the field into the white below, so the
+         field's blue frames its top corners. -->
+    <div class="wrap">
+      <div class="sheet" id="how">
+        {
+          pillars.map((p) => (
+            <article class="pillar">
+              <span class="tile">
+                {p.icon === "recall" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="3" y="6" width="12" height="14" rx="3" />
+                    <path d="M9 4h9a3 3 0 0 1 3 3v10" />
+                  </svg>
+                )}
+                {p.icon === "spaced" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 12h2M9 12h2M15 12h2M21 12h0" />
+                    <path d="M4 9v6M10 6v12M16 8v8M21 10v4" />
+                  </svg>
+                )}
+                {p.icon === "retention" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.6-7 9-7 9z" />
+                  </svg>
+                )}
+              </span>
+              <h3>{p.title}</h3>
+              <p>{p.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
   </div>
 
-  <!-- ----------------------------------------------------------- FEATURES -->
-  <section class="features" id="how">
-    <div class="wrap">
+  <!-- ====================================================== WHITE BELOW -->
+  <main class="rest">
+    <!-- ------------------------------------------------------ FEATURES -->
+    <section class="features wrap">
       <h2 class="section-h">
         Studying is a memory problem.<br />
         <span class="dim">This is built for that.</span>
@@ -138,43 +247,65 @@ const marquee = "Resurface it. Just before it sinks. ";
           ))
         }
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ----------------------------------------------------------- SUBJECTS -->
-  <section class="subjects wrap" id="subjects">
-    <div class="subjects-head">
-      <h2 class="section-h">Nine subjects, ready to go.</h2>
-      <p>
-        Year 1 MBChB, written and checked by hand — not scraped, not
-        auto-padded. Add your own on top whenever you like.
-      </p>
-    </div>
-    <ul class="chips">
-      {subjects.map((s) => <li>{s}</li>)}
-    </ul>
-  </section>
+    <!-- ------------------------------------------------------ SUBJECTS -->
+    <section class="subjects wrap" id="subjects">
+      <div class="subjects-head">
+        <h2 class="section-h">Nine subjects, ready to go.</h2>
+        <p>
+          Year 1 MBChB, written and checked by hand. Add your own on top
+          whenever you like.
+        </p>
+      </div>
+      <ul class="chips">
+        {subjects.map((s) => <li>{s}</li>)}
+      </ul>
+    </section>
 
-  <!-- -------------------------------------------------------------- MODES -->
-  <section class="modes wrap" id="modes">
-    <div class="mode-card">
-      <span class="num">01</span>
-      <h3>Practice</h3>
-      <p>Pick a subject and work through it. No clock, no pressure.</p>
-    </div>
-    <div class="mode-card">
-      <span class="num">02</span>
-      <h3>Timed</h3>
-      <p>Race the clock the way the real paper makes you.</p>
-    </div>
-    <div class="mode-card">
-      <span class="num">03</span>
-      <h3>Review queue</h3>
-      <p>Only what's due today, decided by the schedule.</p>
-    </div>
-  </section>
+    <!-- --------------------------------------------------------- MODES -->
+    <section class="modes wrap" id="modes">
+      {
+        modes.map((m) => (
+          <div class="mode-card">
+            <span class="num">{m.n}</span>
+            <h3>{m.t}</h3>
+            <p>{m.d}</p>
+          </div>
+        ))
+      }
+    </section>
+  </main>
 
-  <!-- ---------------------------------------------------------------- CTA -->
+  <!-- ------------------------------------------------------- MARQUEE -->
+  <div class="band" aria-hidden="true">
+    <svg viewBox="0 0 1440 250" preserveAspectRatio="none" class="band-svg">
+      <!-- Filled down to the viewBox floor rather than closed as a
+           ribbon, so the wave *is* the white-to-blue handoff and the
+           closer's blue continues it with no seam. -->
+      <path
+        class="band-fill"
+        d="M-160,96 C160,8 520,8 800,96 C1080,184 1300,184 1600,96 L1600,250 L-160,250 Z"></path>
+      <path
+        id="bandline"
+        fill="none"
+        d="M-160,150 C160,62 520,62 800,150 C1080,238 1300,238 1600,150"></path>
+      <text class="band-text">
+        <textPath href="#bandline" startOffset="0%">
+          {marquee.repeat(6)}
+          <animate
+            attributeName="startOffset"
+            from="0%"
+            to="-25%"
+            dur="24s"
+            repeatCount="indefinite"
+          />
+        </textPath>
+      </text>
+    </svg>
+  </div>
+
+  <!-- ---------------------------------------------------------- CLOSER -->
   <section class="closer">
     <div class="wrap closer-inner">
       <h2>Start with today's queue.</h2>
@@ -198,42 +329,86 @@ const marquee = "Resurface it. Just before it sinks. ";
     padding: 0 24px;
   }
 
-  /* ---------------------------------------------------------------- NAV */
+  /* ================================================================ FIELD */
+  .field {
+    position: relative;
+    background: var(--blue);
+    isolation: isolate;
+    /* Establishes a block formatting context. Without it the sheet's
+       negative bottom margin collapses out through .wrap and drags the
+       field's own bottom edge up with it, so the sheet never overhangs
+       into the white — it just sits flush against the colour change. */
+    display: flow-root;
+  }
+  .field > *:not(.blobs) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .blobs {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .blob {
+    position: absolute;
+    display: block;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 58% 42% 47% 53% / 45% 51% 49% 55%;
+  }
+  .b1 {
+    width: 640px;
+    height: 560px;
+    top: 40px;
+    right: -120px;
+  }
+  .b2 {
+    width: 520px;
+    height: 480px;
+    top: 320px;
+    right: 260px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 44% 56% 62% 38% / 55% 42% 58% 45%;
+  }
+  .b3 {
+    width: 420px;
+    height: 400px;
+    top: 620px;
+    right: -60px;
+    background: rgba(255, 255, 255, 0.045);
+  }
+
+  /* ------------------------------------------------------------------ NAV */
   .nav-wrap {
     position: sticky;
     top: 0;
     z-index: 40;
-    padding: 16px 24px 0;
+    padding: 18px 24px 0;
   }
-
   .nav {
     max-width: var(--wrap);
     margin: 0 auto;
-    background: rgba(255, 255, 255, 0.86);
-    backdrop-filter: saturate(180%) blur(14px);
-    -webkit-backdrop-filter: saturate(180%) blur(14px);
-    border: 1px solid var(--line);
+    background: var(--white);
     border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-lift);
+    box-shadow: var(--shadow-float);
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 9px 9px 9px 22px;
+    padding: 9px 9px 9px 24px;
   }
-
   .brand {
     margin-right: auto;
     display: flex;
     align-items: center;
   }
   .brand img {
-    width: 152px;
+    width: 148px;
     height: auto;
   }
-
   .nav-links {
     display: flex;
-    gap: 26px;
+    gap: 30px;
     font-size: 15px;
     font-weight: 500;
     color: var(--ink-soft);
@@ -241,14 +416,16 @@ const marquee = "Resurface it. Just before it sinks. ";
   .nav-links a:hover {
     color: var(--blue);
   }
-
   .nav-cta {
     background: var(--blue);
     color: #fff;
     font-weight: 600;
     font-size: 15px;
-    padding: 11px 22px;
+    padding: 12px 24px;
     border-radius: var(--radius-pill);
+    /* Without this it breaks to two lines once the nav loses its links
+       and the pill goes double-height. */
+    white-space: nowrap;
     transition: background 0.18s ease, transform 0.18s ease;
   }
   .nav-cta:hover {
@@ -256,179 +433,302 @@ const marquee = "Resurface it. Just before it sinks. ";
     transform: translateY(-1px);
   }
 
-  /* --------------------------------------------------------------- HERO */
-  /* The books are the original artwork, used as a background image rather
-     than an element. Backgrounds paint behind content unconditionally, so
-     this cannot cover the headline the way a positioned <img> could. */
+  /* ----------------------------------------------------------------- HERO */
   .hero {
-    padding: clamp(72px, 12vh, 128px) 0 clamp(80px, 11vh, 116px);
-    background-image: url("/books.webp");
-    background-repeat: no-repeat;
-    background-position: right max(24px, calc((100% - var(--wrap)) / 2 + 24px))
-      center;
-    background-size: clamp(200px, 23vw, 320px) auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+    align-items: center;
+    gap: 40px;
+    padding-top: clamp(56px, 8vh, 96px);
+    padding-bottom: clamp(40px, 6vh, 72px);
   }
-
-  .hero-inner {
+  .hero-copy {
     max-width: 560px;
   }
 
-  .pill-note {
+  .badge {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    background: var(--white);
-    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.95);
     border-radius: var(--radius-pill);
-    padding: 6px 16px 6px 6px;
+    padding: 5px 16px 5px 5px;
     font-size: 14px;
     font-weight: 500;
     color: var(--ink-soft);
-    box-shadow: var(--shadow-lift);
+    box-shadow: 0 6px 18px rgba(20, 44, 130, 0.16);
     transition: transform 0.18s ease;
   }
-  .pill-note:hover {
+  .badge:hover {
     transform: translateY(-2px);
   }
-  .pill-flag {
+  .badge-num {
     background: var(--blue);
     color: #fff;
     font-weight: 700;
     font-size: 12px;
-    padding: 4px 11px;
+    padding: 5px 12px;
     border-radius: var(--radius-pill);
   }
-  .pill-arrow {
+  .badge-arrow {
     color: var(--blue);
     font-weight: 700;
   }
 
-  /* Poppins runs wider than Outfit, so it needs less negative tracking. */
   h1 {
-    margin-top: 30px;
-    font-size: clamp(40px, 5.9vw, 70px);
+    margin-top: 28px;
+    color: #fff;
+    font-size: clamp(42px, 5.6vw, 76px);
     font-weight: 700;
-    line-height: 1.08;
-    letter-spacing: -2px;
+    line-height: 1.04;
+    letter-spacing: -2.4px;
   }
-
   .hl {
-    color: var(--blue);
-    white-space: nowrap;
+    color: var(--peri);
   }
 
   .sub {
     margin-top: 24px;
-    font-size: clamp(16px, 1.6vw, 18px);
-    color: var(--ink-soft);
-    max-width: 500px;
+    font-size: clamp(16px, 1.5vw, 18px);
+    color: var(--on-blue-soft);
+    max-width: 470px;
   }
 
   .cta {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin-top: 36px;
+    margin-top: 34px;
   }
-
-  .btn-primary,
-  .btn-ghost,
-  .btn-white {
+  .btn-white,
+  .btn-ghost {
     display: inline-flex;
     align-items: center;
     gap: 9px;
-    padding: 15px 30px;
+    padding: 16px 32px;
     border-radius: var(--radius-pill);
     font-size: 16px;
     font-weight: 600;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    transition: transform 0.18s ease, background 0.18s ease,
+      box-shadow 0.18s ease;
   }
-  .btn-primary span,
-  .btn-white span {
-    transition: transform 0.18s ease;
-  }
-  .btn-primary:hover span,
-  .btn-white:hover span {
-    transform: translateX(4px);
-  }
-
-  .btn-primary {
-    background: var(--blue);
-    color: #fff;
-    box-shadow: var(--shadow-pop);
-  }
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    background: var(--blue-deep);
-  }
-
-  .btn-ghost {
-    border: 1px solid var(--line-strong);
-    color: var(--ink);
-    background: var(--white);
-  }
-  .btn-ghost:hover {
-    background: var(--tint);
-    border-color: var(--blue);
-    color: var(--blue);
-  }
-
   .btn-white {
     background: #fff;
     color: var(--blue);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 12px 30px rgba(20, 44, 130, 0.22);
+  }
+  .btn-white span {
+    transition: transform 0.18s ease;
   }
   .btn-white:hover {
     transform: translateY(-2px);
+  }
+  .btn-white:hover span {
+    transform: translateX(4px);
   }
   .btn-white.big {
     padding: 18px 38px;
     font-size: 18px;
   }
+  .btn-ghost {
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+  }
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #fff;
+  }
 
   .note {
-    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 22px;
     font-size: 14px;
-    color: var(--ink-faint);
+    color: var(--on-blue-soft);
+  }
+  .note svg {
+    flex: none;
   }
 
-  /* ------------------------------------------------------------ MARQUEE */
-  .band {
-    line-height: 0;
-    margin-bottom: clamp(64px, 9vh, 100px);
+  /* ---------------------------------------------------------------- STAGE */
+  .stage {
+    position: relative;
+    display: flex;
+    justify-content: center;
   }
-  .band-svg {
-    width: 100%;
-    height: clamp(140px, 16vw, 230px);
+  .books {
+    width: clamp(220px, 26vw, 340px);
+    height: auto;
+    filter: drop-shadow(0 30px 45px rgba(15, 30, 90, 0.3));
+  }
+
+  .chip {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: var(--glass);
+    border: 1px solid var(--glass-line);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 16px 20px;
+    color: #fff;
+    min-width: 150px;
+  }
+  .chip-label {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+  }
+  .chip-value {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    line-height: 1.15;
+  }
+  .chip-value em {
+    font-style: normal;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  .chip-value.big {
+    font-size: 32px;
+  }
+  .chip-streak {
+    top: 4%;
+    right: -6%;
+  }
+  .spark {
+    width: 110px;
+    height: 26px;
+    margin-top: 2px;
+  }
+  .chip-acc {
+    bottom: 11%;
+    right: -2%;
+  }
+  .bar {
     display: block;
+    margin-top: 10px;
+    height: 5px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 99px;
+    overflow: hidden;
   }
-  .band-fill {
-    fill: var(--blue);
-  }
-  .band-text {
-    fill: #fff;
-    font-family: "Poppins", sans-serif;
-    font-size: 42px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
+  .bar i {
+    display: block;
+    height: 100%;
+    background: #fff;
+    border-radius: 99px;
   }
 
-  /* ----------------------------------------------------------- FEATURES */
-  .section-h {
-    font-size: clamp(28px, 3.6vw, 41px);
+  /* ---------------------------------------------------------------- PROOF */
+  .proof {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: fit-content;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius-pill);
+    padding: 12px 26px 12px 14px;
+    color: #fff;
+  }
+  .proof p {
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 42ch;
+  }
+  .glyphs {
+    display: flex;
+    flex: none;
+  }
+  .glyphs i {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.26);
+    border: 2px solid var(--blue);
+    display: grid;
+    place-items: center;
+    font-style: normal;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: -1.1px;
-    line-height: 1.18;
+    color: #fff;
+  }
+  .glyphs i + i {
+    margin-left: -12px;
+  }
+
+  /* ---------------------------------------------------------------- SHEET */
+  .sheet {
+    margin-top: clamp(48px, 7vh, 76px);
+    /* Hangs into the white section below; .rest reserves the space. */
+    margin-bottom: -96px;
+    background: var(--panel);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sheet);
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+  }
+  .pillar {
+    padding: 8px 24px;
+  }
+  .tile {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: var(--wash);
+    margin-bottom: 14px;
+  }
+  .tile svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .pillar h3 {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    color: var(--ink);
+  }
+  .pillar p {
+    margin-top: 6px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+  }
+
+  /* ================================================================= REST */
+  .rest {
+    background: var(--white);
+    /* Clears the sheet's -96px overhang, plus the section's own space. */
+    padding-top: clamp(150px, 18vh, 190px);
+  }
+
+  .section-h {
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 700;
+    letter-spacing: -1.2px;
+    line-height: 1.16;
+    color: var(--ink);
   }
   .dim {
     color: var(--ink-faint);
-  }
-
-  .features {
-    background: var(--tint);
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    padding: clamp(64px, 9vh, 96px) 0;
   }
 
   .grid {
@@ -437,9 +737,8 @@ const marquee = "Resurface it. Just before it sinks. ";
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 18px;
   }
-
   .card {
-    background: var(--white);
+    background: var(--panel);
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
     padding: 30px 26px 32px;
@@ -449,7 +748,6 @@ const marquee = "Resurface it. Just before it sinks. ";
     transform: translateY(-4px);
     box-shadow: var(--shadow-lift);
   }
-
   .kicker {
     display: inline-block;
     font-size: 11px;
@@ -462,20 +760,20 @@ const marquee = "Resurface it. Just before it sinks. ";
     border-radius: var(--radius-pill);
     margin-bottom: 16px;
   }
-
   .card h3 {
     font-size: 20px;
     font-weight: 700;
     letter-spacing: -0.5px;
     line-height: 1.25;
     margin-bottom: 10px;
+    color: var(--ink);
   }
   .card p {
     font-size: 15px;
     color: var(--ink-soft);
   }
 
-  /* ----------------------------------------------------------- SUBJECTS */
+  /* ------------------------------------------------------------ SUBJECTS */
   .subjects {
     padding-top: clamp(64px, 9vh, 96px);
     padding-bottom: clamp(56px, 8vh, 84px);
@@ -503,6 +801,7 @@ const marquee = "Resurface it. Just before it sinks. ";
     font-size: 16px;
     font-weight: 600;
     letter-spacing: -0.2px;
+    color: var(--ink);
     transition: all 0.18s ease;
   }
   .chips li:hover {
@@ -511,12 +810,12 @@ const marquee = "Resurface it. Just before it sinks. ";
     color: #fff;
   }
 
-  /* -------------------------------------------------------------- MODES */
+  /* --------------------------------------------------------------- MODES */
   .modes {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 18px;
-    padding-bottom: clamp(72px, 10vh, 108px);
+    padding-bottom: clamp(56px, 8vh, 88px);
   }
   .mode-card {
     background: var(--wash);
@@ -527,13 +826,14 @@ const marquee = "Resurface it. Just before it sinks. ";
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 1px;
-    color: var(--blue-bright);
+    color: var(--blue);
   }
   .mode-card h3 {
     margin-top: 10px;
     font-size: 25px;
     font-weight: 700;
     letter-spacing: -1px;
+    color: var(--ink);
   }
   .mode-card p {
     margin-top: 8px;
@@ -541,11 +841,32 @@ const marquee = "Resurface it. Just before it sinks. ";
     font-size: 15px;
   }
 
-  /* ------------------------------------------------------------- CLOSER */
+  /* ------------------------------------------------------------ MARQUEE */
+  .band {
+    line-height: 0;
+    background: var(--white);
+  }
+  .band-svg {
+    width: 100%;
+    height: clamp(130px, 15vw, 215px);
+    display: block;
+  }
+  .band-fill {
+    fill: var(--blue);
+  }
+  .band-text {
+    fill: #fff;
+    font-family: "Poppins", sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  /* -------------------------------------------------------------- CLOSER */
   .closer {
     background: var(--blue);
     color: #fff;
-    padding: clamp(72px, 11vh, 112px) 0;
+    padding: clamp(64px, 10vh, 104px) 0;
   }
   .closer-inner {
     text-align: center;
@@ -557,13 +878,14 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
   .closer p {
     margin: 14px auto 32px;
-    color: rgba(255, 255, 255, 0.78);
+    color: var(--on-blue-soft);
     font-size: 17px;
   }
 
-  /* --------------------------------------------------------------- FOOT */
+  /* ---------------------------------------------------------------- FOOT */
   .foot {
-    padding: 28px 0;
+    background: var(--blue);
+    padding: 8px 0 30px;
   }
   .foot-inner {
     display: flex;
@@ -571,16 +893,40 @@ const marquee = "Resurface it. Just before it sinks. ";
     flex-wrap: wrap;
     gap: 10px;
     font-size: 14px;
-    color: var(--ink-faint);
+    color: rgba(255, 255, 255, 0.62);
   }
 
-  /* ------------------------------------------------------------ MOBILE */
+  /* ================================================================ SMALL */
 
-  /* Below this the copy column and the books would share the same space,
-     which is exactly the collision that put the books over the headline. */
+  /* The stat chips hang off the stage by a negative percentage, which is
+     fine at full width but pushes past the viewport once the hero column
+     narrows — .chip-streak was the whole of a 7px horizontal scroll at
+     1180px. Tuck them in before that happens. */
+  @media (max-width: 1240px) {
+    .chip-streak {
+      right: 0;
+    }
+    .chip-acc {
+      right: 2%;
+    }
+  }
+
+  /* The stage collapses first: below this the books and the stat chips
+     have less room than the chips' own min-width, so they'd overlap the
+     copy column exactly the way the old hero's artwork did. */
   @media (max-width: 1040px) {
     .hero {
-      background-image: none;
+      grid-template-columns: 1fr;
+      justify-items: start;
+    }
+    .hero-copy {
+      max-width: none;
+    }
+    .stage {
+      display: none;
+    }
+    .blob {
+      opacity: 0.6;
     }
   }
 
@@ -591,11 +937,38 @@ const marquee = "Resurface it. Just before it sinks. ";
     .nav {
       padding-left: 18px;
     }
-    .hero-inner {
-      max-width: none;
-    }
     h1 {
-      letter-spacing: -1.2px;
+      letter-spacing: -1.4px;
+    }
+    .proof {
+      width: auto;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .brand img {
+      width: 124px;
+    }
+    .nav-cta {
+      font-size: 14px;
+      padding: 11px 18px;
+    }
+    .nav {
+      gap: 12px;
+      padding-left: 16px;
+    }
+    .sheet {
+      padding: 28px 8px;
+      margin-bottom: -70px;
+    }
+    .rest {
+      padding-top: 120px;
+    }
+    .proof {
+      flex-direction: column;
+      text-align: center;
+      padding: 18px 22px;
+      border-radius: var(--radius-lg);
     }
   }
 </style>

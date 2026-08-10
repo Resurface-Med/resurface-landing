@@ -284,59 +284,62 @@ const marquee = "Resurface it. Just before it sinks. ";
   <!-- ============================================== LIGHT: AI GENERATE -->
   <section class="light ai-band" id="ai">
     <div class="wrap">
-      <h2 class="ai-heading section-h">Generic banks miss what your lectures cover.</h2>
+      <h2 class="ai-heading section-h">
+        From your slides to a question, in seconds.
+      </h2>
+      <p class="ai-lead">
+        Resurface AI reads your lecture and writes practice that matches it.
+      </p>
 
-      <div class="ai-compare" aria-label="Generic banks versus Resurface AI">
-        <article class="compare-card">
-          <header class="compare-head">
-            <h3 class="compare-title">Most question banks</h3>
-          </header>
-          <div class="compare-art miss" aria-hidden="true">
-            <div class="mini-q">
-              <span class="mini-tag vague">Vague</span>
-              <p class="mini-stem">How many cranial nerves are there?</p>
-              <div class="mini-opts">
-                <span>10</span>
-                <span class="on">12</span>
-                <span>14</span>
-              </div>
-            </div>
+      <div
+        class="ai-stage"
+        id="ai-stage"
+        aria-label="Demo: AI writing a question from a lecture slide"
+      >
+        <article class="ai-panel">
+          <div class="slide-sheet">
+            <header class="slide-meta">
+              <span class="slide-dot" aria-hidden="true"></span>
+              <span class="slide-name">Anatomy · Cranial nerves.pdf</span>
+            </header>
+            <h3 class="slide-title">Exits of the cranial nerves</h3>
+            <p class="slide-body">
+              Cranial nerves III–XII leave the skull through named foramina.
+              <mark class="slide-mark"
+                >CN X (vagus) exits via the jugular foramen, with CN IX and
+                XI.</mark
+              >
+              Knowing the foramen helps localise lesions on exam questions.
+            </p>
           </div>
-          <p class="compare-sub">
-            Stays broad — skips lecture-specific detail.
-          </p>
-        </article>
 
-        <div class="compare-vs" aria-hidden="true">vs</div>
-
-        <article class="compare-card">
-          <header class="compare-head">
-            <h3 class="compare-title compare-brand">
+          <div class="ai-bridge" aria-hidden="true">
+            <span class="ai-bridge-line"></span>
+            <span class="ai-bridge-pill">
               <img
                 src="/logo-lockup.png"
-                alt="Resurface"
+                alt=""
                 width="560"
                 height="131"
+                class="ai-bridge-logo"
               />
-            </h3>
-          </header>
-          <div class="compare-art keep" aria-hidden="true">
-            <div class="mini-q">
-              <span class="mini-tag specific">From your slides</span>
-              <p class="mini-stem">
-                Which cranial nerve exits the skull through the jugular
-                foramen?
-              </p>
-              <div class="mini-opts">
-                <span>CN VII</span>
-                <span class="right">CN X</span>
-                <span>CN XII</span>
-              </div>
+              <span class="ai-bridge-status" data-ai-status>Reading…</span>
+            </span>
+            <span class="ai-bridge-line"></span>
+          </div>
+
+          <div class="gen-q" data-gen-q>
+            <span class="gen-label">Practice question</span>
+            <p class="gen-stem">
+              <span data-gen-stem></span><span class="gen-caret" data-gen-caret
+              ></span>
+            </p>
+            <div class="gen-opts" data-gen-opts hidden>
+              <span>CN VII</span>
+              <span class="right">CN X</span>
+              <span>CN XII</span>
             </div>
           </div>
-          <p class="compare-sub accent">
-            Asks about the specific bits you were taught.
-          </p>
         </article>
       </div>
     </div>
@@ -1177,161 +1180,267 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
   .ai-heading {
     text-align: center;
-    max-width: 18ch;
+    max-width: 22ch;
     margin: 0 auto;
   }
-
-  .ai-compare {
-    margin-top: clamp(28px, 4vh, 44px);
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    gap: clamp(12px, 2vw, 20px);
-    align-items: stretch;
-  }
-  .compare-vs {
-    align-self: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--white);
+  .ai-lead {
+    margin: 14px auto 0;
+    max-width: 36ch;
+    text-align: center;
+    font-size: clamp(16px, 1.7vw, 18px);
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    line-height: 1.4;
     color: var(--ink-soft);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    display: grid;
-    place-items: center;
-    box-shadow: 0 4px 14px rgba(20, 44, 130, 0.08);
   }
-  .compare-card {
-    background: var(--white);
+
+  .ai-stage {
+    margin-top: clamp(28px, 4vh, 44px);
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .ai-panel {
+    background:
+      radial-gradient(
+        120% 80% at 50% -10%,
+        rgba(161, 192, 255, 0.45) 0%,
+        transparent 55%
+      ),
+      linear-gradient(180deg, #eef3ff 0%, #ffffff 42%);
     border-radius: 28px;
+    padding: clamp(18px, 3vw, 26px);
     box-shadow:
       0 4px 14px rgba(20, 44, 130, 0.04),
-      0 18px 40px rgba(20, 44, 130, 0.08);
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    overflow: hidden;
-  }
-  .compare-head {
-    padding: 18px 18px 0;
-  }
-  .compare-title {
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
-    color: var(--ink);
-    margin: 0;
-    min-height: 36px;
-    display: flex;
-    align-items: center;
-  }
-  .compare-brand img {
-    width: min(168px, 72%);
-    height: auto;
-  }
-  .compare-art {
-    margin: 14px 16px 0;
-    border-radius: 22px;
-    padding: 16px;
-    display: grid;
-    place-items: stretch;
-    min-height: 0;
-    flex: 1;
-  }
-  .compare-art.miss {
-    background: linear-gradient(160deg, #e8edf8 0%, #d5def2 100%);
-  }
-  .compare-art.keep {
-    background: linear-gradient(160deg, #9eb8ff 0%, #6e8ff7 100%);
-  }
-  .compare-sub {
-    margin: 0;
-    margin-top: 14px;
-    padding: 16px 18px 18px;
-    border-top: 1px solid var(--line);
-    background: #fafbff;
-    font-size: clamp(15px, 1.6vw, 17px);
-    font-weight: 600;
-    letter-spacing: -0.3px;
-    line-height: 1.35;
-    color: var(--ink);
-  }
-  .compare-sub.accent {
-    color: var(--blue);
-    background: #eef3ff;
-    border-top-color: #d7e2ff;
+      0 22px 48px rgba(20, 44, 130, 0.1);
   }
 
-  .mini-q {
-    background: #fff;
+  .slide-sheet {
+    background: var(--white);
     border-radius: 18px;
-    padding: 14px;
-    box-shadow: 0 8px 20px rgba(20, 44, 130, 0.1);
+    padding: clamp(16px, 2.5vw, 22px);
+    border: 1px solid var(--line);
+    box-shadow: 0 10px 28px rgba(20, 44, 130, 0.06);
   }
-  .mini-tag {
-    display: inline-block;
-    font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-    border-radius: var(--radius-pill);
-    padding: 4px 9px;
-    margin-bottom: 10px;
+  .slide-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
   }
-  .mini-tag.vague {
-    background: #edf1fb;
+  .slide-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 0 4px rgba(53, 98, 245, 0.15);
+  }
+  .slide-name {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
     color: var(--ink-faint);
   }
-  .mini-tag.specific {
-    background: var(--wash);
-    color: var(--blue);
+  .slide-title {
+    margin: 0 0 10px;
+    font-size: clamp(17px, 2vw, 20px);
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    color: var(--ink);
   }
-  .mini-stem {
-    margin: 0 0 12px;
-    font-size: 14px;
+  .slide-body {
+    margin: 0;
+    font-size: clamp(14px, 1.5vw, 15.5px);
+    font-weight: 500;
+    line-height: 1.55;
+    letter-spacing: -0.15px;
+    color: var(--ink-soft);
+  }
+  .slide-mark {
+    background: linear-gradient(
+      180deg,
+      rgba(53, 98, 245, 0.12) 0%,
+      rgba(53, 98, 245, 0.22) 100%
+    );
+    color: var(--ink);
     font-weight: 600;
-    letter-spacing: -0.2px;
+    border-radius: 4px;
+    padding: 1px 4px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .ai-stage.is-reading .slide-mark {
+    animation: mark-pulse 1.1s ease-in-out infinite;
+  }
+
+  .ai-bridge {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0;
+  }
+  .ai-bridge-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(53, 98, 245, 0.35),
+      transparent
+    );
+  }
+  .ai-bridge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    border: 1px solid #d7e2ff;
+    border-radius: var(--radius-pill);
+    padding: 8px 14px 8px 12px;
+    box-shadow: 0 8px 20px rgba(20, 44, 130, 0.08);
+    white-space: nowrap;
+  }
+  .ai-bridge-logo {
+    width: 92px;
+    height: auto;
+    display: block;
+  }
+  .ai-bridge-status {
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: -0.1px;
+    color: var(--blue);
+    min-width: 7.5ch;
+  }
+  .ai-stage.is-writing .ai-bridge-pill {
+    box-shadow:
+      0 0 0 4px rgba(53, 98, 245, 0.1),
+      0 8px 20px rgba(20, 44, 130, 0.1);
+  }
+
+  .gen-q {
+    background: var(--white);
+    border-radius: 18px;
+    padding: clamp(16px, 2.5vw, 20px);
+    border: 1px solid var(--line);
+    min-height: 148px;
+    box-shadow: 0 10px 28px rgba(20, 44, 130, 0.06);
+  }
+  .gen-label {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.45px;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: var(--wash);
+    border-radius: var(--radius-pill);
+    padding: 4px 9px;
+    margin-bottom: 12px;
+  }
+  .gen-stem {
+    margin: 0 0 14px;
+    min-height: 2.7em;
+    font-size: clamp(15px, 1.7vw, 17px);
+    font-weight: 600;
+    letter-spacing: -0.25px;
     line-height: 1.35;
     color: var(--ink);
   }
-  .mini-opts {
-    display: grid;
-    gap: 6px;
+  .gen-caret {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    margin-left: 1px;
+    vertical-align: -0.12em;
+    background: var(--blue);
+    opacity: 0;
   }
-  .mini-opts span {
+  .ai-stage.is-writing .gen-caret {
+    opacity: 1;
+    animation: caret-blink 0.85s steps(1) infinite;
+  }
+  .gen-opts {
+    display: grid;
+    gap: 7px;
+  }
+  .gen-opts[hidden] {
+    display: none;
+  }
+  .gen-opts span {
     display: block;
     border-radius: 999px;
-    padding: 8px 12px;
-    font-size: 13px;
+    padding: 9px 13px;
+    font-size: 13.5px;
     font-weight: 500;
     background: var(--panel);
     color: var(--ink-soft);
   }
-  .mini-opts .on {
-    background: #e3e9f8;
-    color: var(--ink);
-    font-weight: 600;
-  }
-  .mini-opts .right {
+  .gen-opts .right {
     background: #e7f6ed;
     color: #146c3d;
     font-weight: 700;
   }
+  .gen-opts.is-in span {
+    animation: opt-in 0.45s ease both;
+  }
+  .gen-opts.is-in span:nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  .gen-opts.is-in span:nth-child(3) {
+    animation-delay: 0.16s;
+  }
+
+  @keyframes caret-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  @keyframes mark-pulse {
+    0%,
+    100% {
+      background: linear-gradient(
+        180deg,
+        rgba(53, 98, 245, 0.12) 0%,
+        rgba(53, 98, 245, 0.22) 100%
+      );
+    }
+    50% {
+      background: linear-gradient(
+        180deg,
+        rgba(53, 98, 245, 0.22) 0%,
+        rgba(53, 98, 245, 0.34) 100%
+      );
+    }
+  }
+  @keyframes opt-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
   @media (max-width: 700px) {
-    .ai-compare {
-      grid-template-columns: 1fr;
-      max-width: 420px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .compare-vs {
-      justify-self: center;
-    }
     .ai-heading {
       max-width: none;
+    }
+    .ai-bridge-logo {
+      width: 78px;
+    }
+    .ai-bridge-status {
+      min-width: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ai-stage.is-reading .slide-mark,
+    .ai-stage.is-writing .gen-caret,
+    .gen-opts.is-in span {
+      animation: none;
     }
   }
 
@@ -1692,4 +1801,91 @@ const marquee = "Resurface it. Just before it sinks. ";
 
     next.addEventListener("click", () => select((current + 1) % samples.length));
   }
+
+  // AI section: lecture highlight → status → typed question → options.
+  (() => {
+    const stage = document.querySelector<HTMLElement>("#ai-stage");
+    if (!stage) return;
+    const status = stage.querySelector<HTMLElement>("[data-ai-status]");
+    const stem = stage.querySelector<HTMLElement>("[data-gen-stem]");
+    const caret = stage.querySelector<HTMLElement>("[data-gen-caret]");
+    const opts = stage.querySelector<HTMLElement>("[data-gen-opts]");
+    if (!status || !stem || !caret || !opts) return;
+
+    const STEM =
+      "Which cranial nerve exits the skull through the jugular foramen?";
+    const calm = matchMedia("(prefers-reduced-motion: reduce)");
+    let gen = 0;
+
+    const wait = (ms: number, id: number) =>
+      new Promise<boolean>((resolve) => {
+        window.setTimeout(() => resolve(id === gen), ms);
+      });
+
+    const paintIdle = () => {
+      stage.classList.remove("is-reading", "is-writing");
+      status.textContent = "Reading…";
+      stem.textContent = "";
+      caret.hidden = false;
+      opts.hidden = true;
+      opts.classList.remove("is-in");
+    };
+
+    const paintDone = () => {
+      stage.classList.remove("is-reading", "is-writing");
+      status.textContent = "Done";
+      stem.textContent = STEM;
+      caret.hidden = true;
+      opts.hidden = false;
+      opts.classList.add("is-in");
+    };
+
+    const run = async () => {
+      const id = ++gen;
+      paintIdle();
+
+      if (calm.matches) {
+        paintDone();
+        return;
+      }
+
+      stage.classList.add("is-reading");
+      status.textContent = "Reading…";
+      if (!(await wait(1100, id))) return;
+
+      stage.classList.remove("is-reading");
+      stage.classList.add("is-writing");
+      status.textContent = "Writing…";
+
+      for (let i = 1; i <= STEM.length; i++) {
+        if (id !== gen) return;
+        stem.textContent = STEM.slice(0, i);
+        const pause = i > 28 && STEM[i - 1] === " " ? 42 : 26;
+        if (!(await wait(pause, id))) return;
+      }
+
+      if (id !== gen) return;
+      caret.hidden = true;
+      stage.classList.remove("is-writing");
+      status.textContent = "Done";
+      opts.hidden = false;
+      opts.classList.remove("is-in");
+      void opts.offsetWidth;
+      opts.classList.add("is-in");
+
+      if (!(await wait(3200, id))) return;
+      void run();
+    };
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          void run();
+          io.disconnect();
+        }
+      },
+      { threshold: 0.35 }
+    );
+    io.observe(stage);
+  })();
 </script>

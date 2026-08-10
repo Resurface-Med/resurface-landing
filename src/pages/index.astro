@@ -1,10 +1,9 @@
 ---
 import Base from "../layouts/Base.astro";
+import Wave from "../components/Wave.astro";
 
 const APP_URL = import.meta.env.PUBLIC_APP_URL || "#";
 
-/* The three pillars on the sheet that overlaps the field. Kept to claims
-   the app actually delivers — see the stat cards note below. */
 const pillars = [
   {
     icon: "recall",
@@ -23,21 +22,24 @@ const pillars = [
   },
 ];
 
-const features = [
+const steps = [
   {
-    kicker: "Timing",
-    title: "Questions come back before you forget them",
-    body: "Get one wrong and it returns in a minute, not a week. Get it right repeatedly and it stretches out to weeks.",
+    n: "1",
+    art: "answer",
+    title: "Answer",
+    body: "Work through multiple-choice questions under exam conditions. Five options, one right.",
   },
   {
-    kicker: "Your material",
-    title: "Built from your own lectures",
-    body: "Upload a slide deck or paste your notes and get exam-shaped questions back, written in the style of the real paper.",
+    n: "2",
+    art: "track",
+    title: "We track",
+    body: "The schedule records what you got wrong — and what you only just scraped.",
   },
   {
-    kicker: "Modes",
-    title: "Three ways to study",
-    body: "Practice a topic, race a timer, or work the review queue. Wrong answers collect in one place so you can go back to them.",
+    n: "3",
+    art: "return",
+    title: "It comes back",
+    body: "The question returns at the point you'd otherwise have forgotten it.",
   },
 ];
 
@@ -59,18 +61,25 @@ const modes = [
   { n: "03", t: "Review queue", d: "Only what's due today, decided by the schedule." },
 ];
 
+/* Countable facts only — see the note in the closer section. */
+const stats = [
+  { v: "497", l: "Questions in the bank" },
+  { v: "9", l: "Subjects covered" },
+  { v: "3", l: "Ways to study" },
+];
+
 const marquee = "Resurface it. Just before it sinks. ";
+const wiggle =
+  "M2,14 C18,2 34,26 50,14 C66,2 82,26 98,14 C114,2 130,26 146,14 C162,2 178,26 198,12";
 ---
 
 <Base
   title="Resurface — spaced repetition for medical school"
   description="A spaced-repetition study app for medical students. Questions resurface right before you forget them."
 >
-  <!-- ================================================== THE BLUE FIELD -->
   <!-- -------------------------------------------------------------- NAV -->
-  <!-- Sits outside .field deliberately. A sticky element only sticks
-       within its own container, and .field ends at the feature sheet —
-       nested in there the nav would unstick a third of the way down. -->
+  <!-- Outside .field deliberately. A sticky element only sticks within its
+       own container, and .field ends at the first wave. -->
   <header class="nav-wrap">
     <nav class="nav">
       <a class="brand" href="/">
@@ -93,9 +102,8 @@ const marquee = "Resurface it. Just before it sinks. ";
     </nav>
   </header>
 
+  <!-- ================================================== THE BLUE FIELD -->
   <div class="field">
-    <!-- Oversized soft shapes, the comp's background texture. Purely
-         decorative and behind everything via z-index on .field > *. -->
     <div class="blobs" aria-hidden="true">
       <span class="blob b1"></span>
       <span class="blob b2"></span>
@@ -106,10 +114,9 @@ const marquee = "Resurface it. Just before it sinks. ";
     <section class="hero wrap">
       <div class="hero-copy">
         <!-- The subject is server-rendered as a real value, so the h1 says
-             something meaningful with JS off and to a crawler. The script
-             only takes over from there. The animated span is hidden from
-             assistive tech — a node whose text mutates every 90ms is
-             unusable — and the .vh line carries the meaning instead. -->
+             something meaningful with JS off and to a crawler. The animated
+             span is hidden from assistive tech — a node whose text mutates
+             every 85ms is unusable — and .vh carries the meaning. -->
         <h1>
           I want to study<br />
           <span class="typed">
@@ -147,9 +154,6 @@ const marquee = "Resurface it. Just before it sinks. ";
         </p>
       </div>
 
-      <!-- The books are the original artwork (RGBA, transparent corners,
-           so it sits on the field with no white box behind it). The two
-           cards float over it the way the comp has them. -->
       <div class="stage">
         <img
           class="books"
@@ -162,11 +166,6 @@ const marquee = "Resurface it. Just before it sinks. ";
         <div class="chip chip-streak">
           <span class="chip-label">Streak</span>
           <span class="chip-value">12 <em>days</em></span>
-          <!-- Signal-strength bars: every bar taller than the last. Six
-               bars of 14 with an 8 gap fill the 124 box exactly, so the
-               row is flush to both edges with no stray margin. The
-               opacity ramp makes it read as a climb rather than as a
-               signal meter where dim bars would mean "not reached". -->
           <svg class="bars" viewBox="0 0 124 32" aria-hidden="true">
             <g fill="#fff">
               <rect x="0" y="22" width="14" height="10" rx="4" opacity=".55"
@@ -205,9 +204,6 @@ const marquee = "Resurface it. Just before it sinks. ";
             stroke-linecap="round"
             stroke-linejoin="round"></path>
         </svg>
-        <!-- No <br> here on purpose: the minifier strips the whitespace
-             around it, so hiding the break on mobile welded "hand" and
-             "for" together. A max-width does the two-line break instead. -->
         <p>
           Every question written and checked by hand for Year 1 MBChB — not
           scraped, not auto-padded.
@@ -215,11 +211,43 @@ const marquee = "Resurface it. Just before it sinks. ";
       </div>
     </div>
 
-    <!-- --------------------------------------------------------- SHEET -->
-    <!-- Hangs off the bottom of the field into the white below, so the
-         field's blue frames its top corners. -->
+    <!-- --------------------------------------------------------- RIBBON -->
+    <!-- A white ribbon across the blue, text riding its centreline. The
+         path overshoots the viewBox on both sides so the band runs off
+         screen rather than terminating at the edge. -->
+    <div class="ribbon" aria-hidden="true">
+      <svg viewBox="0 0 1440 250" preserveAspectRatio="none">
+        <path
+          class="ribbon-fill"
+          d="M-160,96 C160,8 520,8 800,96 C1080,184 1300,184 1600,96 L1600,188 C1300,276 1080,276 800,188 C520,100 160,100 -160,188 Z"
+        ></path>
+        <path
+          id="ribbonline"
+          fill="none"
+          d="M-160,158 C160,70 520,70 800,158 C1080,246 1300,246 1600,158"
+        ></path>
+        <text class="ribbon-text">
+          <textPath href="#ribbonline" startOffset="0%">
+            {marquee.repeat(6)}
+            <animate
+              attributeName="startOffset"
+              from="0%"
+              to="-25%"
+              dur="24s"
+              repeatCount="indefinite"
+            />
+          </textPath>
+        </text>
+      </svg>
+    </div>
+  </div>
+
+  <Wave from="var(--blue)" to="var(--panel)" />
+
+  <!-- ================================================== LIGHT: PILLARS -->
+  <section class="light pillars-band">
     <div class="wrap">
-      <div class="sheet" id="how">
+      <div class="sheet">
         {
           pillars.map((p) => (
             <article class="pillar">
@@ -232,7 +260,6 @@ const marquee = "Resurface it. Just before it sinks. ";
                 )}
                 {p.icon === "spaced" && (
                   <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M3 12h2M9 12h2M15 12h2M21 12h0" />
                     <path d="M4 9v6M10 6v12M16 8v8M21 10v4" />
                   </svg>
                 )}
@@ -249,32 +276,91 @@ const marquee = "Resurface it. Just before it sinks. ";
         }
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- ====================================================== WHITE BELOW -->
-  <main class="rest">
-    <!-- ------------------------------------------------------ FEATURES -->
-    <section class="features wrap">
-      <h2 class="section-h">
-        Studying is a memory problem.<br />
-        <span class="dim">This is built for that.</span>
-      </h2>
+  <!-- ============================================ LIGHT: HOW IT WORKS -->
+  <section class="light how" id="how">
+    <div class="wrap">
+      <div class="head">
+        <span class="pill">Simple process</span>
+        <h2 class="section-h">How it works</h2>
+      </div>
 
-      <div class="grid">
+      <ol class="steps">
         {
-          features.map((f) => (
-            <article class="card">
-              <span class="kicker">{f.kicker}</span>
-              <h3>{f.title}</h3>
-              <p>{f.body}</p>
-            </article>
+          steps.map((s) => (
+            <li class="step">
+              <span class="num">{s.n}</span>
+              <div class="art">
+                {s.art === "answer" && (
+                  <svg viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="6" y="18" width="52" height="38" rx="7" fill="#c9d7ff" />
+                    <rect x="17" y="12" width="52" height="38" rx="7" fill="#a7bfff" />
+                    <rect x="28" y="16" width="56" height="44" rx="8" fill="#fff" stroke="#d6e0f5" />
+                    <rect x="37" y="27" width="30" height="4.5" rx="2.25" fill="#3562f5" />
+                    <rect x="37" y="37" width="38" height="4.5" rx="2.25" fill="#dbe4ff" />
+                    <rect x="37" y="47" width="22" height="4.5" rx="2.25" fill="#dbe4ff" />
+                  </svg>
+                )}
+                {s.art === "track" && (
+                  <svg viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="5" y="14" width="40" height="45" rx="8" fill="#fff" stroke="#d6e0f5" />
+                    <rect x="51" y="14" width="40" height="45" rx="8" fill="#fff" stroke="#d6e0f5" />
+                    <circle cx="25" cy="30" r="9" fill="#e2ebff" />
+                    <path d="M21 30l3 3 6-6" fill="none" stroke="#3562f5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="71" cy="30" r="9" fill="#ffe1e3" />
+                    <path d="M68 27l6 6M74 27l-6 6" stroke="#e5484d" stroke-width="2.4" stroke-linecap="round" />
+                    <rect x="15" y="46" width="20" height="4" rx="2" fill="#dbe4ff" />
+                    <rect x="61" y="46" width="20" height="4" rx="2" fill="#dbe4ff" />
+                  </svg>
+                )}
+                {s.art === "return" && (
+                  <svg viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="20" y="12" width="56" height="50" rx="9" fill="#fff" stroke="#d6e0f5" />
+                    <path d="M20 21a9 9 0 0 1 9-9h38a9 9 0 0 1 9 9v5H20z" fill="#3562f5" />
+                    <rect x="31" y="6" width="5" height="12" rx="2.5" fill="#1e42c9" />
+                    <rect x="60" y="6" width="5" height="12" rx="2.5" fill="#1e42c9" />
+                    <g fill="#dbe4ff">
+                      <rect x="28" y="33" width="8" height="7" rx="2" />
+                      <rect x="42" y="33" width="8" height="7" rx="2" />
+                      <rect x="56" y="33" width="8" height="7" rx="2" />
+                      <rect x="28" y="45" width="8" height="7" rx="2" />
+                      <rect x="56" y="45" width="8" height="7" rx="2" />
+                    </g>
+                    <rect x="42" y="45" width="8" height="7" rx="2" fill="#3562f5" />
+                  </svg>
+                )}
+              </div>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </li>
           ))
         }
-      </div>
-    </section>
+      </ol>
+    </div>
+  </section>
 
-    <!-- ------------------------------------------------------ SUBJECTS -->
-    <section class="subjects wrap" id="subjects">
+  <Wave from="var(--panel)" to="var(--blue)" flip />
+
+  <!-- ============================================= BLUE: WHY IT WORKS -->
+  <section class="why">
+    <div class="wrap why-inner">
+      <span class="pill on-blue">Why it works</span>
+      <h2>You forget most of a lecture within a week.</h2>
+      <p>
+        Revisiting material at widening intervals beats rereading it — it is
+        one of the most reliably reproduced findings in memory research.
+        Resurface runs that schedule for you, so the decision about what to
+        study today isn't yours to make.
+      </p>
+    </div>
+  </section>
+
+  <Wave from="var(--blue)" to="var(--panel)" />
+
+  <!-- =========================================== LIGHT: SUBJECTS/MODES -->
+  <section class="light" id="subjects">
+    <div class="wrap subjects">
       <div class="subjects-head">
         <h2 class="section-h">Nine subjects, ready to go.</h2>
         <p>
@@ -285,63 +371,88 @@ const marquee = "Resurface it. Just before it sinks. ";
       <ul class="chips">
         {subjects.map((s) => <li>{s}</li>)}
       </ul>
-    </section>
+    </div>
 
-    <!-- --------------------------------------------------------- MODES -->
-    <section class="modes wrap" id="modes">
+    <div class="wrap modes" id="modes">
       {
         modes.map((m) => (
           <div class="mode-card">
-            <span class="num">{m.n}</span>
+            <span class="mode-n">{m.n}</span>
             <h3>{m.t}</h3>
             <p>{m.d}</p>
           </div>
         ))
       }
-    </section>
-  </main>
+    </div>
 
-  <!-- ------------------------------------------------------- MARQUEE -->
-  <div class="band" aria-hidden="true">
-    <svg viewBox="0 0 1440 250" preserveAspectRatio="none" class="band-svg">
-      <!-- Filled down to the viewBox floor rather than closed as a
-           ribbon, so the wave *is* the white-to-blue handoff and the
-           closer's blue continues it with no seam. -->
-      <path
-        class="band-fill"
-        d="M-160,96 C160,8 520,8 800,96 C1080,184 1300,184 1600,96 L1600,250 L-160,250 Z"></path>
-      <path
-        id="bandline"
-        fill="none"
-        d="M-160,150 C160,62 520,62 800,150 C1080,238 1300,238 1600,150"></path>
-      <text class="band-text">
-        <textPath href="#bandline" startOffset="0%">
-          {marquee.repeat(6)}
-          <animate
-            attributeName="startOffset"
-            from="0%"
-            to="-25%"
-            dur="24s"
-            repeatCount="indefinite"
-          />
-        </textPath>
-      </text>
-    </svg>
-  </div>
-
-  <!-- ---------------------------------------------------------- CLOSER -->
-  <section class="closer">
-    <div class="wrap closer-inner">
-      <h2>Start with today's queue.</h2>
-      <p>Nothing to install. Your progress stays on your device.</p>
-      <a class="btn-white big" href={APP_URL}>Start studying <span>→</span></a>
+    <!-- ---------------------------------------------------------- STATS -->
+    <div class="wrap">
+      <div class="stats">
+        {
+          stats.map((s) => (
+            <div class="stat">
+              <span class="stat-v">{s.v}</span>
+              <span class="stat-l">{s.l}</span>
+              <svg class="wiggle" viewBox="0 0 200 24" aria-hidden="true">
+                <path
+                  d={wiggle}
+                  fill="none"
+                  stroke="var(--blue)"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+          ))
+        }
+      </div>
     </div>
   </section>
 
+  <Wave from="var(--panel)" to="var(--blue)" flip />
+
+  <!-- ------------------------------------------------------------ CLOSER -->
+  <section class="closer">
+    <div class="wrap closer-inner">
+      <h2>Stop rereading. Start remembering.</h2>
+      <p>Built for Year 1 MBChB. Your progress stays on your device.</p>
+      <a class="btn-white big" href={APP_URL}>Start studying <span>→</span></a>
+      <p class="fine">Free while it's in testing. No account, no payment.</p>
+    </div>
+  </section>
+
+  <Wave from="var(--blue)" to="var(--panel)" />
+
+  <!-- ------------------------------------------------------------- FOOT -->
   <footer class="foot">
-    <div class="wrap foot-inner">
+    <div class="wrap foot-grid">
+      <div class="foot-brand">
+        <img src="/logo-lockup.png" alt="Resurface" width="560" height="131" />
+        <p>
+          A spaced-repetition question bank for Year 1 MBChB. Built by a
+          medical student, for medical students.
+        </p>
+      </div>
+
+      <nav class="foot-col" aria-label="Product">
+        <h4>Product</h4>
+        <a href="#how">How it works</a>
+        <a href="#subjects">Subjects</a>
+        <a href="#modes">Question modes</a>
+        <a href={APP_URL}>Start studying</a>
+      </nav>
+
+      <div class="foot-col">
+        <h4>Status</h4>
+        <span>Free while in testing</span>
+        <span>No account needed</span>
+        <span>497 questions, 9 subjects</span>
+      </div>
+    </div>
+
+    <div class="wrap foot-base">
       <span>© Resurface {new Date().getFullYear()}</span>
-      <span class="foot-note">Made for Year 1 MBChB</span>
+      <span>Made for Year 1 MBChB</span>
     </div>
   </footer>
 </Base>
@@ -358,11 +469,7 @@ const marquee = "Resurface it. Just before it sinks. ";
     position: relative;
     background: var(--blue);
     isolation: isolate;
-    /* Establishes a block formatting context. Without it the sheet's
-       negative bottom margin collapses out through .wrap and drags the
-       field's own bottom edge up with it, so the sheet never overhangs
-       into the white — it just sits flush against the colour change. */
-    display: flow-root;
+    padding-bottom: 8px;
   }
   .field > *:not(.blobs) {
     position: relative;
@@ -409,6 +516,7 @@ const marquee = "Resurface it. Just before it sinks. ";
     top: 0;
     z-index: 40;
     padding: 18px 24px 0;
+    background: var(--blue);
   }
   .nav {
     max-width: var(--wrap);
@@ -447,8 +555,6 @@ const marquee = "Resurface it. Just before it sinks. ";
     font-size: 15px;
     padding: 12px 24px;
     border-radius: var(--radius-pill);
-    /* Without this it breaks to two lines once the nav loses its links
-       and the pill goes double-height. */
     white-space: nowrap;
     transition: background 0.18s ease, transform 0.18s ease;
   }
@@ -463,8 +569,8 @@ const marquee = "Resurface it. Just before it sinks. ";
     grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
     align-items: center;
     gap: 40px;
-    padding-top: clamp(56px, 8vh, 96px);
-    padding-bottom: clamp(40px, 6vh, 72px);
+    padding-top: clamp(48px, 7vh, 88px);
+    padding-bottom: clamp(32px, 5vh, 60px);
   }
   .hero-copy {
     max-width: 560px;
@@ -481,10 +587,9 @@ const marquee = "Resurface it. Just before it sinks. ";
     color: var(--peri);
   }
 
-  /* The zero-width space is load-bearing. The word empties to "" between
-     subjects, and with an empty inline box the line's height falls back to
-     the caret's — which moved the sub and CTAs 8px up and down on every
-     cycle. The ZWSP keeps a full-height strut on the line at all times. */
+  /* The zero-width space is load-bearing: the word empties to "" between
+     subjects, and an empty inline box drops the line height to the caret's,
+     which walked everything below it up and down on every cycle. */
   .typed {
     display: inline-block;
   }
@@ -505,7 +610,6 @@ const marquee = "Resurface it. Just before it sinks. ";
       opacity: 0;
     }
   }
-
   .vh {
     position: absolute;
     width: 1px;
@@ -540,8 +644,7 @@ const marquee = "Resurface it. Just before it sinks. ";
     border-radius: var(--radius-pill);
     font-size: 16px;
     font-weight: 600;
-    transition: transform 0.18s ease, background 0.18s ease,
-      box-shadow 0.18s ease;
+    transition: transform 0.18s ease, background 0.18s ease;
   }
   .btn-white {
     background: #fff;
@@ -594,26 +697,16 @@ const marquee = "Resurface it. Just before it sinks. ";
     filter: drop-shadow(0 26px 40px rgba(15, 30, 90, 0.28));
   }
 
-  /* Frosted, and deliberately rimless.
-
-     Measured off the reference comp: the card lifts whatever sits behind
-     it by ~10% white, and there is no border at all — scanning across its
-     edge, the rim's luminance (142.8 left, 123.3 right) falls inside the
-     interior's own range (118.9–146.7). A 1px white border would spike
-     well above that. The interior isn't flat either; it varies with the
-     backdrop, which is what makes it read as glass rather than as a
-     translucent panel. So: low-alpha fill, real blur, no outline. */
+  /* Frosted and deliberately rimless — measured off the comp, where the
+     rim's luminance sits inside the interior's own range. */
   .chip {
     position: absolute;
     display: flex;
     flex-direction: column;
     gap: 2px;
     background: var(--glass);
-    /* Unprefixed only. Writing the -webkit- alias by hand made Lightning
-       CSS collapse the pair and emit *just* the prefixed one, which
-       Chromium no longer recognises — the declaration was dropped and
-       backdrop-filter computed to `none`, i.e. no frost at all. Left
-       alone, the minifier prefixes correctly for the real targets. */
+    /* Unprefixed only: hand-writing the -webkit- alias made Lightning CSS
+       emit just the prefixed one, which Chromium drops. */
     backdrop-filter: blur(16px) saturate(140%);
     border-radius: 18px;
     padding: 16px 20px;
@@ -644,15 +737,15 @@ const marquee = "Resurface it. Just before it sinks. ";
     top: 4%;
     right: -6%;
   }
-  /* Aspect matches the 124x32 viewBox, so the bars aren't letterboxed. */
+  .chip-acc {
+    bottom: 11%;
+    right: -2%;
+  }
+  /* Aspect matches the 124x32 viewBox so the bars aren't letterboxed. */
   .bars {
     width: 112px;
     height: 29px;
     margin-top: 6px;
-  }
-  .chip-acc {
-    bottom: 11%;
-    right: -2%;
   }
   .bar {
     display: block;
@@ -679,9 +772,8 @@ const marquee = "Resurface it. Just before it sinks. ";
     width: fit-content;
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: var(--radius-pill);
-    padding: 12px 26px 12px 14px;
+    padding: 12px 26px;
     color: #fff;
   }
   .proof p {
@@ -696,14 +788,69 @@ const marquee = "Resurface it. Just before it sinks. ";
     flex: none;
   }
 
-  /* ---------------------------------------------------------------- SHEET */
-  .sheet {
-    margin-top: clamp(48px, 7vh, 76px);
-    /* Hangs into the white section below; .rest reserves the space. */
-    margin-bottom: -96px;
+  /* --------------------------------------------------------------- RIBBON */
+  .ribbon {
+    line-height: 0;
+    margin-top: clamp(28px, 5vh, 56px);
+  }
+  .ribbon svg {
+    width: 100%;
+    height: clamp(120px, 14vw, 210px);
+    display: block;
+  }
+  .ribbon-fill {
+    fill: #fff;
+  }
+  .ribbon-text {
+    fill: var(--blue);
+    font-family: "Poppins", sans-serif;
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  /* ================================================================ LIGHT */
+  /* flow-root, not plain block. .stats carries a bottom margin, and with
+     no bottom padding here that margin collapses straight out of the
+     section — and because body is blue, the escaped margin painted as a
+     blue stripe between the light content and the wave. A block
+     formatting context keeps child margins inside. */
+  .light {
     background: var(--panel);
+    display: flow-root;
+  }
+
+  .section-h {
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 600;
+    letter-spacing: -1.1px;
+    line-height: 1.16;
+    color: var(--ink);
+  }
+
+  .pill {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--blue);
+    background: var(--wash);
+    padding: 7px 16px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 14px;
+  }
+  .pill.on-blue {
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+  }
+
+  /* -------------------------------------------------------------- PILLARS */
+  .pillars-band {
+    padding-bottom: clamp(28px, 5vh, 56px);
+  }
+  .sheet {
+    background: var(--white);
     border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-sheet);
+    box-shadow: 0 18px 44px rgba(20, 44, 130, 0.08);
     padding: 40px 20px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -742,70 +889,94 @@ const marquee = "Resurface it. Just before it sinks. ";
     color: var(--ink-soft);
   }
 
-  /* ================================================================= REST */
-  .rest {
-    background: var(--white);
-    /* Clears the sheet's -96px overhang, plus the section's own space. */
-    padding-top: clamp(150px, 18vh, 190px);
+  /* --------------------------------------------------------- HOW IT WORKS */
+  .how {
+    padding: clamp(48px, 8vh, 84px) 0 clamp(40px, 6vh, 72px);
+    scroll-margin-top: 100px;
+  }
+  .head {
+    text-align: center;
+    margin-bottom: clamp(32px, 5vh, 54px);
   }
 
-  .section-h {
-    font-size: clamp(28px, 3.5vw, 42px);
-    font-weight: 600;
-    letter-spacing: -1.1px;
-    line-height: 1.16;
-    color: var(--ink);
-  }
-  .dim {
-    color: var(--ink-faint);
-  }
-
-  .grid {
-    margin-top: 44px;
+  .steps {
+    list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 26px;
   }
-  .card {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: 30px 26px 32px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  .step {
+    position: relative;
   }
-  .card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lift);
-  }
-  .kicker {
-    display: inline-block;
-    font-size: 11px;
+  .num {
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: #fff;
+    font-size: 14px;
     font-weight: 700;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: var(--blue);
-    background: var(--wash);
-    padding: 5px 11px;
-    border-radius: var(--radius-pill);
-    margin-bottom: 16px;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 6px 16px rgba(20, 44, 130, 0.28);
   }
-  .card h3 {
-    font-size: 20px;
+  .art {
+    background: var(--white);
+    border-radius: 22px;
+    box-shadow: 0 14px 34px rgba(20, 44, 130, 0.09);
+    display: grid;
+    place-items: center;
+    padding: 26px 20px;
+    margin-bottom: 18px;
+  }
+  .art svg {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+  }
+  .step h3 {
+    font-size: 19px;
     font-weight: 700;
-    letter-spacing: -0.5px;
-    line-height: 1.25;
-    margin-bottom: 10px;
+    letter-spacing: -0.4px;
     color: var(--ink);
   }
-  .card p {
-    font-size: 15px;
+  .step p {
+    margin-top: 7px;
+    font-size: 14.5px;
     color: var(--ink-soft);
   }
 
-  /* ------------------------------------------------------------ SUBJECTS */
+  /* ------------------------------------------------------------------ WHY */
+  .why {
+    background: var(--blue);
+    color: #fff;
+    padding: clamp(40px, 7vh, 76px) 0 clamp(48px, 8vh, 88px);
+  }
+  .why-inner {
+    max-width: 760px;
+    text-align: center;
+  }
+  .why h2 {
+    font-size: clamp(26px, 3.4vw, 40px);
+    font-weight: 600;
+    letter-spacing: -1.1px;
+    line-height: 1.2;
+  }
+  .why p {
+    margin-top: 18px;
+    font-size: 17px;
+    color: var(--on-blue-soft);
+  }
+
+  /* ------------------------------------------------------------- SUBJECTS */
   .subjects {
-    padding-top: clamp(64px, 9vh, 96px);
-    padding-bottom: clamp(56px, 8vh, 84px);
+    padding-top: clamp(48px, 8vh, 84px);
+    padding-bottom: clamp(40px, 6vh, 64px);
+    scroll-margin-top: 100px;
   }
   .subjects-head {
     max-width: 600px;
@@ -839,19 +1010,20 @@ const marquee = "Resurface it. Just before it sinks. ";
     color: #fff;
   }
 
-  /* --------------------------------------------------------------- MODES */
+  /* ---------------------------------------------------------------- MODES */
   .modes {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 18px;
-    padding-bottom: clamp(56px, 8vh, 88px);
+    padding-bottom: clamp(40px, 6vh, 64px);
+    scroll-margin-top: 100px;
   }
   .mode-card {
     background: var(--wash);
     border-radius: var(--radius-lg);
     padding: 32px 26px 36px;
   }
-  .num {
+  .mode-n {
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 1px;
@@ -870,67 +1042,126 @@ const marquee = "Resurface it. Just before it sinks. ";
     font-size: 15px;
   }
 
-  /* ------------------------------------------------------------ MARQUEE */
-  .band {
-    line-height: 0;
+  /* ---------------------------------------------------------------- STATS */
+  .stats {
     background: var(--white);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 18px 44px rgba(20, 44, 130, 0.08);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 8px;
+    padding: 34px 16px 26px;
+    margin-bottom: clamp(48px, 8vh, 84px);
   }
-  .band-svg {
-    width: 100%;
-    height: clamp(130px, 15vw, 215px);
+  .stat {
+    padding: 6px 24px;
+  }
+  .stat-v {
     display: block;
-  }
-  .band-fill {
-    fill: var(--blue);
-  }
-  .band-text {
-    fill: #fff;
-    font-family: "Poppins", sans-serif;
-    font-size: 42px;
+    font-size: clamp(30px, 3.4vw, 40px);
     font-weight: 700;
-    letter-spacing: -0.5px;
+    letter-spacing: -1.4px;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+  .stat-l {
+    display: block;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .wiggle {
+    display: block;
+    width: 100%;
+    max-width: 190px;
+    height: 22px;
+    margin-top: 12px;
+    opacity: 0.55;
   }
 
-  /* -------------------------------------------------------------- CLOSER */
+  /* --------------------------------------------------------------- CLOSER */
   .closer {
     background: var(--blue);
     color: #fff;
-    padding: clamp(64px, 10vh, 104px) 0;
+    padding: clamp(48px, 8vh, 92px) 0 clamp(52px, 9vh, 96px);
   }
   .closer-inner {
     text-align: center;
   }
   .closer h2 {
-    font-size: clamp(30px, 4.1vw, 48px);
+    font-size: clamp(28px, 4vw, 46px);
     font-weight: 600;
-    letter-spacing: -1.2px;
+    letter-spacing: -1.3px;
+    line-height: 1.14;
   }
   .closer p {
-    margin: 14px auto 32px;
+    margin: 14px auto 30px;
     color: var(--on-blue-soft);
     font-size: 17px;
   }
-
-  /* ---------------------------------------------------------------- FOOT */
-  .foot {
-    background: var(--blue);
-    padding: 8px 0 30px;
+  .closer .fine {
+    margin: 18px auto 0;
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.6);
   }
-  .foot-inner {
+
+  /* ----------------------------------------------------------------- FOOT */
+  .foot {
+    background: var(--panel);
+    padding: clamp(40px, 6vh, 64px) 0 26px;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: 34px;
+  }
+  .foot-brand img {
+    width: 150px;
+    height: auto;
+  }
+  .foot-brand p {
+    margin-top: 14px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    max-width: 34ch;
+  }
+  .foot-col {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .foot-col h4 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .foot-col a,
+  .foot-col span {
+    font-size: 14.5px;
+    color: var(--ink-soft);
+  }
+  .foot-col a:hover {
+    color: var(--blue);
+  }
+  .foot-base {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 10px;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.62);
+    margin-top: clamp(32px, 5vh, 52px);
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 13.5px;
+    color: var(--ink-faint);
   }
 
   /* ================================================================ SMALL */
 
-  /* The stat chips hang off the stage by a negative percentage, which is
-     fine at full width but pushes past the viewport once the hero column
-     narrows — .chip-streak was the whole of a 7px horizontal scroll at
-     1180px. Tuck them in before that happens. */
+  /* The stat chips hang off the stage by a negative percentage, which
+     pushes .chip-streak past the viewport once the hero column narrows —
+     it was the whole of a 7px horizontal scroll at 1180px. */
   @media (max-width: 1240px) {
     .chip-streak {
       right: 0;
@@ -940,9 +1171,8 @@ const marquee = "Resurface it. Just before it sinks. ";
     }
   }
 
-  /* The stage collapses first: below this the books and the stat chips
-     have less room than the chips' own min-width, so they'd overlap the
-     copy column exactly the way the old hero's artwork did. */
+  /* The stage goes first: below this the books and the stat chips have less
+     room than the chips' own min-width, so they'd crowd the copy column. */
   @media (max-width: 1040px) {
     .hero {
       grid-template-columns: 1fr;
@@ -953,9 +1183,6 @@ const marquee = "Resurface it. Just before it sinks. ";
     }
     .stage {
       display: none;
-    }
-    .blob {
-      opacity: 0.6;
     }
   }
 
@@ -969,15 +1196,15 @@ const marquee = "Resurface it. Just before it sinks. ";
     h1 {
       letter-spacing: -1.4px;
     }
-    .proof {
-      width: auto;
+    .foot-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .foot-brand {
+      grid-column: 1 / -1;
     }
   }
 
   @media (max-width: 560px) {
-    h1 {
-      letter-spacing: -1.2px;
-    }
     .brand img {
       width: 124px;
     }
@@ -991,10 +1218,6 @@ const marquee = "Resurface it. Just before it sinks. ";
     }
     .sheet {
       padding: 28px 8px;
-      margin-bottom: -70px;
-    }
-    .rest {
-      padding-top: 120px;
     }
     .proof {
       flex-direction: column;
@@ -1002,12 +1225,14 @@ const marquee = "Resurface it. Just before it sinks. ";
       padding: 18px 22px;
       border-radius: var(--radius-lg);
     }
+    .foot-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
-  /* Must come after the 560px block — same specificity, so source order
-     decides. The clamp floor of 42px fits "Biochemistry", the longest
-     subject, down to about 360px and no further; below that it wrapped to
-     a second line and jumped the headline 45px mid-animation. */
+  /* Must come after the 560px block — same specificity, source order wins.
+     The 42px clamp floor doesn't fit "Biochemistry" below ~360px, and it
+     wrapped mid-animation. */
   @media (max-width: 360px) {
     h1 {
       font-size: 34px;
@@ -1017,13 +1242,11 @@ const marquee = "Resurface it. Just before it sinks. ";
 </style>
 
 <script>
-  // Types the subject in the hero headline. The markup already ships a
-  // real subject, so this only ever replaces one valid word with another
-  // — with JS off, or before hydration, the headline still reads.
+  // Types the subject in the hero headline. The markup already ships a real
+  // subject, so this only ever replaces one valid word with another.
   const out = document.querySelector<HTMLElement>(".typed-out");
 
   if (out && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    // The nine that actually exist in the question bank.
     const subjects = [
       "Pathology",
       "Physiology",
@@ -1036,14 +1259,14 @@ const marquee = "Resurface it. Just before it sinks. ";
       "Genetics",
     ];
 
-    // Start on whatever the server rendered, mid-word, and delete from
-    // there — otherwise the first frame would blank the headline.
+    // Start from whatever the server rendered and delete from there,
+    // otherwise the first frame would blank the headline.
     let word = Math.max(0, subjects.indexOf(out.textContent?.trim() ?? ""));
     let chars = subjects[word].length;
     let deleting = true;
 
-    const HOLD = 1700; // full word sits still
-    const GAP = 240; // beat between words
+    const HOLD = 1700;
+    const GAP = 240;
     const TYPE = 85;
     const ERASE = 40;
 

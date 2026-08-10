@@ -1,0 +1,39 @@
+---
+/**
+ * A wavy section boundary.
+ *
+ * Self-contained on purpose: the element paints `from` (the section
+ * above) and the path paints `to` (the section below), so a call site
+ * never has to reason about which neighbour owns the edge. Drop one
+ * between any two bands and the colours are unambiguous.
+ */
+const { from, to, flip = false } = Astro.props;
+---
+
+<div class="wave" style={`background:${from}`}>
+  <svg
+    viewBox="0 0 1440 90"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+    style={flip ? "transform:scaleX(-1)" : undefined}
+  >
+    {/* Closes past the 90 baseline to 96. The viewBox clips the excess,
+        which guarantees the fill reaches the bottom edge instead of
+        leaving a hairline when the scaled height lands on a subpixel. */}
+    <path
+      fill={to}
+      d="M0,44 C240,6 480,82 720,44 C960,6 1200,82 1440,44 L1440,96 L0,96 Z"
+    ></path>
+  </svg>
+</div>
+
+<style>
+  .wave {
+    line-height: 0;
+  }
+  .wave svg {
+    display: block;
+    width: 100%;
+    height: clamp(44px, 6vw, 92px);
+  }
+</style>

@@ -1185,24 +1185,25 @@ const marquee = "Resurface it. Just before it sinks. ";
     box-shadow:
       0 4px 14px rgba(20, 44, 130, 0.04),
       0 18px 40px rgba(20, 44, 130, 0.08);
-    padding: 22px 18px 18px;
+    padding: 20px 18px 20px;
   }
   .compare figcaption {
-    font-size: clamp(20px, 2.2vw, 26px);
+    font-size: 14px;
     font-weight: 700;
-    letter-spacing: -0.7px;
-    line-height: 1.15;
+    letter-spacing: -0.2px;
     color: var(--ink);
-    margin-bottom: 16px;
-  }
-  .compare:last-child figcaption {
-    color: var(--blue);
+    margin-bottom: 12px;
   }
   .compare p {
-    margin-top: 14px;
-    font-size: 14px;
-    line-height: 1.45;
-    color: var(--ink-soft);
+    margin-top: 16px;
+    font-size: clamp(16px, 1.7vw, 18px);
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .compare:last-child p {
+    color: var(--blue);
   }
   .compare-art {
     border-radius: 22px;
@@ -1226,17 +1227,17 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
   .mini-tag {
     display: inline-block;
-    font-size: 12px;
+    font-size: 10.5px;
     font-weight: 700;
-    letter-spacing: 0.45px;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
     border-radius: var(--radius-pill);
-    padding: 6px 12px;
-    margin-bottom: 12px;
+    padding: 4px 9px;
+    margin-bottom: 10px;
   }
   .mini-tag.vague {
     background: #edf1fb;
-    color: var(--ink-soft);
+    color: var(--ink-faint);
   }
   .mini-tag.specific {
     background: var(--wash);

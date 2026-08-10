@@ -337,45 +337,41 @@ const marquee = "Don't let the lecture sink. ";
   <Wave from="var(--panel)" to="var(--blue)" flip />
 
   <!-- ============================================= BLUE: WHY IT WORKS -->
-  <section class="why" data-why>
-    <div class="wrap why-stage">
-      <h2 class="why-title" aria-label="You forget most of a lecture within a week.">
-        <span class="why-word" style="--i: 0">You</span>{" "}
-        <span class="why-word why-word-key" style="--i: 1">forget</span>{" "}
-        <span class="why-word" style="--i: 2">most</span>{" "}
-        <span class="why-word" style="--i: 3">of</span>{" "}
-        <span class="why-word" style="--i: 4">a</span>{" "}
-        <span class="why-word" style="--i: 5">lecture</span>{" "}
-        <span class="why-word" style="--i: 6">within</span>{" "}
-        <span class="why-word" style="--i: 7">a</span>{" "}
-        <span class="why-word" style="--i: 8">week.</span>
-      </h2>
-      <p class="why-solve">
-        Practising with questions beats rereading notes on its own.
-      </p>
-      <p class="why-support">
-        Resurface keeps track of what you’re finding hard, so the time you spend
-        studying goes toward the topics that still need work, not only the ones
-        that already feel familiar.
-      </p>
+  <section class="why">
+    <div class="wrap why-inner">
+      <h2>You forget most of a lecture within a week.</h2>
+      <div class="why-copy">
+        <p class="why-lead">
+          Practising with questions beats rereading notes on its own.
+        </p>
+        <p>
+          Resurface keeps track of what you’re finding hard, so the time you
+          spend studying goes toward the topics that still need work, not only
+          the ones that already feel familiar.
+        </p>
+      </div>
     </div>
   </section>
 
   <Wave from="var(--blue)" to="var(--panel)" />
 
   <!-- ============================================ LIGHT: HOW IT WORKS -->
-  <section class="light how" id="how">
+  <section class="light how" id="how" data-how>
     <div class="wrap">
       <div class="head">
-        <span class="pill">Simple process</span>
         <h2 class="section-h">How it works</h2>
+        <p class="how-lead">
+          Three steps from a blank lecture to questions that stick.
+        </p>
       </div>
 
       <ol class="steps">
         {
-          steps.map((s) => (
-            <li class="step">
-              <span class="num">{s.n}</span>
+          steps.map((s, i) => (
+            <li class="step" style={`--step: ${i}`}>
+              <span class="num" aria-hidden="true">
+                {s.n}
+              </span>
               <div class="art">
                 {s.art === "answer" && (
                   <svg viewBox="0 0 96 72" aria-hidden="true">
@@ -837,195 +833,222 @@ const marquee = "Don't let the lecture sink. ";
 
   /* --------------------------------------------------------- HOW IT WORKS */
   .how {
-    padding: clamp(48px, 8vh, 84px) 0 clamp(40px, 6vh, 72px);
+    padding: clamp(52px, 9vh, 96px) 0 clamp(48px, 7vh, 84px);
     scroll-margin-top: 100px;
   }
   .head {
     text-align: center;
-    margin-bottom: clamp(32px, 5vh, 54px);
+    margin-bottom: clamp(36px, 6vh, 64px);
+  }
+  .how-lead {
+    margin: 12px auto 0;
+    max-width: 24em;
+    font-size: clamp(16px, 1.7vw, 19px);
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    line-height: 1.45;
+    color: var(--ink-soft);
   }
 
   .steps {
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 26px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(28px, 4vw, 48px);
+    position: relative;
+  }
+  .steps::before {
+    content: "";
+    position: absolute;
+    top: 28px;
+    left: 8%;
+    right: 8%;
+    height: 1.5px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(53, 98, 245, 0.28) 12%,
+      rgba(53, 98, 245, 0.28) 88%,
+      transparent
+    );
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+  }
+  .how.is-play .steps::before {
+    transform: scaleX(1);
   }
   .step {
     position: relative;
+    text-align: center;
+  }
+  .how.is-armed:not(.is-play) .step {
+    opacity: 0;
+    filter: blur(5px);
+    transform: translateY(18px);
+  }
+  .how.is-play .step {
+    animation: how-clear 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(0.2s + var(--step) * 0.22s);
   }
   .num {
-    position: absolute;
-    top: -12px;
-    left: 10px;
-    z-index: 2;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: var(--blue);
-    color: #fff;
-    font-size: 14px;
+    display: block;
+    margin: 0 auto 18px;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    color: var(--blue);
+    font-size: clamp(40px, 5vw, 56px);
     font-weight: 700;
-    display: grid;
-    place-items: center;
-    box-shadow: 0 6px 16px rgba(20, 44, 130, 0.28);
+    letter-spacing: -2px;
+    line-height: 1;
+    opacity: 0.22;
   }
   .art {
-    background: var(--white);
-    border-radius: 22px;
-    box-shadow: 0 14px 34px rgba(20, 44, 130, 0.09);
     display: grid;
     place-items: center;
-    padding: 26px 20px;
-    margin-bottom: 18px;
+    margin: 0 auto 20px;
+    max-width: 168px;
   }
   .art svg {
     width: 100%;
-    max-width: 150px;
     height: auto;
+    filter: drop-shadow(0 12px 24px rgba(20, 44, 130, 0.1));
+  }
+  .how.is-play .art svg {
+    animation: how-art 3.8s ease-in-out calc(0.55s + var(--step) * 0.22s)
+      infinite;
   }
   .step h3 {
-    font-size: 19px;
+    font-size: clamp(18px, 1.9vw, 22px);
     font-weight: 700;
-    letter-spacing: -0.4px;
+    letter-spacing: -0.45px;
     color: var(--ink);
   }
   .step p {
-    margin-top: 7px;
-    font-size: 14.5px;
+    margin: 8px auto 0;
+    max-width: 28em;
+    font-size: 15px;
+    line-height: 1.5;
     color: var(--ink-soft);
+  }
+
+  @keyframes how-clear {
+    from {
+      opacity: 0;
+      filter: blur(5px);
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+      transform: translateY(0);
+    }
+  }
+  @keyframes how-art {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .steps {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .steps::before {
+      display: none;
+    }
+    .step {
+      text-align: left;
+    }
+    .num {
+      margin: 0 0 10px;
+    }
+    .art {
+      margin: 0 0 14px;
+      justify-items: start;
+    }
+    .step p {
+      margin-left: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .steps::before,
+    .how.is-play .steps::before {
+      transform: none;
+      transition: none;
+    }
+    .step,
+    .how.is-play .step {
+      opacity: 1;
+      filter: none;
+      transform: none;
+      animation: none;
+    }
+    .how.is-play .art svg {
+      animation: none;
+    }
   }
 
   /* ------------------------------------------------------------------ WHY */
   .why {
     background: var(--blue);
     color: #fff;
-    padding: clamp(64px, 12vh, 120px) 0;
-    overflow: hidden;
+    padding: clamp(48px, 8vh, 92px) 0;
   }
-  .why-stage {
-    max-width: 920px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
+  .why-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(28px, 4vw, 64px);
     align-items: center;
   }
-  .why-title {
+  .why h2 {
     margin: 0;
-    font-size: clamp(32px, 5.2vw, 56px);
+    font-size: clamp(30px, 4vw, 48px);
     font-weight: 600;
-    letter-spacing: -1.6px;
-    line-height: 1.14;
-    max-width: 14em;
+    letter-spacing: -1.4px;
+    line-height: 1.12;
+    max-width: 12em;
   }
-  .why-word {
-    display: inline-block;
-    will-change: opacity, filter, transform;
+  .why-copy {
+    max-width: 28em;
+    padding-bottom: 4px;
   }
-  .why.is-play .why-word {
-    animation: why-forget 3.8s cubic-bezier(0.4, 0, 0.2, 1) both;
-    animation-delay: calc(var(--i) * 85ms);
-  }
-  .why.is-play .why-word-key {
-    animation-name: why-forget-key;
-  }
-  .why-solve {
-    margin: clamp(28px, 4vh, 40px) 0 0;
-    max-width: 22em;
-    font-size: clamp(20px, 2.5vw, 28px);
+  .why-lead {
+    margin: 0 0 16px;
+    font-size: clamp(20px, 2.4vw, 28px);
     font-weight: 600;
     letter-spacing: -0.5px;
     line-height: 1.3;
     color: #fff;
   }
-  .why.is-armed:not(.is-play) .why-solve,
-  .why.is-armed:not(.is-play) .why-support {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  .why.is-play .why-solve {
-    animation: why-solve-in 0.75s cubic-bezier(0.22, 1, 0.36, 1) 2s both;
-  }
-  .why-support {
-    margin: 18px 0 0;
-    max-width: 34em;
-    font-size: clamp(16px, 1.7vw, 19px);
+  .why-copy > p:last-child {
+    margin: 0;
+    font-size: clamp(17px, 1.8vw, 20px);
     font-weight: 500;
     letter-spacing: -0.2px;
     line-height: 1.5;
     color: var(--on-blue-soft);
   }
-  .why.is-play .why-support {
-    animation: why-solve-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) 2.35s both;
-  }
 
-  @keyframes why-forget {
-    0%,
-    12% {
-      opacity: 1;
-      filter: blur(0);
-      transform: translateY(0);
+  @media (max-width: 800px) {
+    .why-inner {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      align-items: start;
     }
-    42%,
-    58% {
-      opacity: 0.22;
-      filter: blur(3.5px);
-      transform: translateY(4px);
-    }
-    78%,
-    100% {
-      opacity: 1;
-      filter: blur(0);
-      transform: translateY(0);
-    }
-  }
-  @keyframes why-forget-key {
-    0%,
-    8% {
-      opacity: 1;
-      filter: blur(0);
-      transform: translateY(0);
-    }
-    38%,
-    58% {
-      opacity: 0.08;
-      filter: blur(6px);
-      transform: translateY(6px);
-    }
-    76%,
-    100% {
-      opacity: 1;
-      filter: blur(0);
-      transform: translateY(0);
-    }
-  }
-  @keyframes why-solve-in {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .why-word,
-    .why.is-play .why-word,
-    .why.is-play .why-word-key {
-      animation: none;
-      opacity: 1;
-      filter: none;
-      transform: none;
-    }
-    .why-solve,
-    .why-support,
-    .why.is-play .why-solve,
-    .why.is-play .why-support {
-      animation: none;
-      opacity: 1;
-      transform: none;
+    .why h2 {
+      max-width: none;
     }
   }
 
@@ -1794,25 +1817,25 @@ const marquee = "Don't let the lecture sink. ";
     }
   })();
 
-  // Why band: title fades like memory, then snaps back as the fix arrives.
+  // How it works: steps clear in from a soft blur, like the process itself.
   (() => {
-    const why = document.querySelector<HTMLElement>("[data-why]");
-    if (!why) return;
+    const how = document.querySelector<HTMLElement>("[data-how]");
+    if (!how) return;
 
     const calm = matchMedia("(prefers-reduced-motion: reduce)");
     if (calm.matches) return;
 
-    why.classList.add("is-armed");
+    how.classList.add("is-armed");
     const io = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
-          why.classList.add("is-play");
+          how.classList.add("is-play");
           io.disconnect();
         }
       },
-      { threshold: 0.45 }
+      { threshold: 0.35 }
     );
-    io.observe(why);
+    io.observe(how);
   })();
 
   // Types the subject in the hero headline. The markup already ships a real

@@ -325,12 +325,13 @@ const marquee = "Resurface it. Just before it sinks. ";
             <span class="ai-bridge-line"></span>
             <span class="ai-bridge-pill">
               <img
-                src="/logo-lockup.png"
+                src="/books.webp"
                 alt=""
-                width="560"
-                height="131"
-                class="ai-bridge-logo"
+                width="40"
+                height="40"
+                class="ai-bridge-mark"
               />
+              <span class="ai-bridge-name">Resurface</span>
               <span class="ai-bridge-status" data-ai-status>Waiting…</span>
             </span>
             <span class="ai-bridge-line"></span>
@@ -345,15 +346,17 @@ const marquee = "Resurface it. Just before it sinks. ";
               <span class="ready-count" data-ready-count>0</span>
               <span class="ready-label">questions ready</span>
             </div>
-            <div class="ready-preview" data-preview>
-              <span class="ready-tag">From your slides</span>
-              <p class="ready-stem">
-                Which hormone lowers blood glucose?
-              </p>
-              <div class="ready-opts">
-                <span>Glucagon</span>
-                <span class="right">Insulin</span>
-                <span>Adrenaline</span>
+            <div class="ready-reveal" data-preview>
+              <div class="ready-preview">
+                <span class="ready-tag">From your slides</span>
+                <p class="ready-stem">
+                  Which hormone lowers blood glucose?
+                </p>
+                <div class="ready-opts">
+                  <span>Glucagon</span>
+                  <span class="right">Insulin</span>
+                  <span>Adrenaline</span>
+                </div>
               </div>
             </div>
           </div>
@@ -1323,28 +1326,34 @@ const marquee = "Resurface it. Just before it sinks. ";
   .ai-bridge-pill {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     background: var(--white);
     border: 1px solid #d7e2ff;
     border-radius: var(--radius-pill);
-    padding: 8px 14px 8px 12px;
+    padding: 7px 14px 7px 8px;
     box-shadow: 0 8px 20px rgba(20, 44, 130, 0.08);
     white-space: nowrap;
   }
-  .ai-bridge-logo {
-    width: 92px;
-    height: auto;
+  .ai-bridge-mark {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
     display: block;
+    flex-shrink: 0;
+  }
+  .ai-bridge-name,
+  .ai-bridge-status {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: -0.15px;
+    line-height: 1;
+  }
+  .ai-bridge-name {
+    color: var(--ink);
   }
   .ai-bridge-status {
-    font-size: 12.5px;
-    font-weight: 700;
-    letter-spacing: -0.1px;
-    line-height: 1;
     color: var(--blue);
     min-width: 8ch;
-    /* Lockup word sits optically lower than the image box centre. */
-    transform: translateY(3px);
   }
   .ai-stage.is-working .ai-bridge-pill {
     box-shadow:
@@ -1359,7 +1368,7 @@ const marquee = "Resurface it. Just before it sinks. ";
     overflow: hidden;
     margin-bottom: 16px;
     opacity: 0;
-    transition: opacity 0.25s ease;
+    transition: opacity 0.35s ease;
   }
   .ai-stage.is-working .ai-progress,
   .ai-stage.is-done .ai-progress {
@@ -1371,7 +1380,7 @@ const marquee = "Resurface it. Just before it sinks. ";
     width: 0%;
     border-radius: inherit;
     background: linear-gradient(90deg, #6e8ff7, var(--blue));
-    transition: width 0.35s ease;
+    transition: width 0.45s ease;
   }
 
   .ready-card {
@@ -1400,15 +1409,41 @@ const marquee = "Resurface it. Just before it sinks. ";
     letter-spacing: -0.2px;
     color: var(--ink-soft);
   }
+  .ready-reveal {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ready-reveal.is-in {
+    grid-template-rows: 1fr;
+  }
   .ready-preview {
+    overflow: hidden;
+    min-height: 0;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 1px solid transparent;
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.3s ease,
+      transform 0.35s ease,
+      margin-top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      padding-top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      border-top-color 0.25s ease;
+  }
+  .ready-reveal.is-in .ready-preview {
     margin-top: 16px;
     padding-top: 16px;
-    border-top: 1px solid var(--line);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-  .ready-preview.is-in {
+    border-top-color: var(--line);
     opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.45s ease 0.18s,
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.12s,
+      margin-top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      padding-top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      border-top-color 0.35s ease 0.1s;
   }
   .ready-tag {
     display: inline-block;
@@ -1453,9 +1488,6 @@ const marquee = "Resurface it. Just before it sinks. ";
     .ai-heading {
       max-width: none;
     }
-    .ai-bridge-logo {
-      width: 78px;
-    }
     .ai-bridge-status {
       min-width: 0;
     }
@@ -1463,13 +1495,20 @@ const marquee = "Resurface it. Just before it sinks. ";
 
   @media (prefers-reduced-motion: reduce) {
     .ai-stage.has-file .file-chip,
+    .ready-reveal,
     .ready-preview {
       animation: none;
       transition: none;
       transform: none;
     }
-    .ready-preview.is-in {
+    .ready-reveal.is-in {
+      grid-template-rows: 1fr;
+    }
+    .ready-reveal.is-in .ready-preview {
       opacity: 1;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top-color: var(--line);
     }
   }
 
@@ -1876,20 +1915,24 @@ const marquee = "Resurface it. Just before it sinks. ";
         return;
       }
 
-      if (!(await wait(500, id))) return;
+      // Drop zone → file lands
+      if (!(await wait(900, id))) return;
       stage.classList.add("has-file");
       status.textContent = "Reading…";
-      if (!(await wait(700, id))) return;
+
+      // Give people time to clock the PDF
+      if (!(await wait(1600, id))) return;
 
       stage.classList.add("is-working");
       status.textContent = "Writing…";
 
-      for (let p = 8; p <= 100; p += 8) {
+      // Progress climbs slowly enough to read
+      for (let p = 6; p <= 100; p += 6) {
         if (id !== gen) return;
         bar.style.width = `${p}%`;
         const n = Math.min(TARGET, Math.round((p / 100) * TARGET));
         count.textContent = String(n);
-        if (!(await wait(110, id))) return;
+        if (!(await wait(160, id))) return;
       }
 
       if (id !== gen) return;
@@ -1899,7 +1942,12 @@ const marquee = "Resurface it. Just before it sinks. ";
       count.textContent = String(TARGET);
       preview.classList.add("is-in");
 
-      if (!(await wait(3800, id))) return;
+      // Hold the finished question long enough to read
+      if (!(await wait(5200, id))) return;
+
+      // Close smoothly before looping
+      preview.classList.remove("is-in");
+      if (!(await wait(750, id))) return;
       void run();
     };
 

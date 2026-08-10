@@ -1185,17 +1185,21 @@ const marquee = "Resurface it. Just before it sinks. ";
     box-shadow:
       0 4px 14px rgba(20, 44, 130, 0.04),
       0 18px 40px rgba(20, 44, 130, 0.08);
-    padding: 20px 18px 18px;
+    padding: 22px 18px 18px;
   }
   .compare figcaption {
-    font-size: 14px;
+    font-size: clamp(20px, 2.2vw, 26px);
     font-weight: 700;
-    letter-spacing: -0.2px;
+    letter-spacing: -0.7px;
+    line-height: 1.15;
     color: var(--ink);
-    margin-bottom: 12px;
+    margin-bottom: 16px;
+  }
+  .compare:last-child figcaption {
+    color: var(--blue);
   }
   .compare p {
-    margin-top: 12px;
+    margin-top: 14px;
     font-size: 14px;
     line-height: 1.45;
     color: var(--ink-soft);
@@ -1222,17 +1226,17 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
   .mini-tag {
     display: inline-block;
-    font-size: 10.5px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.4px;
+    letter-spacing: 0.45px;
     text-transform: uppercase;
     border-radius: var(--radius-pill);
-    padding: 4px 9px;
-    margin-bottom: 10px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
   }
   .mini-tag.vague {
     background: #edf1fb;
-    color: var(--ink-faint);
+    color: var(--ink-soft);
   }
   .mini-tag.specific {
     background: var(--wash);

@@ -304,15 +304,11 @@ const marquee = "Resurface it. Just before it sinks. ";
           <div class="compare-art miss" aria-hidden="true">
             <div class="mini-q">
               <span class="mini-tag vague">Vague</span>
-              <p class="mini-stem">How many cranial nerves are there?</p>
-              <div class="mini-opts">
-                <span>10</span>
-                <span class="on">12</span>
-                <span>14</span>
-              </div>
+              <p class="mini-stem">How many cranial nerves?</p>
+              <span class="mini-ans muted">12</span>
             </div>
           </div>
-          <p>Written for everyone — stays broad and skips lecture-specific detail.</p>
+          <p>Stays broad — skips lecture-specific detail.</p>
         </figure>
 
         <figure class="compare">
@@ -320,18 +316,11 @@ const marquee = "Resurface it. Just before it sinks. ";
           <div class="compare-art keep" aria-hidden="true">
             <div class="mini-q">
               <span class="mini-tag specific">From your slides</span>
-              <p class="mini-stem">
-                Which cranial nerve exits the skull through the jugular
-                foramen?
-              </p>
-              <div class="mini-opts">
-                <span>CN VII</span>
-                <span class="right">CN X</span>
-                <span>CN XII</span>
-              </div>
+              <p class="mini-stem">Which nerve exits the jugular foramen?</p>
+              <span class="mini-ans right">CN X</span>
             </div>
           </div>
-          <p>Made from your notes and slides — asks about the specific bits you were taught.</p>
+          <p>Asks about the specific bits you were taught.</p>
         </figure>
       </div>
     </div>
@@ -1250,35 +1239,29 @@ const marquee = "Resurface it. Just before it sinks. ";
     color: var(--blue);
   }
   .mini-stem {
-    margin: 0 0 12px;
-    font-size: 14px;
+    margin: 0 0 14px;
+    font-size: 15px;
     font-weight: 600;
     letter-spacing: -0.2px;
-    line-height: 1.35;
+    line-height: 1.3;
     color: var(--ink);
   }
-  .mini-opts {
-    display: grid;
-    gap: 6px;
-  }
-  .mini-opts span {
-    display: block;
+  .mini-ans {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 999px;
-    padding: 8px 12px;
-    font-size: 13px;
-    font-weight: 500;
-    background: var(--panel);
+    padding: 10px 18px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .mini-ans.muted {
+    background: #e3e9f8;
     color: var(--ink-soft);
   }
-  .mini-opts .on {
-    background: #e3e9f8;
-    color: var(--ink);
-    font-weight: 600;
-  }
-  .mini-opts .right {
+  .mini-ans.right {
     background: #e7f6ed;
     color: #146c3d;
-    font-weight: 700;
   }
 
   @media (max-width: 700px) {

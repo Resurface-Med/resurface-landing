@@ -103,17 +103,18 @@ const marquee = "Resurface it. Just before it sinks. ";
     <!-- ----------------------------------------------------------- HERO -->
     <section class="hero wrap">
       <div class="hero-copy">
-        <!-- The subject is server-rendered as a real value, so the h1 says
-             something meaningful with JS off and to a crawler. The animated
-             span is hidden from assistive tech — a node whose text mutates
-             every 85ms is unusable — and .vh carries the meaning. -->
+        <!-- A real phrase is server-rendered so the h1 says something
+             meaningful with JS off and to a crawler. The animated span is
+             hidden from assistive tech — a node whose text mutates every
+             85ms is unusable — and .vh carries the meaning. -->
         <h1>
-          I want to study<br />
+          I keep forgetting<br />
           <span class="typed">
-            <span class="typed-out hl" aria-hidden="true">Pathology</span
+            <span class="typed-out hl" aria-hidden="true">cranial nerves</span
             ><span class="caret" aria-hidden="true"></span>
             <span class="vh"
-              >pathology, physiology, anatomy, and six more subjects.</span
+              >cranial nerves, the Krebs cycle, the brachial plexus, and
+              other bits of medicine that slip away.</span
             >
           </span>
         </h1>
@@ -614,7 +615,7 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
 
   /* The zero-width space is load-bearing: the word empties to "" between
-     subjects, and an empty inline box drops the line height to the caret's,
+     phrases, and an empty inline box drops the line height to the caret's,
      which walked everything below it up and down on every cycle. */
   .typed {
     display: inline-block;
@@ -1468,8 +1469,7 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
 
   /* Must come after the 560px block — same specificity, source order wins.
-     The 42px clamp floor doesn't fit "Biochemistry" below ~360px, and it
-     wrapped mid-animation. */
+     Longer phrases wrap mid-animation below ~360px at the 42px clamp floor. */
   @media (max-width: 360px) {
     h1 {
       font-size: 34px;
@@ -1479,27 +1479,42 @@ const marquee = "Resurface it. Just before it sinks. ";
 </style>
 
 <script>
-  // Types the subject in the hero headline. The markup already ships a real
-  // subject, so this only ever replaces one valid word with another.
+  // Types a familiar med-school phrase in the hero. The markup already ships
+  // a real phrase, so this only ever replaces one valid line with another.
   const out = document.querySelector<HTMLElement>(".typed-out");
 
   if (out && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    const subjects = [
-      "Pathology",
-      "Physiology",
-      "Anatomy",
-      "Pharmacology",
-      "Immunology",
-      "Biochemistry",
-      "Histology",
-      "Embryology",
-      "Genetics",
+    const phrases = [
+      "cranial nerves",
+      "the Krebs cycle",
+      "the brachial plexus",
+      "Circle of Willis",
+      "Starling's law",
+      "dermatomes",
+      "Loop of Henle",
+      "the urea cycle",
+      "QRS complex",
+      "Virchow's triad",
+      "portal triad",
+      "blood-brain barrier",
+      "first-pass metabolism",
+      "action potentials",
+      "glomerular filtration",
+      "the cardiac cycle",
+      "foramen ovale",
+      "sodium-potassium pump",
+      "the nephron",
+      "the coagulation cascade",
+      "MHC class II",
+      "Frank-Starling",
+      "renin-angiotensin",
+      "Meckel's diverticulum",
     ];
 
     // Start from whatever the server rendered and delete from there,
     // otherwise the first frame would blank the headline.
-    let word = Math.max(0, subjects.indexOf(out.textContent?.trim() ?? ""));
-    let chars = subjects[word].length;
+    let word = Math.max(0, phrases.indexOf(out.textContent?.trim() ?? ""));
+    let chars = phrases[word].length;
     let deleting = true;
 
     const HOLD = 1700;
@@ -1508,7 +1523,7 @@ const marquee = "Resurface it. Just before it sinks. ";
     const ERASE = 40;
 
     const tick = () => {
-      const target = subjects[word];
+      const target = phrases[word];
       chars += deleting ? -1 : 1;
       out.textContent = target.slice(0, chars);
 
@@ -1518,7 +1533,7 @@ const marquee = "Resurface it. Just before it sinks. ";
         next = HOLD;
       } else if (deleting && chars === 0) {
         deleting = false;
-        word = (word + 1) % subjects.length;
+        word = (word + 1) % phrases.length;
         next = GAP;
       }
       setTimeout(tick, next);

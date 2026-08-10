@@ -1211,19 +1211,19 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
   .ai-layout {
     display: grid;
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-    gap: clamp(28px, 4vw, 56px);
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.95fr);
+    gap: clamp(32px, 4vw, 56px);
     align-items: center;
   }
   .ai-intro {
     text-align: left;
-    max-width: 18em;
   }
   .ai-heading {
     margin: 0;
   }
   .ai-solve {
     margin: 18px 0 0;
+    max-width: 22em;
     font-size: clamp(18px, 2vw, 24px);
     font-weight: 600;
     letter-spacing: -0.5px;
@@ -1256,7 +1256,7 @@ const marquee = "Resurface it. Just before it sinks. ";
       grid-template-columns: 1fr;
       gap: 22px;
     }
-    .ai-intro {
+    .ai-solve {
       max-width: none;
     }
     .ai-stage {

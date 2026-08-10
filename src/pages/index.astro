@@ -298,35 +298,254 @@ const marquee = "Resurface it. Just before it sinks. ";
         </p>
       </div>
 
-      <!-- Three-beat comic: lecture detail → bank misses it → AI asks it -->
-      <ol class="ai-comic" aria-label="How generic banks miss lecture details">
-        <li class="beat">
-          <span class="beat-n">1</span>
-          <p class="beat-label">Your lecture says this</p>
-          <div class="beat-art beat-note" aria-hidden="true">
-            <div class="phrase-chip phrase-taught">cranial nerves</div>
-          </div>
-        </li>
+      <!-- One-scene mural: lecture rain → mass bank eats the common bits →
+           Resurface catches what bounced off and turns it into questions. -->
+      <div class="ai-mural" aria-hidden="true">
+        <svg class="mural-svg" viewBox="0 0 920 440" role="img">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#dfe8ff" />
+              <stop offset="100%" stop-color="#f3f6fe" />
+            </linearGradient>
+            <linearGradient id="copierBody" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#9aa6c4" />
+              <stop offset="100%" stop-color="#6d7896" />
+            </linearGradient>
+            <filter id="mSoft" x="-15%" y="-15%" width="130%" height="130%">
+              <feDropShadow
+                dx="0"
+                dy="8"
+                stdDeviation="10"
+                flood-color="#142c82"
+                flood-opacity="0.14"></feDropShadow>
+            </filter>
+          </defs>
 
-        <li class="beat">
-          <span class="beat-n">2</span>
-          <p class="beat-label">A generic bank skips it</p>
-          <div class="beat-art beat-bank" aria-hidden="true">
-            <div class="phrase-chip phrase-miss">
-              <span class="miss-x" aria-hidden="true">✕</span>
-              cranial nerves
-            </div>
-          </div>
-        </li>
+          <rect width="920" height="440" rx="40" fill="url(#sky)" />
 
-        <li class="beat">
-          <span class="beat-n">3</span>
-          <p class="beat-label">AI asks about that detail</p>
-          <div class="beat-art beat-ai" aria-hidden="true">
-            <div class="phrase-chip phrase-ask">cranial nerves</div>
-          </div>
-        </li>
-      </ol>
+          <!-- fluffy lecture cloud -->
+          <g class="float-a">
+            <ellipse cx="210" cy="78" rx="120" ry="44" fill="#fff" />
+            <ellipse cx="150" cy="88" rx="70" ry="36" fill="#fff" />
+            <ellipse cx="270" cy="86" rx="64" ry="34" fill="#fff" />
+            <circle cx="210" cy="70" r="28" fill="#ffe08a" />
+            <circle cx="200" cy="66" r="4" fill="#0f1b3d" />
+            <circle cx="220" cy="66" r="4" fill="#0f1b3d" />
+            <path
+              d="M202 78c4 6 12 6 16 0"
+              fill="none"
+              stroke="#0f1b3d"
+              stroke-width="3"
+              stroke-linecap="round"></path>
+            <text
+              x="210"
+              y="38"
+              text-anchor="middle"
+              fill="#5a6485"
+              font-family="Poppins, sans-serif"
+              font-size="13"
+              font-weight="700">Your lectures</text>
+          </g>
+
+          <!-- raining knowledge pills -->
+          <g font-family="Poppins, sans-serif" font-weight="700" font-size="13">
+            <g class="fall f1">
+              <rect x="120" y="130" width="108" height="34" rx="17" fill="#fff3b0" />
+              <text x="174" y="152" text-anchor="middle" fill="#0f1b3d"
+                >Krebs cycle</text
+              >
+            </g>
+            <g class="fall f2">
+              <rect x="250" y="148" width="120" height="34" rx="17" fill="#ffd0d6" />
+              <text x="310" y="170" text-anchor="middle" fill="#0f1b3d"
+                >cranial nerves</text
+              >
+            </g>
+            <g class="fall f3">
+              <rect x="170" y="190" width="96" height="34" rx="17" fill="#d8f5e4" />
+              <text x="218" y="212" text-anchor="middle" fill="#0f1b3d"
+                >your slides</text
+              >
+            </g>
+            <g class="fall f4">
+              <rect x="290" y="210" width="88" height="32" rx="16" fill="#cfd6e8" />
+              <text
+                x="334"
+                y="231"
+                text-anchor="middle"
+                fill="#5a6485"
+                font-size="12">basics</text
+              >
+            </g>
+            <g class="fall f5">
+              <rect x="140" y="236" width="72" height="30" rx="15" fill="#cfd6e8" />
+              <text
+                x="176"
+                y="256"
+                text-anchor="middle"
+                fill="#5a6485"
+                font-size="12">common</text
+              >
+            </g>
+          </g>
+
+          <!-- MASS PHOTOCOPIER MONSTER -->
+          <g filter="url(#mSoft)" transform="translate(390 150)">
+            <!-- body -->
+            <rect width="210" height="170" rx="36" fill="url(#copierBody)" />
+            <!-- lid -->
+            <rect x="18" y="-28" width="174" height="48" rx="20" fill="#b8c0d6" />
+            <rect x="40" y="-14" width="130" height="16" rx="8" fill="#8b95b0" />
+            <!-- bored face -->
+            <circle cx="78" cy="70" r="14" fill="#fff" />
+            <circle cx="132" cy="70" r="14" fill="#fff" />
+            <circle cx="78" cy="72" r="6" fill="#0f1b3d" />
+            <circle cx="132" cy="72" r="6" fill="#0f1b3d" />
+            <path
+              d="M88 98c10-8 24-8 34 0"
+              fill="none"
+              stroke="#0f1b3d"
+              stroke-width="4"
+              stroke-linecap="round"></path>
+            <!-- hungry mouth slot -->
+            <rect x="48" y="118" width="114" height="22" rx="11" fill="#0f1b3d" />
+            <!-- identical grey output stack -->
+            <g transform="translate(230 40)">
+              <rect width="86" height="110" rx="14" fill="#eef1f7" />
+              <rect y="8" width="86" height="110" rx="14" fill="#e4e8f2" />
+              <rect y="16" width="86" height="110" rx="14" fill="#fff" />
+              <text
+                x="43"
+                y="55"
+                text-anchor="middle"
+                fill="#8a93ae"
+                font-family="Poppins, sans-serif"
+                font-size="12"
+                font-weight="700">Q</text
+              >
+              <text
+                x="43"
+                y="78"
+                text-anchor="middle"
+                fill="#8a93ae"
+                font-family="Poppins, sans-serif"
+                font-size="12"
+                font-weight="700">Q</text
+              >
+              <text
+                x="43"
+                y="101"
+                text-anchor="middle"
+                fill="#8a93ae"
+                font-family="Poppins, sans-serif"
+                font-size="12"
+                font-weight="700">Q</text
+              >
+            </g>
+            <text
+              x="105"
+              y="210"
+              text-anchor="middle"
+              fill="#5a6485"
+              font-family="Poppins, sans-serif"
+              font-size="13"
+              font-weight="700">Generic bank</text
+            >
+          </g>
+
+          <!-- bounce marks: colorful pills rejected -->
+          <g class="bounce">
+            <path
+              d="M360 250c20-30 40-30 54-10"
+              fill="none"
+              stroke="#3562f5"
+              stroke-width="3"
+              stroke-dasharray="6 6"
+              stroke-linecap="round"></path>
+            <rect x="400" y="200" width="100" height="32" rx="16" fill="#ffd0d6" />
+            <text
+              x="450"
+              y="221"
+              text-anchor="middle"
+              fill="#0f1b3d"
+              font-family="Poppins, sans-serif"
+              font-size="12"
+              font-weight="700">cranial nerves</text
+            >
+          </g>
+
+          <!-- RESURFACE CATCHER BLOB -->
+          <g filter="url(#mSoft)" transform="translate(70 290)">
+            <g class="float-b">
+              <ellipse cx="70" cy="78" rx="74" ry="58" fill="#3562f5" />
+              <circle cx="48" cy="68" r="10" fill="#fff" />
+              <circle cx="86" cy="68" r="10" fill="#fff" />
+              <circle cx="50" cy="69" r="4.5" fill="#0f1b3d" />
+              <circle cx="88" cy="69" r="4.5" fill="#0f1b3d" />
+              <path
+                d="M52 88c8 10 24 10 34 0"
+                fill="none"
+                stroke="#fff"
+                stroke-width="4"
+                stroke-linecap="round"></path>
+              <!-- net -->
+              <g transform="translate(120 10) rotate(18)">
+                <circle
+                  cx="40"
+                  cy="40"
+                  r="34"
+                  fill="none"
+                  stroke="#a1c0ff"
+                  stroke-width="6"></circle>
+                <path
+                  d="M40 6v68M6 40h68M16 16l48 48M64 16L16 64"
+                  stroke="#a1c0ff"
+                  stroke-width="3"
+                  opacity=".7"></path>
+                <path
+                  d="M40 74v36"
+                  stroke="#2450e8"
+                  stroke-width="6"
+                  stroke-linecap="round"></path>
+              </g>
+              <!-- caught pill becoming a question -->
+              <g transform="translate(175 8)">
+                <rect width="130" height="84" rx="22" fill="#fff" />
+                <text
+                  x="65"
+                  y="28"
+                  text-anchor="middle"
+                  fill="#3562f5"
+                  font-family="Poppins, sans-serif"
+                  font-size="11"
+                  font-weight="700">CUSTOM Q</text
+                >
+                <text
+                  x="65"
+                  y="52"
+                  text-anchor="middle"
+                  fill="#0f1b3d"
+                  font-family="Poppins, sans-serif"
+                  font-size="13"
+                  font-weight="700">cranial nerves?</text
+                >
+                <rect x="28" y="62" width="74" height="10" rx="5" fill="#e7f6ed"
+                ></rect>
+              </g>
+            </g>
+          </g>
+
+          <text
+            x="780"
+            y="330"
+            text-anchor="middle"
+            fill="#8a93ae"
+            font-family="Poppins, sans-serif"
+            font-size="12"
+            font-weight="700">same Qs for everyone</text
+          >
+        </svg>
+      </div>
     </div>
   </section>
 
@@ -1176,112 +1395,61 @@ const marquee = "Resurface it. Just before it sinks. ";
     color: var(--ink-soft);
   }
 
-  .ai-comic {
-    list-style: none;
-    margin-top: clamp(28px, 4vh, 40px);
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(14px, 2.5vw, 22px);
+  .ai-mural {
+    margin-top: clamp(24px, 4vh, 36px);
   }
-  .beat {
-    position: relative;
-    background: var(--white);
-    border-radius: 28px;
+  .mural-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 36px;
     box-shadow:
-      0 4px 14px rgba(20, 44, 130, 0.04),
-      0 18px 40px rgba(20, 44, 130, 0.08);
-    padding: 18px 16px 16px;
-    min-height: 100%;
-  }
-  .beat-n {
-    position: absolute;
-    top: -11px;
-    left: 16px;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--blue);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 700;
-    display: grid;
-    place-items: center;
-    box-shadow: 0 6px 14px rgba(20, 44, 130, 0.22);
-  }
-  .beat-label {
-    margin: 8px 4px 14px;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
-    color: var(--ink);
-    line-height: 1.3;
+      0 4px 16px rgba(20, 44, 130, 0.05),
+      0 24px 50px rgba(20, 44, 130, 0.1);
   }
 
-  .beat-art {
-    border-radius: 22px;
-    padding: 22px 14px;
-    min-height: 120px;
-    display: grid;
-    place-items: center;
+  .fall {
+    animation: fall 3.4s ease-in-out infinite;
   }
-  .beat-note {
-    background: linear-gradient(160deg, #fff6d0 0%, #ffe9a8 100%);
+  .f2 {
+    animation-delay: -0.7s;
   }
-  .beat-bank {
-    background: linear-gradient(160deg, #e8edf8 0%, #d5def2 100%);
+  .f3 {
+    animation-delay: -1.4s;
   }
-  .beat-ai {
-    background: linear-gradient(160deg, #9eb8ff 0%, #6e8ff7 100%);
+  .f4 {
+    animation-delay: -0.3s;
   }
-
-  .phrase-chip {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border-radius: 999px;
-    padding: 14px 22px;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    line-height: 1.2;
-    box-shadow: 0 8px 20px rgba(20, 44, 130, 0.12);
+  .f5 {
+    animation-delay: -1.9s;
   }
-  .phrase-taught {
-    background: #fff3b0;
-    color: var(--ink);
-  }
-  .phrase-miss {
-    background: #fdeaea;
-    color: #b4232c;
-    text-decoration: line-through;
-    text-decoration-thickness: 2px;
-  }
-  .phrase-ask {
-    background: #fff;
-    color: var(--blue);
-  }
-  .miss-x {
-    flex: none;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: #d64545;
-    color: #fff;
-    display: grid;
-    place-items: center;
-    font-size: 12px;
-    line-height: 1;
-    text-decoration: none;
-  }
-
-  @media (max-width: 900px) {
-    .ai-comic {
-      grid-template-columns: 1fr;
-      max-width: 420px;
+  @keyframes fall {
+    0%,
+    100% {
+      transform: translateY(0);
     }
-    .beat-art {
-      min-height: 96px;
+    50% {
+      transform: translateY(10px);
+    }
+  }
+
+  .float-a {
+    animation: bobble 4s ease-in-out infinite;
+  }
+  .float-b {
+    animation: bobble 3.5s ease-in-out infinite;
+    animation-delay: -1.2s;
+  }
+  .bounce {
+    animation: bobble 2.8s ease-in-out infinite;
+  }
+  @keyframes bobble {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
     }
   }
 

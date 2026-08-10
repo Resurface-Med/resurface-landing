@@ -162,25 +162,25 @@ const marquee = "Resurface it. Just before it sinks. ";
         <div class="chip chip-streak">
           <span class="chip-label">Streak</span>
           <span class="chip-value">12 <em>days</em></span>
-          <!-- Catmull-Rom through the values, converted to cubic beziers,
-               rather than a polyline — the corners were the jagged look.
-               Area fill underneath so it reads as a trend, not a wire. -->
-          <!-- 124 wide, not 120: the end dot has r=2.6, so at cx=120 it
-               would clip against the right edge of a 120-wide box. -->
-          <svg class="spark" viewBox="0 0 124 32" aria-hidden="true">
-            <!-- No area fill. Closing the curve to a baseline left a hard
-                 vertical cut where the line ends, which read as a bright
-                 block against the frosted card — worse than the jaggedness
-                 it was meant to soften. -->
-            <path
-              fill="none"
-              stroke="rgba(255,255,255,.92)"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M0,26 C2.5,25.5 10,23.3 15,23 C20,22.7 25,24.8 30,24 C35,23.2 40,18.8 45,18 C50,17.2 55,19.8 60,19 C65,18.2 70,14.1 75,13 C80,11.9 85,13.5 90,12.5 C95,11.5 100,8.2 105,7 C110,5.8 117.5,5.3 120,5"
-            ></path>
-            <circle cx="120" cy="5" r="2.6" fill="#fff"></circle>
+          <!-- Signal-strength bars: every bar taller than the last. Six
+               bars of 14 with an 8 gap fill the 124 box exactly, so the
+               row is flush to both edges with no stray margin. The
+               opacity ramp makes it read as a climb rather than as a
+               signal meter where dim bars would mean "not reached". -->
+          <svg class="bars" viewBox="0 0 124 32" aria-hidden="true">
+            <g fill="#fff">
+              <rect x="0" y="22" width="14" height="10" rx="4" opacity=".55"
+              ></rect>
+              <rect x="22" y="18" width="14" height="14" rx="4" opacity=".64"
+              ></rect>
+              <rect x="44" y="14" width="14" height="18" rx="4" opacity=".73"
+              ></rect>
+              <rect x="66" y="9" width="14" height="23" rx="4" opacity=".82"
+              ></rect>
+              <rect x="88" y="5" width="14" height="27" rx="4" opacity=".91"
+              ></rect>
+              <rect x="110" y="0" width="14" height="32" rx="4"></rect>
+            </g>
           </svg>
         </div>
 
@@ -644,12 +644,11 @@ const marquee = "Resurface it. Just before it sinks. ";
     top: 4%;
     right: -6%;
   }
-  /* Aspect matches the 124x32 viewBox, so the curve isn't letterboxed. */
-  .spark {
+  /* Aspect matches the 124x32 viewBox, so the bars aren't letterboxed. */
+  .bars {
     width: 112px;
     height: 29px;
-    margin-top: 4px;
-    overflow: visible;
+    margin-top: 6px;
   }
   .chip-acc {
     bottom: 11%;

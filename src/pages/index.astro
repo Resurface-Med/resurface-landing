@@ -55,7 +55,7 @@ const marquee = "Resurface it. Just before it sinks. ";
 ---
 
 <Base
-  title="Resurface — practice questions for UK medical students"
+  title="Resurface - practice questions for UK medical students"
   description="A question bank for UK medical students that follows the topics on your course, with AI that can write extra questions from your study material."
 >
   <!-- -------------------------------------------------------------- NAV -->
@@ -334,7 +334,7 @@ const marquee = "Resurface it. Just before it sinks. ";
         </p>
         <p>
           Resurface keeps track of what you’re finding hard, so the time you
-          spend studying goes toward the topics that still need work — not only
+          spend studying goes toward the topics that still need work, not only
           the ones that already feel familiar.
         </p>
       </div>
@@ -402,15 +402,27 @@ const marquee = "Resurface it. Just before it sinks. ";
     </div>
   </section>
 
+  <!-- ============================================ LIGHT: BUILT BY -->
+  <section class="light built" id="built">
+    <div class="wrap built-inner">
+      <h2 class="built-heading section-h">
+        Built for med students, by a med student.
+      </h2>
+      <p class="built-lead">
+        Resurface comes from someone on the same course, so it follows how
+        lectures and exams actually work, not a generic study app template.
+      </p>
+    </div>
+  </section>
+
   <Wave from="var(--panel)" to="var(--blue)" flip />
 
   <!-- ------------------------------------------------------------ CLOSER -->
   <section class="closer">
     <div class="wrap closer-inner">
       <h2>Stop rereading. Start practising.</h2>
-      <p>Built for Year 1 MBChB. Free while it's in testing.</p>
+      <p>Free while it's in testing. No account, no payment.</p>
       <a class="btn-white big" href={APP_URL}>Start studying <span>→</span></a>
-      <p class="fine">Free while it's in testing. No account, no payment.</p>
     </div>
   </section>
 
@@ -1457,6 +1469,28 @@ const marquee = "Resurface it. Just before it sinks. ";
     }
   }
 
+  /* --------------------------------------------------------------- BUILT */
+  .built {
+    padding: clamp(48px, 8vh, 88px) 0;
+    border-top: 1px solid var(--line);
+  }
+  .built-inner {
+    max-width: 36rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .built-heading {
+    margin: 0;
+  }
+  .built-lead {
+    margin: 16px auto 0;
+    font-size: clamp(16px, 1.7vw, 18px);
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    line-height: 1.45;
+    color: var(--ink-soft);
+  }
+
   /* --------------------------------------------------------------- CLOSER */
   .closer {
     background: var(--blue);
@@ -1701,7 +1735,7 @@ const marquee = "Resurface it. Just before it sinks. ";
       const right = picked === s.ans;
       verdict.textContent = right
         ? "Correct."
-        : `Not quite — it's ${letter(s.ans)}.`;
+        : `Not quite. It's ${letter(s.ans)}.`;
 
       // The per-option explanation is the point: you get told why *your*
       // answer was wrong, not just what the right one was.

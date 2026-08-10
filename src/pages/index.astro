@@ -97,10 +97,13 @@ const marquee = "Resurface it. Just before it sinks. ";
         />
       </a>
 
+      <!-- Ordered to match the page, not habit: the demo now sits above
+           How it works, and in-page links that jump backwards are
+           disorienting. -->
       <div class="nav-links">
-        <a href="#how">How it works</a>
         <a href="#subjects">Subjects</a>
         <a href="#modes">Question modes</a>
+        <a href="#how">How it works</a>
       </div>
 
       <a class="nav-cta" href={APP_URL}>Start studying</a>
@@ -253,130 +256,11 @@ const marquee = "Resurface it. Just before it sinks. ";
 
   <Wave from="var(--blue)" to="var(--panel)" />
 
-  <!-- ================================================== LIGHT: PILLARS -->
-  <section class="light pillars-band">
-    <div class="wrap">
-      <div class="sheet">
-        {
-          pillars.map((p) => (
-            <article class="pillar">
-              <span class="tile">
-                {p.icon === "recall" && (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <rect x="3" y="6" width="12" height="14" rx="3" />
-                    <path d="M9 4h9a3 3 0 0 1 3 3v10" />
-                  </svg>
-                )}
-                {p.icon === "spaced" && (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M4 9v6M10 6v12M16 8v8M21 10v4" />
-                  </svg>
-                )}
-                {p.icon === "retention" && (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.6-7 9-7 9z" />
-                  </svg>
-                )}
-              </span>
-              <h3>{p.title}</h3>
-              <p>{p.body}</p>
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================ LIGHT: HOW IT WORKS -->
-  <section class="light how" id="how">
-    <div class="wrap">
-      <div class="head">
-        <span class="pill">Simple process</span>
-        <h2 class="section-h">How it works</h2>
-      </div>
-
-      <ol class="steps">
-        {
-          steps.map((s) => (
-            <li class="step">
-              <span class="num">{s.n}</span>
-              <div class="art">
-                {s.art === "answer" && (
-                  <svg viewBox="0 0 96 72" aria-hidden="true">
-                    <rect x="6" y="18" width="52" height="38" rx="7" fill="#c9d7ff" />
-                    <rect x="17" y="12" width="52" height="38" rx="7" fill="#a7bfff" />
-                    <rect x="28" y="16" width="56" height="44" rx="8" fill="#fff" stroke="#d6e0f5" />
-                    <rect x="37" y="27" width="30" height="4.5" rx="2.25" fill="#3562f5" />
-                    <rect x="37" y="37" width="38" height="4.5" rx="2.25" fill="#dbe4ff" />
-                    <rect x="37" y="47" width="22" height="4.5" rx="2.25" fill="#dbe4ff" />
-                  </svg>
-                )}
-                {s.art === "track" && (
-                  <svg viewBox="0 0 96 72" aria-hidden="true">
-                    <rect x="5" y="14" width="40" height="45" rx="8" fill="#fff" stroke="#d6e0f5" />
-                    <rect x="51" y="14" width="40" height="45" rx="8" fill="#fff" stroke="#d6e0f5" />
-                    <circle cx="25" cy="30" r="9" fill="#e2ebff" />
-                    <path d="M21 30l3 3 6-6" fill="none" stroke="#3562f5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
-                    <circle cx="71" cy="30" r="9" fill="#ffe1e3" />
-                    <path d="M68 27l6 6M74 27l-6 6" stroke="#e5484d" stroke-width="2.4" stroke-linecap="round" />
-                    <rect x="15" y="46" width="20" height="4" rx="2" fill="#dbe4ff" />
-                    <rect x="61" y="46" width="20" height="4" rx="2" fill="#dbe4ff" />
-                  </svg>
-                )}
-                {s.art === "return" && (
-                  <svg viewBox="0 0 96 72" aria-hidden="true">
-                    <rect x="20" y="12" width="56" height="50" rx="9" fill="#fff" stroke="#d6e0f5" />
-                    <path d="M20 21a9 9 0 0 1 9-9h38a9 9 0 0 1 9 9v5H20z" fill="#3562f5" />
-                    <rect x="31" y="6" width="5" height="12" rx="2.5" fill="#1e42c9" />
-                    <rect x="60" y="6" width="5" height="12" rx="2.5" fill="#1e42c9" />
-                    <g fill="#dbe4ff">
-                      <rect x="28" y="33" width="8" height="7" rx="2" />
-                      <rect x="42" y="33" width="8" height="7" rx="2" />
-                      <rect x="56" y="33" width="8" height="7" rx="2" />
-                      <rect x="28" y="45" width="8" height="7" rx="2" />
-                      <rect x="56" y="45" width="8" height="7" rx="2" />
-                    </g>
-                    <rect x="42" y="45" width="8" height="7" rx="2" fill="#3562f5" />
-                  </svg>
-                )}
-              </div>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <Wave from="var(--panel)" to="var(--blue)" flip />
-
-  <!-- ============================================= BLUE: WHY IT WORKS -->
-  <section class="why">
-    <div class="wrap why-inner">
-      <span class="pill on-blue">Why it works</span>
-      <h2>You forget most of a lecture within a week.</h2>
-      <p>
-        Revisiting material at widening intervals beats rereading it — it is
-        one of the most reliably reproduced findings in memory research.
-        Resurface runs that schedule for you, so the decision about what to
-        study today isn't yours to make.
-      </p>
-    </div>
-  </section>
-
-  <Wave from="var(--blue)" to="var(--panel)" />
-
   <!-- =========================================== LIGHT: SUBJECTS/MODES -->
   <section class="light subjects-band" id="subjects">
     <div class="wrap">
       <div class="sub-head">
-        <h2 class="section-h">Pick a subject.<br />Answer one.</h2>
-        <p class="sub-copy">
-          Every question below is a real one, straight out of the bank. Get it
-          right and you'll know why. Get it wrong and you'll know exactly
-          where — that's the bit that sticks.
-        </p>
+        <h2 class="section-h">Go on,<br />have a go.</h2>
       </div>
 
       <!-- Real buttons in a tablist, not <li>s — they drive the card
@@ -501,6 +385,120 @@ const marquee = "Resurface it. Just before it sinks. ";
 
   <Wave from="var(--panel)" to="var(--blue)" flip />
 
+  <!-- ============================================= BLUE: WHY IT WORKS -->
+  <section class="why">
+    <div class="wrap why-inner">
+      <span class="pill on-blue">Why it works</span>
+      <h2>You forget most of a lecture within a week.</h2>
+      <p>
+        Revisiting material at widening intervals beats rereading it — it is
+        one of the most reliably reproduced findings in memory research.
+        Resurface runs that schedule for you, so the decision about what to
+        study today isn't yours to make.
+      </p>
+    </div>
+  </section>
+
+  <Wave from="var(--blue)" to="var(--panel)" />
+
+  <!-- ================================================== LIGHT: PILLARS -->
+  <section class="light pillars-band">
+    <div class="wrap">
+      <div class="sheet">
+        {
+          pillars.map((p) => (
+            <article class="pillar">
+              <span class="tile">
+                {p.icon === "recall" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <rect x="3" y="6" width="12" height="14" rx="3" />
+                    <path d="M9 4h9a3 3 0 0 1 3 3v10" />
+                  </svg>
+                )}
+                {p.icon === "spaced" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 9v6M10 6v12M16 8v8M21 10v4" />
+                  </svg>
+                )}
+                {p.icon === "retention" && (
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 20s-7-4.4-7-9a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 4.6-7 9-7 9z" />
+                  </svg>
+                )}
+              </span>
+              <h3>{p.title}</h3>
+              <p>{p.body}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ LIGHT: HOW IT WORKS -->
+  <section class="light how" id="how">
+    <div class="wrap">
+      <div class="head">
+        <span class="pill">Simple process</span>
+        <h2 class="section-h">How it works</h2>
+      </div>
+
+      <ol class="steps">
+        {
+          steps.map((s) => (
+            <li class="step">
+              <span class="num">{s.n}</span>
+              <div class="art">
+                {s.art === "answer" && (
+                  <svg viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="6" y="18" width="52" height="38" rx="7" fill="#c9d7ff" />
+                    <rect x="17" y="12" width="52" height="38" rx="7" fill="#a7bfff" />
+                    <rect x="28" y="16" width="56" height="44" rx="8" fill="#fff" stroke="#d6e0f5" />
+                    <rect x="37" y="27" width="30" height="4.5" rx="2.25" fill="#3562f5" />
+                    <rect x="37" y="37" width="38" height="4.5" rx="2.25" fill="#dbe4ff" />
+                    <rect x="37" y="47" width="22" height="4.5" rx="2.25" fill="#dbe4ff" />
+                  </svg>
+                )}
+                {s.art === "track" && (
+                  <svg viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="5" y="14" width="40" height="45" rx="8" fill="#fff" stroke="#d6e0f5" />
+                    <rect x="51" y="14" width="40" height="45" rx="8" fill="#fff" stroke="#d6e0f5" />
+                    <circle cx="25" cy="30" r="9" fill="#e2ebff" />
+                    <path d="M21 30l3 3 6-6" fill="none" stroke="#3562f5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="71" cy="30" r="9" fill="#ffe1e3" />
+                    <path d="M68 27l6 6M74 27l-6 6" stroke="#e5484d" stroke-width="2.4" stroke-linecap="round" />
+                    <rect x="15" y="46" width="20" height="4" rx="2" fill="#dbe4ff" />
+                    <rect x="61" y="46" width="20" height="4" rx="2" fill="#dbe4ff" />
+                  </svg>
+                )}
+                {s.art === "return" && (
+                  <svg viewBox="0 0 96 72" aria-hidden="true">
+                    <rect x="20" y="12" width="56" height="50" rx="9" fill="#fff" stroke="#d6e0f5" />
+                    <path d="M20 21a9 9 0 0 1 9-9h38a9 9 0 0 1 9 9v5H20z" fill="#3562f5" />
+                    <rect x="31" y="6" width="5" height="12" rx="2.5" fill="#1e42c9" />
+                    <rect x="60" y="6" width="5" height="12" rx="2.5" fill="#1e42c9" />
+                    <g fill="#dbe4ff">
+                      <rect x="28" y="33" width="8" height="7" rx="2" />
+                      <rect x="42" y="33" width="8" height="7" rx="2" />
+                      <rect x="56" y="33" width="8" height="7" rx="2" />
+                      <rect x="28" y="45" width="8" height="7" rx="2" />
+                      <rect x="56" y="45" width="8" height="7" rx="2" />
+                    </g>
+                    <rect x="42" y="45" width="8" height="7" rx="2" fill="#3562f5" />
+                  </svg>
+                )}
+              </div>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <Wave from="var(--panel)" to="var(--blue)" flip />
+
   <!-- ------------------------------------------------------------ CLOSER -->
   <section class="closer">
     <div class="wrap closer-inner">
@@ -526,9 +524,9 @@ const marquee = "Resurface it. Just before it sinks. ";
 
       <nav class="foot-col" aria-label="Product">
         <h4>Product</h4>
-        <a href="#how">How it works</a>
         <a href="#subjects">Subjects</a>
         <a href="#modes">Question modes</a>
+        <a href="#how">How it works</a>
         <a href={APP_URL}>Start studying</a>
       </nav>
 
@@ -1096,12 +1094,6 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
   .sub-head {
     max-width: 620px;
-  }
-  .sub-copy {
-    margin-top: 15px;
-    color: var(--ink-soft);
-    font-size: 17px;
-    max-width: 42ch;
   }
 
   .chips {

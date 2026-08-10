@@ -402,26 +402,16 @@ const marquee = "Resurface it. Just before it sinks. ";
     </div>
   </section>
 
-  <!-- ============================================ LIGHT: BUILT BY -->
-  <section class="light built" id="built">
-    <div class="wrap built-inner">
-      <h2 class="built-heading section-h">
-        Built for med students, by a med student.
-      </h2>
-      <p class="built-lead">
-        Resurface comes from someone on the same course, so it follows how
-        lectures and exams actually work, not a generic study app template.
-      </p>
-    </div>
-  </section>
-
   <Wave from="var(--panel)" to="var(--blue)" flip />
 
   <!-- ------------------------------------------------------------ CLOSER -->
   <section class="closer">
     <div class="wrap closer-inner">
-      <h2>Stop rereading. Start practising.</h2>
-      <p>Free while it's in testing. No account, no payment.</p>
+      <h2>Built for med students, by a med student.</h2>
+      <p>
+        Yes, someone who has also highlighted an entire PDF and called it
+        revision. Free while it's in testing.
+      </p>
       <a class="btn-white big" href={APP_URL}>Start studying <span>→</span></a>
     </div>
   </section>
@@ -1469,28 +1459,6 @@ const marquee = "Resurface it. Just before it sinks. ";
     }
   }
 
-  /* --------------------------------------------------------------- BUILT */
-  .built {
-    padding: clamp(48px, 8vh, 88px) 0;
-    border-top: 1px solid var(--line);
-  }
-  .built-inner {
-    max-width: 36rem;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .built-heading {
-    margin: 0;
-  }
-  .built-lead {
-    margin: 16px auto 0;
-    font-size: clamp(16px, 1.7vw, 18px);
-    font-weight: 500;
-    letter-spacing: -0.2px;
-    line-height: 1.45;
-    color: var(--ink-soft);
-  }
-
   /* --------------------------------------------------------------- CLOSER */
   .closer {
     background: var(--blue);
@@ -1508,13 +1476,10 @@ const marquee = "Resurface it. Just before it sinks. ";
   }
   .closer p {
     margin: 14px auto 30px;
+    max-width: 36ch;
     color: var(--on-blue-soft);
     font-size: 17px;
-  }
-  .closer .fine {
-    margin: 18px auto 0;
-    font-size: 13.5px;
-    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.45;
   }
 
   /* ----------------------------------------------------------------- FOOT */

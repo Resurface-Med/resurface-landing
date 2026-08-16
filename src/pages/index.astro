@@ -552,19 +552,25 @@ const marquee = "Don't let the lecture sink. ";
     pointer-events: auto;
     max-width: var(--wrap);
     margin: 0 auto;
-    background: var(--white);
+    /* Slightly translucent with a blur, so content passing underneath is felt
+       rather than hidden — the pill stops looking like a solid bar laid on top
+       of the page. */
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
     /* A white pill on the blue field separates itself. Over .light
        (#F3F6FE) it is white-on-almost-white, so it carries its own edge:
        a hairline plus a tight contact shadow under the big soft one. */
     border: 1px solid rgba(15, 27, 61, 0.08);
     border-radius: var(--radius-pill);
     box-shadow:
-      0 1px 2px rgba(15, 27, 61, 0.06),
-      0 10px 30px rgba(20, 44, 130, 0.16);
+      0 1px 2px rgba(15, 27, 61, 0.05),
+      0 8px 24px rgba(20, 44, 130, 0.1);
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 9px 9px 9px 24px;
+    padding: 8px 8px 8px 22px;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
   }
   .brand {
     margin-right: auto;
@@ -577,13 +583,29 @@ const marquee = "Don't let the lecture sink. ";
   }
   .nav-links {
     display: flex;
-    gap: 30px;
-    font-size: 15px;
+    align-items: center;
+    gap: 4px;
+    font-size: 14.5px;
     font-weight: 500;
     color: var(--ink-soft);
   }
+  /* Links sit in their own hit areas rather than floating as bare text, so the
+     row reads as controls and the target is a comfortable size. */
+  .nav-links a {
+    position: relative;
+    padding: 9px 15px;
+    border-radius: var(--radius-pill);
+    transition: color 0.16s ease, background-color 0.16s ease;
+  }
   .nav-links a:hover {
+    color: var(--ink);
+    background: var(--wash);
+  }
+  /* Marks the section you are actually looking at. */
+  .nav-links a.is-current {
     color: var(--blue);
+    background: var(--wash);
+    font-weight: 600;
   }
   .nav-cta {
     background: var(--blue);
@@ -830,8 +852,13 @@ const marquee = "Don't let the lecture sink. ";
   .nav {
     opacity: 0;
     transform: translateY(-18px) scale(0.97);
+    /* Safety net: if the class never lands, the nav still appears. */
+    animation: nav-failsafe 0.01s linear 1.6s forwards;
   }
-  .field.is-ready .nav {
+  @keyframes nav-failsafe {
+    to { opacity: 1; transform: none; }
+  }
+  .nav-wrap.is-ready .nav {
     animation: nav-drop 0.7s cubic-bezier(0.34, 1.32, 0.5, 1) both;
   }
   @keyframes nav-drop {
@@ -843,17 +870,18 @@ const marquee = "Don't let the lecture sink. ";
   .nav-links > *,
   .nav-cta {
     opacity: 0;
+    animation: nav-failsafe 0.01s linear 1.6s forwards;
   }
-  .field.is-ready .brand,
-  .field.is-ready .nav-links > *,
-  .field.is-ready .nav-cta {
+  .nav-wrap.is-ready .brand,
+  .nav-wrap.is-ready .nav-links > *,
+  .nav-wrap.is-ready .nav-cta {
     animation: nav-item 0.45s ease both;
   }
-  .field.is-ready .brand      { animation-delay: 0.22s; }
-  .field.is-ready .nav-links > *:nth-child(1) { animation-delay: 0.28s; }
-  .field.is-ready .nav-links > *:nth-child(2) { animation-delay: 0.33s; }
-  .field.is-ready .nav-links > *:nth-child(3) { animation-delay: 0.38s; }
-  .field.is-ready .nav-cta    { animation-delay: 0.44s; }
+  .nav-wrap.is-ready .brand      { animation-delay: 0.22s; }
+  .nav-wrap.is-ready .nav-links > *:nth-child(1) { animation-delay: 0.28s; }
+  .nav-wrap.is-ready .nav-links > *:nth-child(2) { animation-delay: 0.33s; }
+  .nav-wrap.is-ready .nav-links > *:nth-child(3) { animation-delay: 0.38s; }
+  .nav-wrap.is-ready .nav-cta    { animation-delay: 0.44s; }
   @keyframes nav-item {
     from { opacity: 0; transform: translateY(-6px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -1913,11 +1941,26 @@ const marquee = "Don't let the lecture sink. ";
   }
 
   @media (max-width: 900px) {
-    .nav-links {
-      display: none;
-    }
     .nav {
       padding-left: 18px;
+      flex-wrap: wrap;
+      row-gap: 4px;
+      border-radius: 26px;
+    }
+    /* Was display:none, which left no way to reach the sections at all. Now it
+       wraps to its own full-width row under the brand and CTA. */
+    .nav-links {
+      order: 3;
+      width: 100%;
+      justify-content: space-between;
+      gap: 2px;
+      border-top: 1px solid rgba(15, 27, 61, 0.07);
+      padding-top: 6px;
+      margin-top: 2px;
+    }
+    .nav-links a {
+      padding: 8px 10px;
+      font-size: 14px;
     }
     h1 {
       letter-spacing: -1.4px;
@@ -2008,11 +2051,15 @@ const marquee = "Don't let the lecture sink. ";
   (() => {
     const hero = document.querySelector<HTMLElement>(".hero");
     const field = document.querySelector<HTMLElement>(".field");
+    // The nav is deliberately outside .field so it sticks to the page rather
+    // than the blue band, so it needs the class in its own right.
+    const navWrap = document.querySelector<HTMLElement>(".nav-wrap");
     if (!hero) return;
 
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
       hero.classList.add("is-ready");
       field?.classList.add("is-ready");
+      navWrap?.classList.add("is-ready");
       return;
     }
 
@@ -2022,6 +2069,7 @@ const marquee = "Don't let the lecture sink. ";
       requestAnimationFrame(() => {
         hero.classList.add("is-ready");
         field?.classList.add("is-ready");
+        navWrap?.classList.add("is-ready");
       })
     );
   })();
@@ -2078,6 +2126,38 @@ const marquee = "Don't let the lecture sink. ";
       clearTimeout(t);
       t = window.setTimeout(reserve, 150);
     });
+  })();
+
+  // Highlights whichever section is on screen, so the nav says where you are
+  // rather than only where you can go.
+  (() => {
+    const links = [...document.querySelectorAll<HTMLAnchorElement>(".nav-links a")];
+    const sections = links
+      .map((a) => {
+        const id = a.getAttribute("href")?.replace("#", "");
+        const el = id ? document.getElementById(id) : null;
+        return el ? { link: a, el } : null;
+      })
+      .filter((x): x is { link: HTMLAnchorElement; el: HTMLElement } => x !== null);
+
+    if (!sections.length) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const match = sections.find((s) => s.el === entry.target);
+          if (!match) continue;
+          // Only one at a time: the last section to become mostly visible wins.
+          if (entry.isIntersecting) {
+            links.forEach((l) => l.classList.remove("is-current"));
+            match.link.classList.add("is-current");
+          }
+        }
+      },
+      { threshold: 0.4, rootMargin: "-15% 0px -35% 0px" }
+    );
+
+    sections.forEach((s) => io.observe(s.el));
   })();
 
   // Nav: tightens and lifts once the page scrolls, so it stops reading as part

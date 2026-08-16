@@ -68,7 +68,11 @@ const marquee = "Don't let the lecture sink. ";
         filter: none !important;
       }
       .books-float { opacity: 1 !important; transform: none !important; }
-      .typed-out { background-size: 100% 3px !important; }
+      .nav, .brand, .nav-links > *, .nav-cta {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .ribbon { clip-path: none !important; }
     </style>
   </noscript>
 
@@ -791,23 +795,7 @@ const marquee = "Don't let the lecture sink. ";
     to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
   }
 
-  /* The accent word gets its own beat: a rule sweeps in beneath it just after
-     the headline settles — the thing rising back up, in miniature.
-     Drawn as a background so it never affects layout, and sized in the same
-     declaration it animates, so no-JS leaves the word simply underlined. */
-  .typed-out {
-    background-image: linear-gradient(var(--peri), var(--peri));
-    background-repeat: no-repeat;
-    background-position: 0 92%;
-    background-size: 100% 3px;
-  }
-  .hero.is-ready .typed-out {
-    animation: hl-sweep 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both;
-  }
-  @keyframes hl-sweep {
-    from { background-size: 0% 3px; }
-    to   { background-size: 100% 3px; }
-  }
+
 
   /* Blobs drift up to size behind everything, slowly enough to read as depth
      rather than as an element arriving. */
@@ -833,7 +821,67 @@ const marquee = "Don't let the lecture sink. ";
       filter: none;
       animation: none !important;
     }
-    .typed-out { background-size: 100% 3px; }
+  }
+
+
+  /* --------------------------------------------------- NAV + RIBBON ENTRY */
+  /* The nav drops in as one piece and its contents follow, so the pill reads
+     as an object arriving rather than three things fading. */
+  .nav {
+    opacity: 0;
+    transform: translateY(-18px) scale(0.97);
+  }
+  .field.is-ready .nav {
+    animation: nav-drop 0.7s cubic-bezier(0.34, 1.32, 0.5, 1) both;
+  }
+  @keyframes nav-drop {
+    from { opacity: 0; transform: translateY(-18px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .brand,
+  .nav-links > *,
+  .nav-cta {
+    opacity: 0;
+  }
+  .field.is-ready .brand,
+  .field.is-ready .nav-links > *,
+  .field.is-ready .nav-cta {
+    animation: nav-item 0.45s ease both;
+  }
+  .field.is-ready .brand      { animation-delay: 0.22s; }
+  .field.is-ready .nav-links > *:nth-child(1) { animation-delay: 0.28s; }
+  .field.is-ready .nav-links > *:nth-child(2) { animation-delay: 0.33s; }
+  .field.is-ready .nav-links > *:nth-child(3) { animation-delay: 0.38s; }
+  .field.is-ready .nav-cta    { animation-delay: 0.44s; }
+  @keyframes nav-item {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* The ribbon unrolls: clipped to nothing, then opened out from the centre,
+     which suits a band of text that is already travelling sideways. */
+  .ribbon {
+    clip-path: inset(0 50% 0 50%);
+  }
+  .field.is-ready .ribbon {
+    animation: ribbon-unroll 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both;
+  }
+  @keyframes ribbon-unroll {
+    from { clip-path: inset(0 50% 0 50%); }
+    to   { clip-path: inset(0 0 0 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav,
+    .brand,
+    .nav-links > *,
+    .nav-cta {
+      opacity: 1;
+      transform: none;
+      animation: none !important;
+    }
+    .ribbon { clip-path: none; }
   }
 
   /* ------------------------------------------------- SCROLL REVEAL (generic) */
@@ -1463,6 +1511,25 @@ const marquee = "Don't let the lecture sink. ";
     margin: 0;
     min-width: 0;
     width: 100%;
+    /* Set from the measured expanded height; 0 until then, so nothing is
+       reserved if the script never runs. */
+    min-height: var(--ai-stage-min, 0px);
+  }
+
+  /* Measuring pose: fully open, with every transition off so nothing animates
+     while we read the height. */
+  .ai-panel.is-measuring,
+  .ai-panel.is-measuring * {
+    transition: none !important;
+    animation: none !important;
+  }
+  .ai-panel.is-measuring .ready-reveal {
+    grid-template-rows: 1fr;
+  }
+  .ai-panel.is-measuring .ready-preview {
+    opacity: 1;
+    margin-top: 14px;
+    padding-top: 14px;
   }
   .ai-panel {
     background:
@@ -1982,6 +2049,35 @@ const marquee = "Don't let the lecture sink. ";
     );
 
     targets.forEach((el) => io.observe(el));
+  })();
+
+  // Reserve the demo's tallest state. It loops open and closed, and without
+  // this the section grew and shrank on every cycle, lifting the whole page.
+  // Measured rather than hard-coded, because the copy and font decide the
+  // height — and re-measured on resize, since the panel reflows.
+  (() => {
+    const stage = document.querySelector<HTMLElement>("#ai-stage");
+    const panel = stage?.querySelector<HTMLElement>(".ai-panel");
+    if (!stage || !panel) return;
+
+    const reserve = () => {
+      stage.style.removeProperty("--ai-stage-min");
+      panel.classList.add("is-measuring");
+      // Read in the same frame the class lands, before anything can animate.
+      const height = panel.getBoundingClientRect().height;
+      panel.classList.remove("is-measuring");
+      stage.style.setProperty("--ai-stage-min", `${Math.ceil(height)}px`);
+    };
+
+    // Fonts change the measurement, so wait for them where supported.
+    if (document.fonts?.ready) document.fonts.ready.then(reserve);
+    else reserve();
+
+    let t: number | undefined;
+    addEventListener("resize", () => {
+      clearTimeout(t);
+      t = window.setTimeout(reserve, 150);
+    });
   })();
 
   // Nav: tightens and lifts once the page scrolls, so it stops reading as part

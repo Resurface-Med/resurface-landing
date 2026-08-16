@@ -58,6 +58,20 @@ const marquee = "Don't let the lecture sink. ";
   title="Resurface - practice questions for UK medical students"
   description="A question bank for UK medical students that follows the topics on your course, with AI that can write extra questions from your study material."
 >
+  <!-- Everything that animates in starts hidden, and only JS reveals it. If
+       scripting is off, show it all immediately rather than a blank page. -->
+  <noscript>
+    <style>
+      .hero-copy > *, .blob, [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+      }
+      .books-float { opacity: 1 !important; transform: none !important; }
+      .typed-out { background-size: 100% 3px !important; }
+    </style>
+  </noscript>
+
   <!-- -------------------------------------------------------------- NAV -->
   <!-- Outside .field deliberately. A sticky element only sticks within its
        own container, and .field ends at the first wave. -->
@@ -188,7 +202,7 @@ const marquee = "Don't let the lecture sink. ";
   <!-- =========================================== LIGHT: SUBJECTS/MODES -->
   <section class="light subjects-band" id="subjects">
     <div class="wrap">
-      <div class="sub-head">
+      <div class="sub-head" data-reveal>
         <h2 class="section-h">Go on, have a go.</h2>
       </div>
 
@@ -250,7 +264,7 @@ const marquee = "Don't let the lecture sink. ";
   <section class="light ai-band" id="ai">
     <div class="wrap">
       <div class="ai-layout">
-        <div class="ai-intro">
+        <div class="ai-intro" data-reveal>
           <h2 class="ai-heading section-h">
             Most question banks miss the details in your lectures.
           </h2>
@@ -340,7 +354,7 @@ const marquee = "Don't let the lecture sink. ";
   <section class="why">
     <div class="wrap why-inner">
       <h2>You forget most of a lecture within a week.</h2>
-      <div class="why-copy">
+      <div class="why-copy" data-reveal>
         <p class="why-lead">
           Practising with questions beats rereading notes on its own.
         </p>
@@ -422,7 +436,7 @@ const marquee = "Don't let the lecture sink. ";
 
   <!-- ------------------------------------------------------------ CLOSER -->
   <section class="closer">
-    <div class="wrap closer-inner">
+    <div class="wrap closer-inner" data-reveal>
       <h2>Built for med students, by a med student.</h2>
       <p>
         For students who revise best under mild panic. Free while it's in
@@ -522,6 +536,13 @@ const marquee = "Don't let the lecture sink. ";
     z-index: 40;
     padding: 18px 24px 0;
     pointer-events: none; /* the 18px gutter shouldn't eat clicks */
+    transition: padding 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-wrap.is-stuck {
+    padding-top: 10px;
+  }
+  .nav-wrap.is-stuck .nav {
+    box-shadow: 0 10px 30px rgba(15, 30, 90, 0.16);
   }
   .nav {
     pointer-events: auto;
@@ -705,15 +726,15 @@ const marquee = "Don't let the lecture sink. ";
   }
   .books-float {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translate(46px, 30px) rotate(7deg) scale(0.9);
     transition:
       opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+      transform 1.05s cubic-bezier(0.34, 1.4, 0.5, 1);
     will-change: transform, opacity;
   }
   .stage.is-in .books-float {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(0, 0) rotate(0deg) scale(1);
   }
   .stage.is-live .books-float {
     animation: books-bob 5.6s ease-in-out infinite;
@@ -743,6 +764,99 @@ const marquee = "Don't let the lecture sink. ";
     }
     .stage.is-live .books-float {
       animation: none;
+    }
+  }
+
+
+  /* ------------------------------------------------------- HERO ENTRANCE */
+  /* The copy had no entrance at all — it was simply present, while the books
+     faded up beside it. Each line now clears from blur in sequence, so the
+     headline arrives rather than appears. Driven by a class set on load, not
+     on scroll: the hero is already in view. */
+  .hero-copy > * {
+    opacity: 0;
+    transform: translateY(26px);
+    filter: blur(10px);
+  }
+  .hero.is-ready .hero-copy > * {
+    animation: hero-rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hero.is-ready .hero-copy > *:nth-child(1) { animation-delay: 0.05s; }
+  .hero.is-ready .hero-copy > *:nth-child(2) { animation-delay: 0.16s; }
+  .hero.is-ready .hero-copy > *:nth-child(3) { animation-delay: 0.27s; }
+  .hero.is-ready .hero-copy > *:nth-child(4) { animation-delay: 0.36s; }
+
+  @keyframes hero-rise {
+    from { opacity: 0; transform: translateY(26px); filter: blur(10px); }
+    to   { opacity: 1; transform: translateY(0);    filter: blur(0); }
+  }
+
+  /* The accent word gets its own beat: a rule sweeps in beneath it just after
+     the headline settles — the thing rising back up, in miniature.
+     Drawn as a background so it never affects layout, and sized in the same
+     declaration it animates, so no-JS leaves the word simply underlined. */
+  .typed-out {
+    background-image: linear-gradient(var(--peri), var(--peri));
+    background-repeat: no-repeat;
+    background-position: 0 92%;
+    background-size: 100% 3px;
+  }
+  .hero.is-ready .typed-out {
+    animation: hl-sweep 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both;
+  }
+  @keyframes hl-sweep {
+    from { background-size: 0% 3px; }
+    to   { background-size: 100% 3px; }
+  }
+
+  /* Blobs drift up to size behind everything, slowly enough to read as depth
+     rather than as an element arriving. */
+  .blob {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+  .field.is-ready .blob {
+    animation: blob-in 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .field.is-ready .b2 { animation-delay: 0.12s; }
+  .field.is-ready .b3 { animation-delay: 0.22s; }
+  @keyframes blob-in {
+    from { opacity: 0; transform: scale(0.86); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-copy > *,
+    .blob {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      animation: none !important;
+    }
+    .typed-out { background-size: 100% 3px; }
+  }
+
+  /* ------------------------------------------------- SCROLL REVEAL (generic) */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(7px);
+    transition:
+      opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-reveal].is-vis {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+      opacity: 1;
+      transform: none;
+      filter: none;
+      transition: none;
     }
   }
 
@@ -1820,6 +1934,70 @@ const marquee = "Don't let the lecture sink. ";
       );
       io.observe(stage);
     }
+  })();
+
+  // Hero: the copy clears from blur on load. Not scroll-driven — it is already
+  // on screen, and waiting for an intersection would mean a visible pause.
+  (() => {
+    const hero = document.querySelector<HTMLElement>(".hero");
+    const field = document.querySelector<HTMLElement>(".field");
+    if (!hero) return;
+
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      hero.classList.add("is-ready");
+      field?.classList.add("is-ready");
+      return;
+    }
+
+    // Two frames: one for the initial styles to be applied, one so the class
+    // change is a separate paint and the animation actually runs.
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => {
+        hero.classList.add("is-ready");
+        field?.classList.add("is-ready");
+      })
+    );
+  })();
+
+  // One observer for every [data-reveal] on the page, so adding a section to
+  // the sequence is a markup change rather than another script.
+  (() => {
+    const targets = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    if (!targets.length) return;
+
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      targets.forEach((el) => el.classList.add("is-vis"));
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add("is-vis");
+          io.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+    );
+
+    targets.forEach((el) => io.observe(el));
+  })();
+
+  // Nav: tightens and lifts once the page scrolls, so it stops reading as part
+  // of the hero. A sentinel rather than a scroll handler — no work per frame.
+  (() => {
+    const navWrap = document.querySelector<HTMLElement>(".nav-wrap");
+    if (!navWrap) return;
+
+    const sentinel = document.createElement("div");
+    sentinel.style.cssText = "position:absolute;top:0;height:1px;width:1px;";
+    document.body.prepend(sentinel);
+
+    new IntersectionObserver(
+      ([entry]) => navWrap.classList.toggle("is-stuck", !entry.isIntersecting),
+      { threshold: 0 }
+    ).observe(sentinel);
   })();
 
   // How it works: steps clear in from a soft blur, like the process itself.

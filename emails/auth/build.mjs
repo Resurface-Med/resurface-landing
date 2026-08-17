@@ -11,8 +11,8 @@ const dir = dirname(fileURLToPath(import.meta.url));
 // anything still triggers it, but the product path is password + these two.
 
 const codeBlock = `
-  <div style="margin:8px 0 4px;padding:22px 16px;background:#f3f6fe;border-radius:18px;text-align:center;">
-    <div style="font-family:Poppins,Arial,Helvetica,sans-serif;font-size:40px;font-weight:700;letter-spacing:0.28em;color:#0f1b3d;font-variant-numeric:tabular-nums;">
+  <div class="rs-code-wrap" style="margin:10px 0 2px;padding:18px 12px;background-color:#f3f6fe;border-radius:16px;text-align:center;" bgcolor="#f3f6fe">
+    <div class="rs-code" style="font-family:Poppins,Arial,Helvetica,sans-serif;font-size:34px;font-weight:700;letter-spacing:0.22em;color:#0f1b3d;font-variant-numeric:tabular-nums;line-height:1.2;">
       {{ .Token }}
     </div>
   </div>

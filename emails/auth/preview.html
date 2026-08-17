@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Resurface auth email preview</title>
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; background: #0f1b3d; color: #fff; }
+    nav { display: flex; gap: 8px; padding: 12px 16px; flex-wrap: wrap; align-items: center; }
+    nav a { color: #fff; text-decoration: none; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.12); font-size: 14px; }
+    nav a.on { background: #3562f5; }
+    iframe { width: 100%; height: calc(100vh - 56px); border: 0; background: #3562f5; }
+  </style>
+</head>
+<body>
+  <nav>
+    <strong style="margin-right:8px">Preview</strong>
+    <a href="?t=confirmation" id="a-confirmation">Confirm</a>
+    <a href="?t=magic_link" id="a-magic_link">Magic link</a>
+    <a href="?t=recovery" id="a-recovery">Reset</a>
+  </nav>
+  <iframe id="frame" title="email"></iframe>
+  <script>
+    const t = new URLSearchParams(location.search).get("t") || "confirmation";
+    document.getElementById("a-" + t)?.classList.add("on");
+    fetch(t + ".html")
+      .then((r) => r.text())
+      .then((html) => {
+        const fake = html
+          .replaceAll("{{ .Token }}", "482913")
+          .replaceAll("{{ .Email }}", "you@example.com");
+        const doc = document.getElementById("frame").contentDocument;
+        doc.open(); doc.write(fake); doc.close();
+      });
+  </script>
+</body>
+</html>

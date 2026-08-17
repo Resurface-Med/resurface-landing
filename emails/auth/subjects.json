@@ -1,0 +1,14 @@
+{
+  "confirmation": {
+    "subject": "Your Resurface confirmation code",
+    "file": "confirmation.html"
+  },
+  "magic_link": {
+    "subject": "Your Resurface sign-in code",
+    "file": "magic_link.html"
+  },
+  "recovery": {
+    "subject": "Reset is now a sign-in code",
+    "file": "recovery.html"
+  }
+}

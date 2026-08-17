@@ -5,13 +5,17 @@ import { shell } from "./_shell.js";
 
 const dir = dirname(fileURLToPath(import.meta.url));
 
-// OTP emails must include {{ .Token }} and must NOT include
-// {{ .ConfirmationURL }}. Supabase treats ConfirmationURL as a magic link;
-// including it is what made mail apps burn the session in the wrong browser.
+// CRITICAL: magic_link / confirmation must include {{ .Token }} and must NOT
+// include {{ .ConfirmationURL }}. If ConfirmationURL is present, GoTrue sends
+// a clickable magic link instead of an OTP — which is exactly the mail-app
+// cross-browser bug we are trying to kill.
+//
+// Keep the code block close to the top of the HTML body so the Token variable
+// is unmistakable to GoTrue's template scanner.
 
 const codeBlock = `
-  <div style="margin:8px 0 4px;padding:18px 16px;background:#f3f6fe;border-radius:18px;text-align:center;">
-    <div style="font-family:Poppins,Arial,Helvetica,sans-serif;font-size:36px;font-weight:700;letter-spacing:0.28em;color:#0f1b3d;font-variant-numeric:tabular-nums;">
+  <div style="margin:8px 0 4px;padding:22px 16px;background:#f3f6fe;border-radius:18px;text-align:center;">
+    <div style="font-family:Poppins,Arial,Helvetica,sans-serif;font-size:40px;font-weight:700;letter-spacing:0.28em;color:#0f1b3d;font-variant-numeric:tabular-nums;">
       {{ .Token }}
     </div>
   </div>
@@ -19,44 +23,39 @@ const codeBlock = `
 
 const templates = {
   confirmation: {
-    subject: "Your Resurface confirmation code",
+    subject: "Your Resurface code: {{ .Token }}",
     file: "confirmation.html",
     html: shell({
-      title: "Confirm your email",
-      preheader: "Your 6-digit confirmation code.",
-      heading: "Confirm your email",
+      title: "Your confirmation code",
+      preheader: "{{ .Token }} is your Resurface confirmation code.",
+      heading: "Your confirmation code",
       bodyHtml: `
         <p style="margin:0 0 16px;">Enter this code in Resurface to confirm your email. It expires shortly.</p>
         ${codeBlock}
       `.trim(),
-      // No link CTA — code-only. Dummy href kept off; use note instead.
-      ctaLabel: "",
-      ctaHref: "",
       noteHtml: `Didn't create a Resurface account? You can ignore this email.`,
       hideCta: true,
     }),
   },
 
   magic_link: {
-    subject: "Your Resurface sign-in code",
+    subject: "Your Resurface code: {{ .Token }}",
     file: "magic_link.html",
     html: shell({
       title: "Your sign-in code",
-      preheader: "Your 6-digit Resurface code.",
+      preheader: "{{ .Token }} is your Resurface sign-in code.",
       heading: "Your sign-in code",
       bodyHtml: `
         <p style="margin:0 0 16px;">Enter this code in Resurface to sign in. It expires shortly and only works once.</p>
         ${codeBlock}
       `.trim(),
-      ctaLabel: "",
-      ctaHref: "",
       noteHtml: `If you didn't ask for this, you can ignore the email.`,
       hideCta: true,
     }),
   },
 
   recovery: {
-    subject: "Reset is now a sign-in code",
+    subject: "Use a sign-in code on Resurface",
     file: "recovery.html",
     html: shell({
       title: "Use a sign-in code instead",

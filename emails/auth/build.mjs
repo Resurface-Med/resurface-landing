@@ -5,13 +5,10 @@ import { shell } from "./_shell.js";
 
 const dir = dirname(fileURLToPath(import.meta.url));
 
-// CRITICAL: magic_link / confirmation must include {{ .Token }} and must NOT
-// include {{ .ConfirmationURL }}. If ConfirmationURL is present, GoTrue sends
-// a clickable magic link instead of an OTP — which is exactly the mail-app
-// cross-browser bug we are trying to kill.
-//
-// Keep the code block close to the top of the HTML body so the Token variable
-// is unmistakable to GoTrue's template scanner.
+// Confirmation + recovery must include {{ .Token }} and must NOT include
+// {{ .ConfirmationURL }}. Links get burned when a mail app opens them in the
+// wrong browser; codes do not. Magic-link stays code-shaped too in case
+// anything still triggers it, but the product path is password + these two.
 
 const codeBlock = `
   <div style="margin:8px 0 4px;padding:22px 16px;background:#f3f6fe;border-radius:18px;text-align:center;">
@@ -26,11 +23,11 @@ const templates = {
     subject: "Your Resurface code: {{ .Token }}",
     file: "confirmation.html",
     html: shell({
-      title: "Your confirmation code",
+      title: "Confirm your email",
       preheader: "{{ .Token }} is your Resurface confirmation code.",
-      heading: "Your confirmation code",
+      heading: "Confirm your email",
       bodyHtml: `
-        <p style="margin:0 0 16px;">Enter this code in Resurface to confirm your email. It expires shortly.</p>
+        <p style="margin:0 0 16px;">Enter this code in Resurface to confirm your account. It expires shortly.</p>
         ${codeBlock}
       `.trim(),
       noteHtml: `Didn't create a Resurface account? You can ignore this email.`,
@@ -43,10 +40,10 @@ const templates = {
     file: "magic_link.html",
     html: shell({
       title: "Your sign-in code",
-      preheader: "{{ .Token }} is your Resurface sign-in code.",
+      preheader: "{{ .Token }} is your Resurface code.",
       heading: "Your sign-in code",
       bodyHtml: `
-        <p style="margin:0 0 16px;">Enter this code in Resurface to sign in. It expires shortly and only works once.</p>
+        <p style="margin:0 0 16px;">Enter this code in Resurface. It expires shortly and only works once.</p>
         ${codeBlock}
       `.trim(),
       noteHtml: `If you didn't ask for this, you can ignore the email.`,
@@ -55,19 +52,18 @@ const templates = {
   },
 
   recovery: {
-    subject: "Use a sign-in code on Resurface",
+    subject: "Your Resurface reset code: {{ .Token }}",
     file: "recovery.html",
     html: shell({
-      title: "Use a sign-in code instead",
-      preheader: "Resurface no longer uses password reset links.",
-      heading: "Use a sign-in code instead",
+      title: "Reset your password",
+      preheader: "{{ .Token }} is your Resurface reset code.",
+      heading: "Reset your password",
       bodyHtml: `
-        <p style="margin:0 0 12px;">Resurface accounts no longer use passwords. Open the app, enter <strong style="color:#0f1b3d;font-weight:600;">{{ .Email }}</strong>, and we'll email you a 6-digit code.</p>
-        <p style="margin:0;">If you didn't ask for this, you can ignore the email.</p>
+        <p style="margin:0 0 16px;">Enter this code in Resurface to choose a new password for <strong style="color:#0f1b3d;font-weight:600;">{{ .Email }}</strong>.</p>
+        ${codeBlock}
       `.trim(),
-      ctaLabel: "Open Resurface →",
-      ctaHref: "https://app.tryresurface.com",
-      noteHtml: "",
+      noteHtml: `Didn't ask for a reset? You can ignore this email. Your password stays the same.`,
+      hideCta: true,
     }),
   },
 };

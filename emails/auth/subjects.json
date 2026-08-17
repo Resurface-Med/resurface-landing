@@ -8,7 +8,7 @@
     "file": "magic_link.html"
   },
   "recovery": {
-    "subject": "Use a sign-in code on Resurface",
+    "subject": "Your Resurface reset code: {{ .Token }}",
     "file": "recovery.html"
   }
 }

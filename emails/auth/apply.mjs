@@ -23,6 +23,7 @@ if (!token) {
 const subjects = JSON.parse(readFileSync(join(dir, "subjects.json"), "utf8"));
 
 const body = {
+  mailer_otp_length: 6,
   mailer_subjects_confirmation: subjects.confirmation.subject,
   mailer_templates_confirmation_content: readFileSync(join(dir, subjects.confirmation.file), "utf8"),
   mailer_subjects_magic_link: subjects.magic_link.subject,

@@ -8,6 +8,9 @@ Auth is passwordless. Sign-in and confirm emails show a **6-digit
 Supabase treats that as a magic link, and mail apps that prefetch links burn
 the session in the wrong browser.
 
+`apply.mjs` also forces `mailer_otp_length: 6`. The project default is 8,
+which breaks the app (input max is 6).
+
 ## Subjects
 
 | Template | Subject |

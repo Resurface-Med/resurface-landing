@@ -1943,24 +1943,16 @@ const marquee = "Don't let the lecture sink. ";
   @media (max-width: 900px) {
     .nav {
       padding-left: 18px;
-      flex-wrap: wrap;
-      row-gap: 4px;
-      border-radius: 26px;
     }
-    /* Was display:none, which left no way to reach the sections at all. Now it
-       wraps to its own full-width row under the brand and CTA. */
+    /* Brand and one call to action, on one line.
+       The section links wrapped to a second row here, which doubled the height
+       of the pill and set three two-word labels breaking across lines directly
+       under the CTA — the busiest thing on the screen at the moment a visitor
+       is deciding whether to stay. They are a convenience, not a route: this
+       is a single page, so every section they point at is already reachable by
+       scrolling, which is what a phone visitor does anyway. */
     .nav-links {
-      order: 3;
-      width: 100%;
-      justify-content: space-between;
-      gap: 2px;
-      border-top: 1px solid rgba(15, 27, 61, 0.07);
-      padding-top: 6px;
-      margin-top: 2px;
-    }
-    .nav-links a {
-      padding: 8px 10px;
-      font-size: 14px;
+      display: none;
     }
     h1 {
       letter-spacing: -1.4px;

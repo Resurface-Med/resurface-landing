@@ -1,7 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
 import Footer from "../components/Footer.astro";
-import HeroLaptop from "../components/HeroLaptop.astro";
 import HowDemo from "../components/HowDemo.astro";
 import Wave from "../components/Wave.astro";
 /* Nine real questions, one per deck, lifted from the question bank so the
@@ -49,7 +48,7 @@ const marquee = "Don't let the lecture sink. ";
         transform: none !important;
         filter: none !important;
       }
-      .stage-float { opacity: 1 !important; transform: none !important; }
+      .books-float { opacity: 1 !important; transform: none !important; }
       .nav, .brand, .nav-links > *, .nav-cta {
         opacity: 1 !important;
         transform: none !important;
@@ -136,8 +135,15 @@ const marquee = "Don't let the lecture sink. ";
       </div>
 
       <div class="stage" id="hero-stage">
-        <div class="stage-float">
-          <HeroLaptop appUrl={APP_URL} />
+        <div class="books-float" data-books-float>
+          <img
+            class="books"
+            src="/books.webp"
+            alt="Two stacked textbooks"
+            width="580"
+            height="839"
+            fetchpriority="high"
+          />
         </div>
       </div>
     </section>
@@ -512,14 +518,14 @@ const marquee = "Don't let the lecture sink. ";
   /* ----------------------------------------------------------------- HERO */
   .hero {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr);
     align-items: center;
-    gap: 40px;
-    padding-top: clamp(80px, 12vh, 140px);
-    padding-bottom: clamp(32px, 5vh, 60px);
+    gap: 24px;
+    padding-top: clamp(64px, 10vh, 120px);
+    padding-bottom: clamp(28px, 4vh, 52px);
   }
   .hero-copy {
-    max-width: 560px;
+    max-width: 520px;
   }
 
   h1 {
@@ -636,43 +642,46 @@ const marquee = "Don't let the lecture sink. ";
     position: relative;
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-width: 0;
   }
-  .stage-float {
+  .books-float {
     opacity: 0;
-    transform: translate(28px, 22px) scale(0.94);
+    transform: translate(46px, 30px) rotate(7deg) scale(0.9);
     transition:
       opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
       transform 1.05s cubic-bezier(0.34, 1.4, 0.5, 1);
     will-change: transform, opacity;
-    width: min(100%, 580px);
   }
-  .stage.is-in .stage-float {
+  .stage.is-in .books-float {
     opacity: 1;
-    transform: translate(0, 0) scale(1);
+    transform: translate(0, 0) rotate(0deg) scale(1);
   }
-  .stage.is-live .stage-float {
-    animation: stage-bob 5.6s ease-in-out infinite;
+  .stage.is-live .books-float {
+    animation: books-bob 5.6s ease-in-out infinite;
+  }
+  .books {
+    width: clamp(180px, 20vw, 268px);
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 26px 40px rgba(15, 30, 90, 0.28));
   }
 
-  @keyframes stage-bob {
+  @keyframes books-bob {
     0%,
     100% {
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-6px);
+      transform: translateY(-8px);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .stage-float {
+    .books-float {
       opacity: 1;
       transform: none;
       transition: none;
     }
-    .stage.is-live .stage-float {
+    .stage.is-live .books-float {
       animation: none;
     }
   }
@@ -1737,7 +1746,7 @@ const marquee = "Don't let the lecture sink. ";
 </style>
 
 <script>
-  // Hero laptop: soft entrance, then a light idle float.
+  // Hero books: soft entrance, then a light idle float.
   (() => {
     const stage = document.querySelector<HTMLElement>("#hero-stage");
     if (!stage) return;

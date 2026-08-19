@@ -253,6 +253,10 @@ const marquee = "Don't let the lecture sink. ";
     </div>
   </section>
 
+  <Wave from="var(--panel)" to="var(--blue)" flip />
+  <div class="band-gap band-gap--blue band-gap--tight" aria-hidden="true"></div>
+  <Wave from="var(--blue)" to="var(--panel)" />
+
   <!-- =========================================== LIGHT: TRY A QUESTION -->
   <section class="light subjects-band" id="subjects">
     <div class="wrap">
@@ -1165,7 +1169,6 @@ const marquee = "Don't let the lecture sink. ";
   .subjects-band {
     padding: clamp(32px, 5vh, 56px) 0 clamp(48px, 8vh, 88px);
     scroll-margin-top: 100px;
-    border-top: 1px solid var(--line);
   }
   .subjects-band .wrap {
     display: flex;
@@ -1424,7 +1427,7 @@ const marquee = "Don't let the lecture sink. ";
 
   /* ---------------------------------------------------------- AI SECTION */
   .ai-band {
-    padding: clamp(56px, 9vh, 96px) 0 clamp(32px, 5vh, 48px);
+    padding: clamp(56px, 9vh, 96px) 0 clamp(24px, 4vh, 40px);
     scroll-margin-top: 100px;
   }
   .ai-layout {
@@ -1461,9 +1464,13 @@ const marquee = "Don't let the lecture sink. ";
     margin: 0;
     min-width: 0;
     width: 100%;
-    /* Set from the measured expanded height; 0 until then, so nothing is
-       reserved if the script never runs. */
+    /* Expanded height is reserved so the loop does not shove the page.
+       The panel is centred in that box, so opening grows up and down
+       instead of only pushing downward past the copy. */
     min-height: var(--ai-stage-min, 0px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   /* Measuring pose: fully open, with every transition off so nothing animates
@@ -1780,6 +1787,9 @@ const marquee = "Don't let the lecture sink. ";
   }
   .band-gap--blue {
     background: var(--blue);
+  }
+  .band-gap--tight {
+    height: clamp(18px, 3vh, 36px);
   }
 
   /* --------------------------------------------------------------- CLOSER */

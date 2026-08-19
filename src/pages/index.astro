@@ -161,84 +161,21 @@ const marquee = "Don't let the lecture sink. ";
 
   <Wave from="var(--blue)" to="var(--panel)" />
 
-  <!-- =========================================== LIGHT: SUBJECTS/MODES -->
-  <section class="light subjects-band" id="subjects">
-    <div class="wrap">
-      <div class="sub-head" data-reveal>
-        <h2 class="section-h">Go on, have a go.</h2>
-      </div>
-
-      <div class="subj-pick">
-        <label class="subj-pick-label" for="subj-select">Subject</label>
-        <div class="subj-select-wrap">
-          <select id="subj-select" class="subj-select" aria-controls="qcard">
-            {
-              subjects.map((s, i) => (
-                <option value={i} selected={i === 0}>
-                  {s}
-                </option>
-              ))
-            }
-          </select>
-        </div>
-      </div>
-
-      <!-- Question 0 is server-rendered in full, so the card reads and
-           looks right with JS off; the script only swaps its contents. -->
-      <div class="qcard" id="qcard">
-        <span class="qtopic" data-topic>{samples[0].topic}</span>
-
-        <h3 class="qstem" data-stem>{samples[0].q}</h3>
-
-        <ul class="opts" data-opts>
-          {
-            samples[0].opts.map((o, i) => (
-              <li>
-                <button class="opt" type="button" data-o={i}>
-                  <span class="opt-k">{String.fromCharCode(65 + i)}</span>
-                  <span class="opt-t">{o}</span>
-                </button>
-              </li>
-            ))
-          }
-        </ul>
-
-        <p class="verdict" data-verdict role="status" aria-live="polite"></p>
-        <div class="exp" data-exp hidden></div>
-
-        <div class="qfoot">
-          <button class="next" type="button" data-next hidden>
-            Next subject <span aria-hidden="true">→</span>
-          </button>
-          <a class="qfoot-cta" href={APP_URL}>
-            Start studying <span aria-hidden="true">→</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <script is:inline define:vars={{ samples }}>
-    window.__RS_SAMPLES = samples;
-  </script>
-
-  <Wave from="var(--panel)" to="var(--blue)" flip />
-
-  <div class="band-gap band-gap--blue" aria-hidden="true"></div>
-
-  <Wave from="var(--blue)" to="var(--panel)" />
-
-  <!-- ============================================== LIGHT: AI GENERATE -->
+  <!-- ========================= LIGHT: PROBLEM → SOLUTION (AI) -->
+  <!-- Right after the hero: name the pain, then show the fix. The upload
+       demo is the solution, not a second feature tour. -->
   <section class="light ai-band" id="ai">
     <div class="wrap">
       <div class="ai-layout">
         <div class="ai-intro" data-reveal>
+          <p class="ai-problem">The problem</p>
           <h2 class="ai-heading section-h">
-            Most question banks miss the details in your lectures.
+            Generic question banks do not cover your lectures.
           </h2>
           <p class="ai-solve">
-            Upload your lectures to Resurface, and it writes questions that
-            don’t miss those details.
+            They are written for every course. Yours is not every course.
+            Upload your slides or notes and Resurface writes questions from
+            what you were actually taught.
           </p>
         </div>
 
@@ -316,6 +253,67 @@ const marquee = "Don't let the lecture sink. ";
     </div>
   </section>
 
+  <!-- =========================================== LIGHT: TRY A QUESTION -->
+  <section class="light subjects-band" id="subjects">
+    <div class="wrap">
+      <div class="sub-head" data-reveal>
+        <h2 class="section-h">Go on, have a go.</h2>
+      </div>
+
+      <div class="subj-pick">
+        <label class="subj-pick-label" for="subj-select">Subject</label>
+        <div class="subj-select-wrap">
+          <select id="subj-select" class="subj-select" aria-controls="qcard">
+            {
+              subjects.map((s, i) => (
+                <option value={i} selected={i === 0}>
+                  {s}
+                </option>
+              ))
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- Question 0 is server-rendered in full, so the card reads and
+           looks right with JS off; the script only swaps its contents. -->
+      <div class="qcard" id="qcard">
+        <span class="qtopic" data-topic>{samples[0].topic}</span>
+
+        <h3 class="qstem" data-stem>{samples[0].q}</h3>
+
+        <ul class="opts" data-opts>
+          {
+            samples[0].opts.map((o, i) => (
+              <li>
+                <button class="opt" type="button" data-o={i}>
+                  <span class="opt-k">{String.fromCharCode(65 + i)}</span>
+                  <span class="opt-t">{o}</span>
+                </button>
+              </li>
+            ))
+          }
+        </ul>
+
+        <p class="verdict" data-verdict role="status" aria-live="polite"></p>
+        <div class="exp" data-exp hidden></div>
+
+        <div class="qfoot">
+          <button class="next" type="button" data-next hidden>
+            Next subject <span aria-hidden="true">→</span>
+          </button>
+          <a class="qfoot-cta" href={APP_URL}>
+            Start studying <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ samples }}>
+    window.__RS_SAMPLES = samples;
+  </script>
+
   <Wave from="var(--panel)" to="var(--blue)" flip />
 
   <!-- ============================================= BLUE: WHY IT WORKS -->
@@ -325,8 +323,9 @@ const marquee = "Don't let the lecture sink. ";
       <div class="why-copy-block" data-reveal>
         <h2>It gets easier.</h2>
         <p class="why-lead">
-          Miss a question and it comes back in a few days. Get it right and it
-          waits longer. You spend your time on what still needs work.
+          If you only answer a question once, you will forget it. Resurface asks
+          the same questions again later. Wrong ones come back sooner. Right
+          ones wait longer. That way you keep working on what you still need.
         </p>
       </div>
 
@@ -1166,6 +1165,7 @@ const marquee = "Don't let the lecture sink. ";
   .subjects-band {
     padding: clamp(32px, 5vh, 56px) 0 clamp(48px, 8vh, 88px);
     scroll-margin-top: 100px;
+    border-top: 1px solid var(--line);
   }
   .subjects-band .wrap {
     display: flex;
@@ -1424,9 +1424,8 @@ const marquee = "Don't let the lecture sink. ";
 
   /* ---------------------------------------------------------- AI SECTION */
   .ai-band {
-    padding: clamp(56px, 9vh, 96px) 0 clamp(44px, 6vh, 72px);
+    padding: clamp(56px, 9vh, 96px) 0 clamp(32px, 5vh, 48px);
     scroll-margin-top: 100px;
-    border-top: 1px solid var(--line);
   }
   .ai-layout {
     display: grid;
@@ -1437,17 +1436,25 @@ const marquee = "Don't let the lecture sink. ";
   .ai-intro {
     text-align: left;
   }
+  .ai-problem {
+    margin: 0 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
   .ai-heading {
     margin: 0;
   }
   .ai-solve {
-    margin: 18px 0 0;
-    max-width: 22em;
-    font-size: clamp(18px, 2vw, 24px);
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    line-height: 1.35;
-    color: var(--blue);
+    margin: 16px 0 0;
+    max-width: 28em;
+    font-size: clamp(16px, 1.6vw, 18.5px);
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    line-height: 1.5;
+    color: var(--ink-soft);
   }
 
   .ai-stage {

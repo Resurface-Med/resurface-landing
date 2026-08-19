@@ -11,12 +11,14 @@ const year = new Date().getFullYear();
       definition says the one thing the product is for.
     -->
     <div class="foot-mark">
-      <p class="foot-word">resurface</p>
-      <p class="foot-pron"><span>/ˌriːˈsəːfɪs/</span> <em>verb</em></p>
-      <p class="foot-def">
-        to come back up into view; to bring a thing back
-        <span>just before it is lost.</span>
+      <p class="foot-word">re<span>·</span>sur<span>·</span>face</p>
+      <p class="foot-pron">
+        <span class="ipa">/ˌriːˈsəːfɪs/</span><span class="mid">·</span><em>verb</em>
       </p>
+      <ol class="foot-senses">
+        <li>to rise back up to the surface.</li>
+        <li>to bring a thing back into view <b>just before it is lost.</b></li>
+      </ol>
     </div>
 
     <div class="foot-cols">
@@ -68,7 +70,7 @@ const year = new Date().getFullYear();
     gap: clamp(28px, 4vw, 64px);
   }
   .foot-mark {
-    max-width: 34ch;
+    max-width: 38ch;
   }
 
   .foot-cols {
@@ -106,33 +108,66 @@ const year = new Date().getFullYear();
   }
 
   /* ---------------------------------------------------------- COLOPHON */
-  /* Set as an entry, not a masthead: the headword carries the weight and
-     everything under it stays at reading size. */
+  /* An entry, set the way an entry is set: syllable points in the headword,
+     pronunciation and part of speech on their own line, senses numbered with
+     a hanging indent so the numerals sit outside the text block. */
   .foot-word {
     margin: 0;
-    font-size: clamp(26px, 3vw, 33px);
+    font-size: clamp(38px, 5.4vw, 60px);
     font-weight: 700;
-    letter-spacing: -1.1px;
+    letter-spacing: -2px;
     line-height: 1;
     color: var(--blue);
   }
+  /* Syllable points, not full stops — quieter than the letters they divide. */
+  .foot-word span {
+    color: var(--peri);
+    margin: 0 0.06em;
+    font-weight: 500;
+  }
+
   .foot-pron {
-    margin: 9px 0 0;
-    font-size: 13px;
+    margin: 14px 0 0;
+    font-size: 14.5px;
     color: var(--ink-faint);
-    letter-spacing: 0.01em;
+  }
+  .foot-pron .mid {
+    margin: 0 8px;
+    opacity: 0.6;
   }
   .foot-pron em {
     font-style: italic;
-    margin-left: 4px;
-  }
-  .foot-def {
-    margin: 12px 0 0;
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 1.55;
-    letter-spacing: -0.1px;
     color: var(--ink-soft);
+  }
+
+  .foot-senses {
+    list-style: none;
+    counter-reset: sense;
+    margin: 16px 0 0;
+    padding: 0;
+  }
+  .foot-senses li {
+    counter-increment: sense;
+    position: relative;
+    padding-left: 24px;
+    margin-top: 7px;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .foot-senses li::before {
+    content: counter(sense);
+    position: absolute;
+    left: 0;
+    top: 0.05em;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-faint);
+  }
+  /* The sense the product is named for. */
+  .foot-senses b {
+    font-weight: 600;
+    color: var(--ink);
   }
   /* The clause the product exists for, so it gets the emphasis. */
   .foot-def span {
@@ -170,7 +205,7 @@ const year = new Date().getFullYear();
       gap: 28px 44px;
     }
     .foot-word {
-      letter-spacing: -0.9px;
+      letter-spacing: -1.4px;
     }
   }
 </style>

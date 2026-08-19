@@ -1,6 +1,6 @@
 ---
 /**
- * Hero product shot: a simple laptop frame with one neutral practice question.
+ * Hero product shot: an angled laptop with one neutral practice question.
  * Decorative — not interactive. Copy comes from the real sample bank.
  */
 interface Props {
@@ -15,52 +15,77 @@ const letters = ["A", "B", "C", "D", "E"];
 ---
 
 <div class="hlaptop" aria-hidden="true">
-  <div class="hlaptop-lid">
-    <div class="hlaptop-bezel">
-      <span class="hlaptop-cam"></span>
-      <div class="hlaptop-screen">
-        <header class="hlaptop-bar">
-          <span class="hlaptop-bar-title">Practice</span>
-          <span class="hlaptop-bar-meta">{subject} · {topic}</span>
-        </header>
-        <div class="hlaptop-body">
-          <p class="hlaptop-stem">{stem}</p>
-          <ul class="hlaptop-opts">
-            {
-              options.map((opt, i) => (
-                <li class="hlaptop-opt">
-                  <span class="hlaptop-letter">{letters[i]}</span>
-                  <span class="hlaptop-opt-text">{opt}</span>
-                </li>
-              ))
-            }
-          </ul>
+  <div class="hlaptop-scene">
+    <div class="hlaptop-lid">
+      <div class="hlaptop-bezel">
+        <span class="hlaptop-cam"></span>
+        <div class="hlaptop-screen">
+          <header class="hlaptop-bar">
+            <span class="hlaptop-bar-title">Practice</span>
+            <span class="hlaptop-bar-meta">{subject} · {topic}</span>
+          </header>
+          <div class="hlaptop-body">
+            <p class="hlaptop-stem">{stem}</p>
+            <ul class="hlaptop-opts">
+              {
+                options.map((opt, i) => (
+                  <li class="hlaptop-opt">
+                    <span class="hlaptop-letter">{letters[i]}</span>
+                    <span class="hlaptop-opt-text">{opt}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
         </div>
       </div>
     </div>
+
+    <div class="hlaptop-hinge"></div>
+
+    <div class="hlaptop-deck">
+      <div class="hlaptop-keys"></div>
+      <div class="hlaptop-pad"></div>
+    </div>
   </div>
-  <div class="hlaptop-base">
-    <div class="hlaptop-indent"></div>
-  </div>
+
+  <div class="hlaptop-shadow"></div>
 </div>
 
 <style>
   .hlaptop {
-    width: min(100%, 520px);
-    filter: drop-shadow(0 28px 48px rgba(15, 30, 90, 0.32));
+    position: relative;
+    width: min(100%, 560px);
+    padding: 8px 28px 36px 8px;
+    perspective: 1400px;
+  }
+
+  .hlaptop-scene {
+    position: relative;
+    z-index: 1;
+    transform-style: preserve-3d;
+    transform: rotateX(14deg) rotateY(-28deg) rotateZ(2deg);
   }
 
   .hlaptop-lid {
-    background: #1a1f2e;
-    border-radius: 12px 12px 0 0;
-    padding: 10px 10px 8px;
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(160deg, #2c3348 0%, #151a28 55%, #0f1320 100%);
+    border-radius: 14px 14px 4px 4px;
+    padding: 11px 11px 9px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+      8px 18px 28px rgba(8, 14, 36, 0.28);
+    transform: translateZ(2px);
   }
 
   .hlaptop-bezel {
     position: relative;
-    background: #0f1320;
+    background: #0a0d16;
     border-radius: 8px;
-    padding: 10px 8px 8px;
+    padding: 12px 8px 8px;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
   }
 
   .hlaptop-cam {
@@ -71,15 +96,16 @@ const letters = ["A", "B", "C", "D", "E"];
     height: 5px;
     margin-left: -2.5px;
     border-radius: 50%;
-    background: #2a3144;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    background: radial-gradient(circle at 35% 35%, #3a4560, #1a2030 70%);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
   }
 
   .hlaptop-screen {
     background: #f7f8fc;
     border-radius: 4px;
     overflow: hidden;
-    min-height: 280px;
+    min-height: 268px;
+    box-shadow: inset 0 0 0 1px rgba(15, 27, 61, 0.04);
   }
 
   .hlaptop-bar {
@@ -160,30 +186,86 @@ const letters = ["A", "B", "C", "D", "E"];
     color: #1a2438;
   }
 
-  .hlaptop-base {
-    height: 12px;
-    margin: 0 -10px;
-    background: linear-gradient(180deg, #2a3144 0%, #1a1f2e 100%);
-    border-radius: 0 0 14px 14px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 3px;
+  .hlaptop-hinge {
+    height: 7px;
+    margin: -1px 6px 0;
+    background: linear-gradient(180deg, #3a4258, #1c2233);
+    border-radius: 0 0 3px 3px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
-  .hlaptop-indent {
-    width: 28%;
-    height: 4px;
-    border-radius: 0 0 6px 6px;
-    background: #121621;
+  /* Deck foreshortened: reads as the keyboard shelf going away from you. */
+  .hlaptop-deck {
+    position: relative;
+    z-index: 1;
+    height: 78px;
+    margin: 0 -4%;
+    padding: 10px 12% 14px;
+    background: linear-gradient(180deg, #2a3144 0%, #1a1f2e 42%, #121722 100%);
+    border-radius: 0 0 18px 18px;
+    transform-origin: top center;
+    transform: rotateX(68deg);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 18px 28px rgba(8, 14, 36, 0.22);
+  }
+
+  .hlaptop-keys {
+    height: 28px;
+    border-radius: 4px;
+    background:
+      repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 0 7px,
+        transparent 7px 9px
+      ),
+      repeating-linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.04) 0 6px,
+        transparent 6px 8px
+      ),
+      #151a28;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    opacity: 0.9;
+  }
+
+  .hlaptop-pad {
+    width: 34%;
+    height: 16px;
+    margin: 10px auto 0;
+    border-radius: 5px;
+    background: #0e121c;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  }
+
+  .hlaptop-shadow {
+    position: absolute;
+    left: 8%;
+    right: 2%;
+    bottom: 6px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(8, 14, 36, 0.38);
+    filter: blur(16px);
+    z-index: 0;
+    transform: skewX(-18deg);
   }
 
   @media (max-width: 1200px) {
     .hlaptop {
-      width: min(100%, 440px);
+      width: min(100%, 480px);
     }
     .hlaptop-screen {
-      min-height: 250px;
+      min-height: 240px;
+    }
+    .hlaptop-deck {
+      height: 68px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hlaptop-scene {
+      transform: rotateX(10deg) rotateY(-22deg);
     }
   }
 </style>

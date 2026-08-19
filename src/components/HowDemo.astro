@@ -10,7 +10,11 @@
  * Everything is drawn in DOM and SVG rather than imported as artwork, because
  * the parts have to move independently: a bullet lights, a page tears into
  * cards, a bar fills. A flat image cannot do any of that.
+ *
+ * `tone`: "field" (default) for the blue hero; "light" for the pale panel.
  */
+const { tone = "field" } = Astro.props;
+
 const STEPS = [
   { n: "1", label: "Drop in your lecture" },
   { n: "2", label: "AI writes questions from it" },
@@ -25,7 +29,7 @@ const OPTS = [
 ];
 ---
 
-<div class="hw" data-how-demo>
+<div class="hw" data-how-demo data-tone={tone}>
   <!-- A bounded space, so the animation has an area rather than floating in
        the column. Everything below aligns to this frame's edges. -->
   <div class="hw-frame">
@@ -426,14 +430,35 @@ const OPTS = [
     color: rgba(255, 255, 255, 0.55);
     transition: color 0.3s ease;
   }
-  /* The live step brightens rather than being boxed. Nothing gains an edge,
-     so the frame above stays the only object on this side with a border. */
   .hw-steps li.is-on .hw-steps__n {
     background: #fff;
     color: var(--blue);
   }
   .hw-steps li.is-on .hw-steps__t {
     color: #fff;
+  }
+
+  /* Light panel: solid white stage, ink steps — not glass-on-blue. */
+  .hw[data-tone="light"] .hw-frame {
+    border: 1px solid var(--line);
+    background: var(--white);
+    box-shadow:
+      0 4px 14px rgba(20, 44, 130, 0.04),
+      0 22px 48px rgba(20, 44, 130, 0.1);
+  }
+  .hw[data-tone="light"] .hw-steps__n {
+    background: var(--wash);
+    color: var(--ink-soft);
+  }
+  .hw[data-tone="light"] .hw-steps__t {
+    color: var(--ink-faint);
+  }
+  .hw[data-tone="light"] .hw-steps li.is-on .hw-steps__n {
+    background: var(--blue);
+    color: #fff;
+  }
+  .hw[data-tone="light"] .hw-steps li.is-on .hw-steps__t {
+    color: var(--ink);
   }
 
   @media (max-width: 1040px) {

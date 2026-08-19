@@ -119,8 +119,15 @@ const marquee = "Don't let the lecture sink. ";
 
       </div>
 
-      <div class="hero-demo">
-        <HowDemo />
+      <div class="hero-visual" aria-hidden="true">
+        <img
+          class="hero-books"
+          src="/books.webp"
+          alt=""
+          width="640"
+          height="640"
+          fetchpriority="high"
+        />
       </div>
     </section>
 
@@ -162,8 +169,8 @@ const marquee = "Don't let the lecture sink. ";
   <Wave from="var(--blue)" to="var(--panel)" />
 
   <!-- ========================= LIGHT: PROBLEM → SOLUTION (AI) -->
-  <!-- Right after the hero: name the pain, then show the fix. The upload
-       demo is the solution, not a second feature tour. -->
+  <!-- Right after the hero: name the pain, then show the fix with the
+       product loop (lecture in → questions out → answered). -->
   <section class="light ai-band" id="ai">
     <div class="wrap">
       <div class="ai-layout">
@@ -181,76 +188,9 @@ const marquee = "Don't let the lecture sink. ";
           </p>
         </div>
 
-        <div
-          class="ai-stage"
-          id="ai-stage"
-          aria-label="Demo: upload a lecture and get AI questions"
-        >
-        <article class="ai-panel">
-          <div class="upload-row" data-upload>
-            <div class="file-chip" aria-hidden="true">
-              <span class="file-icon">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-                  <path
-                    d="M7 3.5h7.2L19 8.3V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 6 20V5A1.5 1.5 0 0 1 7.5 3.5"
-                    stroke="currentColor"
-                    stroke-width="1.7"
-                    stroke-linejoin="round"></path>
-                  <path
-                    d="M14 3.5V8h4.8"
-                    stroke="currentColor"
-                    stroke-width="1.7"
-                    stroke-linejoin="round"></path>
-                </svg>
-              </span>
-              <span class="file-meta">
-                <span class="file-name">Physiology · Blood glucose.pdf</span>
-                <span class="file-sub">Your lecture slides</span>
-              </span>
-            </div>
-            <div class="upload-hint" data-upload-hint>Drop in a lecture</div>
-          </div>
-
-          <div class="ai-bridge" aria-hidden="true">
-            <span class="ai-bridge-line"></span>
-            <span class="ai-bridge-pill">
-              <img
-                src="/books.webp"
-                alt=""
-                width="40"
-                height="40"
-                class="ai-bridge-mark"
-              />
-              <span class="ai-bridge-name">Resurface</span>
-              <span class="ai-bridge-status" data-ai-status>Waiting…</span>
-            </span>
-            <span class="ai-bridge-line"></span>
-          </div>
-
-          <div class="ai-progress" data-progress aria-hidden="true">
-            <span class="ai-progress-bar" data-progress-bar></span>
-          </div>
-
-          <div class="ready-card" data-ready>
-            <div class="ready-top">
-              <span class="ready-count" data-ready-count>0</span>
-              <span class="ready-label">questions ready</span>
-            </div>
-            <div class="ready-reveal" data-preview>
-              <div class="ready-preview">
-                <p class="ready-stem">
-                  Which hormone lowers blood glucose?
-                </p>
-                <div class="ready-opts">
-                  <span>Glucagon</span>
-                  <span class="right">Insulin</span>
-                  <span>Adrenaline</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-      </div>
+        <div class="ai-demo" data-reveal>
+          <HowDemo tone="light" />
+        </div>
       </div>
     </div>
   </section>
@@ -563,7 +503,7 @@ const marquee = "Don't let the lecture sink. ";
      the larger share — it is the explanation, not an illustration of one. */
   .hero {
     display: grid;
-    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
     align-items: center;
     gap: clamp(32px, 5vw, 76px);
     padding-top: clamp(64px, 9vh, 104px);
@@ -572,11 +512,17 @@ const marquee = "Don't let the lecture sink. ";
   .hero-copy {
     max-width: 480px;
   }
-  .hero-demo {
-    width: 100%;
-    min-width: 0;
+  .hero-visual {
     display: flex;
     justify-content: center;
+    align-items: center;
+    min-width: 0;
+  }
+  .hero-books {
+    width: min(100%, 420px);
+    height: auto;
+    display: block;
+    filter: drop-shadow(0 24px 48px rgba(15, 27, 61, 0.28));
   }
 
   h1 {
@@ -1471,47 +1417,9 @@ const marquee = "Don't let the lecture sink. ";
     color: var(--blue);
   }
 
-  .ai-stage {
-    margin: 0;
+  .ai-demo {
     min-width: 0;
     width: 100%;
-    /* Expanded height is reserved so the loop does not shove the page.
-       The panel is centred in that box, so opening grows up and down
-       instead of only pushing downward past the copy. */
-    min-height: var(--ai-stage-min, 0px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  /* Measuring pose: fully open, with every transition off so nothing animates
-     while we read the height. */
-  .ai-panel.is-measuring,
-  .ai-panel.is-measuring * {
-    transition: none !important;
-    animation: none !important;
-  }
-  .ai-panel.is-measuring .ready-reveal {
-    grid-template-rows: 1fr;
-  }
-  .ai-panel.is-measuring .ready-preview {
-    opacity: 1;
-    margin-top: 14px;
-    padding-top: 14px;
-  }
-  .ai-panel {
-    background:
-      radial-gradient(
-        120% 80% at 50% -10%,
-        rgba(161, 192, 255, 0.45) 0%,
-        transparent 55%
-      ),
-      linear-gradient(180deg, #eef3ff 0%, #ffffff 48%);
-    border-radius: 28px;
-    padding: clamp(18px, 2.5vw, 26px);
-    box-shadow:
-      0 4px 14px rgba(20, 44, 130, 0.04),
-      0 22px 48px rgba(20, 44, 130, 0.1);
   }
 
   @media (max-width: 860px) {
@@ -1522,271 +1430,9 @@ const marquee = "Don't let the lecture sink. ";
     .ai-solve {
       max-width: none;
     }
-    .ai-stage {
+    .ai-demo {
       max-width: 440px;
       margin-inline: auto;
-    }
-  }
-
-  .upload-row {
-    position: relative;
-    min-height: 72px;
-    display: grid;
-    place-items: center;
-  }
-  .file-chip {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 14px 16px;
-    box-shadow: 0 10px 28px rgba(20, 44, 130, 0.06);
-    opacity: 0;
-    transform: translateY(10px) scale(0.98);
-    pointer-events: none;
-  }
-  .ai-stage.has-file .file-chip {
-    opacity: 1;
-    transform: none;
-    transition:
-      opacity 0.45s ease,
-      transform 0.45s ease;
-  }
-  .file-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: var(--wash);
-    color: var(--blue);
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-  }
-  .file-meta {
-    display: grid;
-    gap: 2px;
-    min-width: 0;
-  }
-  .file-name {
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: -0.25px;
-    color: var(--ink);
-  }
-  .file-sub {
-    font-size: 12.5px;
-    font-weight: 500;
-    color: var(--ink-faint);
-  }
-  .upload-hint {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    border: 1.5px dashed #c5d3f5;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.55);
-    color: var(--ink-soft);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: -0.15px;
-    transition: opacity 0.3s ease;
-  }
-  .ai-stage.has-file .upload-hint {
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .ai-bridge {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 18px 0 12px;
-  }
-  .ai-bridge-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(53, 98, 245, 0.35),
-      transparent
-    );
-  }
-  .ai-bridge-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--white);
-    border: 1px solid #d7e2ff;
-    border-radius: var(--radius-pill);
-    padding: 7px 14px 7px 8px;
-    box-shadow: 0 8px 20px rgba(20, 44, 130, 0.08);
-    white-space: nowrap;
-  }
-  .ai-bridge-mark {
-    width: 22px;
-    height: 22px;
-    object-fit: contain;
-    display: block;
-    flex-shrink: 0;
-  }
-  .ai-bridge-name,
-  .ai-bridge-status {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: -0.15px;
-    line-height: 1;
-  }
-  .ai-bridge-name {
-    color: var(--ink);
-  }
-  .ai-bridge-status {
-    color: var(--blue);
-    min-width: 8ch;
-  }
-  .ai-stage.is-working .ai-bridge-pill {
-    box-shadow:
-      0 0 0 4px rgba(53, 98, 245, 0.1),
-      0 8px 20px rgba(20, 44, 130, 0.1);
-  }
-
-  .ai-progress {
-    height: 6px;
-    border-radius: 999px;
-    background: #e4ebfb;
-    overflow: hidden;
-    margin-bottom: 16px;
-    opacity: 0;
-    transition: opacity 0.35s ease;
-  }
-  .ai-stage.is-working .ai-progress,
-  .ai-stage.is-done .ai-progress {
-    opacity: 1;
-  }
-  .ai-progress-bar {
-    display: block;
-    height: 100%;
-    width: 0%;
-    border-radius: inherit;
-    background: linear-gradient(90deg, #6e8ff7, var(--blue));
-    transition: width 0.45s ease;
-  }
-
-  .ready-card {
-    background: var(--white);
-    border-radius: 18px;
-    padding: clamp(16px, 2.5vw, 20px);
-    border: 1px solid var(--line);
-    box-shadow: 0 10px 28px rgba(20, 44, 130, 0.06);
-  }
-  .ready-top {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-  }
-  .ready-count {
-    font-size: clamp(28px, 4vw, 34px);
-    font-weight: 700;
-    letter-spacing: -1px;
-    color: var(--blue);
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-  .ready-label {
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: -0.2px;
-    color: var(--ink-soft);
-  }
-  .ready-reveal {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .ready-reveal.is-in {
-    grid-template-rows: 1fr;
-  }
-  .ready-preview {
-    overflow: hidden;
-    min-height: 0;
-    margin-top: 0;
-    padding-top: 0;
-    border-top: 1px solid transparent;
-    opacity: 0;
-    transform: translateY(8px);
-    transition:
-      opacity 0.3s ease,
-      transform 0.35s ease,
-      margin-top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-      padding-top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-      border-top-color 0.25s ease;
-  }
-  .ready-reveal.is-in .ready-preview {
-    margin-top: 16px;
-    padding-top: 16px;
-    border-top-color: var(--line);
-    opacity: 1;
-    transform: none;
-    transition:
-      opacity 0.45s ease 0.18s,
-      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.12s,
-      margin-top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-      padding-top 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-      border-top-color 0.35s ease 0.1s;
-  }
-  .ready-stem {
-    margin: 0 0 12px;
-    font-size: clamp(15px, 1.7vw, 16.5px);
-    font-weight: 600;
-    letter-spacing: -0.25px;
-    line-height: 1.35;
-    color: var(--ink);
-  }
-  .ready-opts {
-    display: grid;
-    gap: 7px;
-  }
-  .ready-opts span {
-    display: block;
-    border-radius: 999px;
-    padding: 9px 13px;
-    font-size: 13.5px;
-    font-weight: 500;
-    background: var(--panel);
-    color: var(--ink-soft);
-  }
-  .ready-opts .right {
-    background: #e7f6ed;
-    color: #146c3d;
-    font-weight: 700;
-  }
-
-  @media (max-width: 700px) {
-    .ai-bridge-status {
-      min-width: 0;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .ai-stage.has-file .file-chip,
-    .ready-reveal,
-    .ready-preview {
-      animation: none;
-      transition: none;
-      transform: none;
-    }
-    .ready-reveal.is-in {
-      grid-template-rows: 1fr;
-    }
-    .ready-reveal.is-in .ready-preview {
-      opacity: 1;
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top-color: var(--line);
     }
   }
 
@@ -1966,8 +1612,11 @@ const marquee = "Don't let the lecture sink. ";
     .hero-copy {
       max-width: none;
     }
-    .hero-demo {
+    .hero-visual {
       justify-content: center;
+    }
+    .hero-books {
+      width: min(100%, 300px);
     }
   }
 
@@ -2088,35 +1737,6 @@ const marquee = "Don't let the lecture sink. ";
     );
 
     targets.forEach((el) => io.observe(el));
-  })();
-
-  // Reserve the demo's tallest state. It loops open and closed, and without
-  // this the section grew and shrank on every cycle, lifting the whole page.
-  // Measured rather than hard-coded, because the copy and font decide the
-  // height — and re-measured on resize, since the panel reflows.
-  (() => {
-    const stage = document.querySelector<HTMLElement>("#ai-stage");
-    const panel = stage?.querySelector<HTMLElement>(".ai-panel");
-    if (!stage || !panel) return;
-
-    const reserve = () => {
-      stage.style.removeProperty("--ai-stage-min");
-      panel.classList.add("is-measuring");
-      // Read in the same frame the class lands, before anything can animate.
-      const height = panel.getBoundingClientRect().height;
-      panel.classList.remove("is-measuring");
-      stage.style.setProperty("--ai-stage-min", `${Math.ceil(height)}px`);
-    };
-
-    // Fonts change the measurement, so wait for them where supported.
-    if (document.fonts?.ready) document.fonts.ready.then(reserve);
-    else reserve();
-
-    let t: number | undefined;
-    addEventListener("resize", () => {
-      clearTimeout(t);
-      t = window.setTimeout(reserve, 150);
-    });
   })();
 
   // Highlights whichever section is on screen, so the nav says where you are
@@ -2332,96 +1952,4 @@ const marquee = "Don't let the lecture sink. ";
     next.addEventListener("click", () => select((current + 1) % samples.length));
   }
 
-  // AI section: upload lecture → AI works → questions ready.
-  (() => {
-    const stage = document.querySelector<HTMLElement>("#ai-stage");
-    if (!stage) return;
-    const status = stage.querySelector<HTMLElement>("[data-ai-status]");
-    const bar = stage.querySelector<HTMLElement>("[data-progress-bar]");
-    const count = stage.querySelector<HTMLElement>("[data-ready-count]");
-    const preview = stage.querySelector<HTMLElement>("[data-preview]");
-    if (!status || !bar || !count || !preview) return;
-
-    const TARGET = 12;
-    const calm = matchMedia("(prefers-reduced-motion: reduce)");
-    let gen = 0;
-
-    const wait = (ms: number, id: number) =>
-      new Promise<boolean>((resolve) => {
-        window.setTimeout(() => resolve(id === gen), ms);
-      });
-
-    const paintIdle = () => {
-      stage.classList.remove("has-file", "is-working", "is-done");
-      status.textContent = "Waiting…";
-      bar.style.width = "0%";
-      count.textContent = "0";
-      preview.classList.remove("is-in");
-    };
-
-    const paintDone = () => {
-      stage.classList.add("has-file", "is-done");
-      stage.classList.remove("is-working");
-      status.textContent = "Done";
-      bar.style.width = "100%";
-      count.textContent = String(TARGET);
-      preview.classList.add("is-in");
-    };
-
-    const run = async () => {
-      const id = ++gen;
-      paintIdle();
-
-      if (calm.matches) {
-        paintDone();
-        return;
-      }
-
-      // Drop zone → file lands
-      if (!(await wait(900, id))) return;
-      stage.classList.add("has-file");
-      status.textContent = "Reading…";
-
-      // Give people time to clock the PDF
-      if (!(await wait(1600, id))) return;
-
-      stage.classList.add("is-working");
-      status.textContent = "Writing…";
-
-      // Progress climbs slowly enough to read
-      for (let p = 6; p <= 100; p += 6) {
-        if (id !== gen) return;
-        bar.style.width = `${p}%`;
-        const n = Math.min(TARGET, Math.round((p / 100) * TARGET));
-        count.textContent = String(n);
-        if (!(await wait(160, id))) return;
-      }
-
-      if (id !== gen) return;
-      stage.classList.remove("is-working");
-      stage.classList.add("is-done");
-      status.textContent = "Done";
-      count.textContent = String(TARGET);
-      preview.classList.add("is-in");
-
-      // Hold the finished question long enough to read
-      if (!(await wait(5200, id))) return;
-
-      // Close smoothly before looping
-      preview.classList.remove("is-in");
-      if (!(await wait(750, id))) return;
-      void run();
-    };
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          void run();
-          io.disconnect();
-        }
-      },
-      { threshold: 0.35 }
-    );
-    io.observe(stage);
-  })();
 </script>

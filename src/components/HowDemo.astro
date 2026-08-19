@@ -26,7 +26,10 @@ const OPTS = [
 ---
 
 <div class="hw" data-how-demo>
-  <div class="hw-stage">
+  <!-- A bounded space, so the animation has an area rather than floating in
+       the column. Everything below aligns to this frame's edges. -->
+  <div class="hw-frame">
+    <div class="hw-stage">
     <!-- ACT 1 — the lecture, arriving from outside the app -->
     <div class="hw-doc" data-doc>
       <span class="hw-doc__fold" aria-hidden="true"></span>
@@ -109,6 +112,7 @@ const OPTS = [
           </div>
         </div>
       </div>
+      </div>
     </div>
   </div>
 
@@ -126,22 +130,35 @@ const OPTS = [
 <style>
   .hw {
     display: grid;
-    gap: clamp(14px, 2vh, 22px);
+    gap: 14px;
+  }
+
+  /* The animation's own space: a glass panel on the field, same language as
+     everything else that floats here. The app sits inside its padding, so the
+     frame's edges are what the steps below line up with. */
+  .hw-frame {
+    position: relative;
+    padding: clamp(16px, 2vw, 26px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 22px;
   }
 
   .hw-stage {
     position: relative;
     width: 100%;
-    aspect-ratio: 5 / 3.3;
+    aspect-ratio: 5 / 3;
   }
 
   /* ------------------------------------------------------------ THE DOC */
+  /* Overlaps the frame's top-left corner, so it reads as coming from outside
+     the app rather than appearing inside it. */
   .hw-doc {
     position: absolute;
     z-index: 3;
-    top: 5%;
-    left: 3%;
-    width: 44%;
+    top: -13%;
+    left: -9%;
+    width: 47%;
     padding: 17px 18px 19px;
     background: var(--white);
     border: 1.5px solid var(--line);
@@ -208,7 +225,7 @@ const OPTS = [
   /* ------------------------------------------------------------ THE APP */
   .hw-app {
     position: absolute;
-    inset: 12% 0 8% 12%;
+    inset: 0;
     background: var(--white);
     border-radius: 16px;
     box-shadow:
@@ -380,8 +397,8 @@ const OPTS = [
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 14px;
-    border-radius: 14px;
+    padding: 10px 14px;
+    border-radius: 13px;
     border: 1.5px solid rgba(255, 255, 255, 0.22);
     background: rgba(255, 255, 255, 0.1);
     text-align: left;
@@ -392,8 +409,8 @@ const OPTS = [
   }
   .hw-steps__n {
     flex-shrink: 0;
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     display: grid;
     place-items: center;
@@ -406,7 +423,7 @@ const OPTS = [
       color 0.3s ease;
   }
   .hw-steps__t {
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: -0.2px;
     line-height: 1.3;
@@ -429,10 +446,7 @@ const OPTS = [
   }
 
   @media (max-width: 1040px) {
-    .hw-stage {
-      max-width: 620px;
-    }
-    .hw-steps {
+    .hw {
       max-width: 620px;
     }
   }

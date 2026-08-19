@@ -2045,9 +2045,14 @@ const marquee = "Don't let the lecture sink. ";
 
 
   /* ================================================================ PROOF */
+  /* Full padding like every other band. Only padding-bottom was set, so the
+     heading sat flush against the wave above it and the section ran straight
+     into "How it works" below — two panel sections with nothing between them. */
   .proof {
-    padding-bottom: clamp(46px, 8vh, 88px);
+    padding: clamp(44px, 8vh, 84px) 0 clamp(40px, 7vh, 76px);
+    scroll-margin-top: 100px;
   }
+  /* .wrap sets the page measure; this section is a single narrow column. */
   .proof-inner {
     max-width: 620px;
     text-align: center;

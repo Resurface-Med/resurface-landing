@@ -1,0 +1,189 @@
+---
+import Legal from "../layouts/Legal.astro";
+---
+
+<Legal
+  title="Privacy"
+  updated="19 August 2026"
+  summary="What Resurface stores, why, and who else can see it."
+>
+  <div class="legal-callout">
+    <p>
+      <strong>The short version.</strong> Resurface stores your account and your
+      study progress, and nothing else. There are no analytics, no trackers, no
+      advertising, and nothing is sold or shared for marketing. Your answers are
+      yours; ask and they are deleted.
+    </p>
+  </div>
+
+  <h2>Who we are</h2>
+  <p>
+    Resurface is a question bank for UK medical students, run by a small
+    independent team. For anything in this policy, including requests to see or
+    delete your data, contact
+    <a href="mailto:hello@tryresurface.com">hello@tryresurface.com</a>.
+  </p>
+
+  <h2>What we store</h2>
+  <p>
+    Only what the app needs in order to work. Every row below is tied to your
+    account and to nobody else's.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>What</th><th>Why</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Email address</td>
+        <td>To sign you in, confirm your account, and reset your password.</td>
+      </tr>
+      <tr>
+        <td>Display name</td>
+        <td>To show who you are on the leaderboard, if you choose to appear on it.</td>
+      </tr>
+      <tr>
+        <td>Which questions you answered, and whether you got them right</td>
+        <td>
+          To schedule your reviews and show your progress. This is the app; without
+          it there is nothing to come back to.
+        </td>
+      </tr>
+      <tr>
+        <td>Review schedule, streak, daily goal, saved questions</td>
+        <td>To decide what to show you next and to keep your settings.</td>
+      </tr>
+      <tr>
+        <td>Questions you generate or edit</td>
+        <td>So they are still there next time you sign in.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    We do not store your password. Sign-in is handled by Supabase, which stores
+    a cryptographic hash of it. If you sign in with Google we receive your email
+    address and name, and never your Google password.
+  </p>
+
+  <h3>What we deliberately do not collect</h3>
+  <ul>
+    <li>No analytics or tracking scripts, on the website or in the app.</li>
+    <li>No advertising identifiers, and no advertising.</li>
+    <li>No location data, contacts, or device fingerprinting.</li>
+    <li>
+      No health information about you. Resurface contains medical study
+      material; it does not ask for or record anything about your own health.
+    </li>
+  </ul>
+
+  <h2>Cookies</h2>
+  <p>
+    Resurface uses one thing that behaves like a cookie: a sign-in token stored
+    in your browser so you are not asked to log in on every page. It is
+    essential to the service, it is not used to track you, and there are no
+    third-party cookies. That is also why you have not been shown a cookie
+    banner — there is nothing to consent to beyond keeping you signed in.
+  </p>
+
+  <h2>Who else processes your data</h2>
+  <p>
+    We use a small number of suppliers to run the service. They act on our
+    instructions and may not use your data for their own purposes.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Supplier</th><th>What they handle</th><th>Where</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Supabase</td>
+        <td>Accounts, sign-in, and the database holding your progress</td>
+        <td>Ireland (EU)</td>
+      </tr>
+      <tr>
+        <td>Vercel</td>
+        <td>Hosting the website and the app</td>
+        <td>EU / US</td>
+      </tr>
+      <tr>
+        <td>Resend</td>
+        <td>Sending confirmation and password-reset emails</td>
+        <td>EU / US</td>
+      </tr>
+      <tr>
+        <td>Anthropic</td>
+        <td>Generating questions from material you submit</td>
+        <td>US</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>About question generation</h3>
+  <p>
+    When you use Generate, the study material you paste is sent to Anthropic's
+    API so a model can write questions from it. Only that text is sent — not
+    your name, email, or study history. Anthropic does not train its models on
+    data submitted through its API. Please do not paste anything confidential,
+    and in particular nothing that identifies a real patient.
+  </p>
+
+  <h2>Who can see your progress</h2>
+  <p>
+    Nobody, unless you choose otherwise. Your answers, scores and schedule are
+    readable only by your own account — this is enforced by the database itself
+    rather than by the app, so a bug in the app cannot expose another person's
+    rows.
+  </p>
+  <p>
+    The one exception is the leaderboard. If you opt in, other signed-in users
+    see your display name and how much you have studied. They never see your
+    scores, your accuracy, or which questions you got wrong. You can leave the
+    leaderboard at any time in Profile, and doing so removes you immediately.
+  </p>
+
+  <h2>How long we keep it</h2>
+  <p>
+    For as long as you have an account. Ask us to delete your account and we
+    remove your profile and all of your study data within 30 days. Backups are
+    overwritten on a rolling basis and are fully cleared within 90 days.
+  </p>
+
+  <h2>Your rights</h2>
+  <p>
+    Under UK and EU data protection law you can ask for a copy of your data, ask
+    us to correct it, ask us to delete it, or object to how we use it. Email
+    <a href="mailto:hello@tryresurface.com">hello@tryresurface.com</a> and we
+    will respond within 30 days. There is no charge.
+  </p>
+  <p>
+    If you think we have handled your data badly, you can complain to the
+    Information Commissioner's Office at
+    <a href="https://ico.org.uk" rel="noopener">ico.org.uk</a>. We would rather
+    you told us first so we can put it right.
+  </p>
+
+  <h2>Legal basis</h2>
+  <p>
+    We process your account and progress data because it is necessary to provide
+    a service you asked for (contract). We send account emails such as
+    confirmations and password resets on the same basis. We rely on your
+    consent, given by opting in, for the leaderboard. We do not send marketing
+    email.
+  </p>
+
+  <h2>Children</h2>
+  <p>
+    Resurface is intended for university students and is not directed at anyone
+    under 16. If you believe a child has created an account, tell us and we will
+    remove it.
+  </p>
+
+  <h2>Changes</h2>
+  <p>
+    If this policy changes in a way that affects you, we will say so in the app
+    rather than quietly updating the date at the top of this page.
+  </p>
+</Legal>

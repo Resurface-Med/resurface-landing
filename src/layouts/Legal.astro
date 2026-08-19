@@ -1,0 +1,142 @@
+---
+import Base from "./Base.astro";
+import Footer from "../components/Footer.astro";
+
+const { title, updated, summary } = Astro.props;
+---
+
+<Base title={`${title} — Resurface`} description={summary}>
+  <div class="legal-field">
+    <header class="wrap legal-head">
+      <a class="legal-back" href="/">
+        <img src="/logo-lockup-white.png" alt="Resurface" width="560" height="131" />
+      </a>
+      <h1>{title}</h1>
+      <p class="legal-updated">Last updated {updated}</p>
+    </header>
+  </div>
+
+  <main class="wrap legal-body">
+    <slot />
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .legal-field {
+    background: var(--blue);
+    padding: clamp(26px, 5vh, 44px) 0 clamp(40px, 7vh, 68px);
+  }
+  .legal-head {
+    text-align: left;
+  }
+  .legal-back img {
+    width: 132px;
+    height: auto;
+    display: block;
+  }
+  .legal-head h1 {
+    margin: clamp(26px, 5vh, 42px) 0 0;
+    font-size: clamp(34px, 5vw, 52px);
+    font-weight: 700;
+    letter-spacing: -1.6px;
+    line-height: 1.05;
+    color: #fff;
+  }
+  .legal-updated {
+    margin: 12px 0 0;
+    font-size: 14.5px;
+    color: var(--on-blue-soft);
+  }
+
+  .legal-body {
+    padding-top: clamp(34px, 6vh, 56px);
+    padding-bottom: clamp(48px, 8vh, 88px);
+  }
+</style>
+
+<style is:global>
+  /* Prose. Set once here so the documents themselves stay readable markup. */
+  .legal-body h2 {
+    margin: clamp(34px, 5vh, 48px) 0 12px;
+    font-size: clamp(20px, 2.4vw, 25px);
+    font-weight: 600;
+    letter-spacing: -0.7px;
+    color: var(--ink);
+  }
+  .legal-body h2:first-child {
+    margin-top: 0;
+  }
+  .legal-body h3 {
+    margin: 26px 0 8px;
+    font-size: 16.5px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    color: var(--ink);
+  }
+  .legal-body p,
+  .legal-body li {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .legal-body p {
+    margin: 0 0 14px;
+  }
+  .legal-body ul {
+    margin: 0 0 16px;
+    padding-left: 20px;
+  }
+  .legal-body li {
+    margin-bottom: 8px;
+  }
+  .legal-body a {
+    color: var(--blue);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legal-body strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  /* Anything the reader would regret skimming past. */
+  .legal-callout {
+    margin: 22px 0;
+    padding: 18px 20px;
+    background: var(--wash);
+    border-left: 3px solid var(--blue);
+    border-radius: 0 12px 12px 0;
+  }
+  .legal-callout p:last-child {
+    margin-bottom: 0;
+  }
+  .legal-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 18px;
+    font-size: 15px;
+  }
+  .legal-body th,
+  .legal-body td {
+    text-align: left;
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+    color: var(--ink-soft);
+  }
+  .legal-body th {
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 13.5px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+</style>

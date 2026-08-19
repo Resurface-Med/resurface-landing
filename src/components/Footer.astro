@@ -1,0 +1,201 @@
+---
+const APP_URL = "https://app.tryresurface.com";
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="wrap foot-top">
+    <div class="foot-brand">
+      <img src="/logo-lockup.png" alt="Resurface" width="560" height="131" />
+      <p>
+        A question bank for UK medical students, with AI that can write extra
+        questions from your own study material.
+      </p>
+    </div>
+
+    <div class="foot-cols">
+      <nav class="foot-col" aria-label="Product">
+        <h2>Product</h2>
+        <a href="/#subjects">Try a question</a>
+        <a href="/#ai">AI questions</a>
+        <a href="/#evidence">The evidence</a>
+        <a href="/#how">How it works</a>
+      </nav>
+
+      <nav class="foot-col" aria-label="Legal">
+        <h2>Legal</h2>
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="mailto:hello@tryresurface.com">Contact</a>
+      </nav>
+
+      <div class="foot-col">
+        <h2>Start</h2>
+        <a class="foot-cta" href={APP_URL}>Start studying →</a>
+      </div>
+    </div>
+  </div>
+
+  <!--
+    A colophon rather than a sign-off. The word is the whole argument the
+    product makes — things sink, and the work is bringing them back before
+    they do — so the last thing on the page states it plainly and stops.
+  -->
+  <div class="wrap foot-mark">
+    <p class="foot-word">resurface</p>
+    <p class="foot-pron"><span>/ˌriːˈsəːfɪs/</span> <em>verb</em></p>
+    <p class="foot-def">
+      to come back up into view; to bring a thing back
+      <span>just before it is lost.</span>
+    </p>
+  </div>
+
+  <div class="wrap foot-base">
+    <span>© Resurface {year}</span>
+    <span class="foot-base-links">
+      <a href="/privacy">Privacy</a>
+      <a href="/terms">Terms</a>
+    </span>
+  </div>
+</footer>
+
+<style>
+  .foot {
+    background: var(--panel);
+    padding: clamp(40px, 6vh, 64px) 0 26px;
+  }
+  .wrap {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .foot-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: clamp(28px, 4vw, 64px);
+  }
+  .foot-brand {
+    max-width: 34ch;
+  }
+  .foot-brand img {
+    width: 150px;
+    height: auto;
+  }
+  .foot-brand p {
+    margin-top: 14px;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  .foot-cols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(28px, 5vw, 72px);
+  }
+  .foot-col {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    min-width: 104px;
+  }
+  .foot-col h2 {
+    margin: 0 0 3px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .foot-col a {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    transition: color 0.16s ease;
+  }
+  .foot-col a:hover {
+    color: var(--blue);
+  }
+  .foot-cta {
+    color: var(--blue) !important;
+    font-weight: 600 !important;
+  }
+
+  /* ---------------------------------------------------------- COLOPHON */
+  .foot-mark {
+    margin-top: clamp(44px, 7vh, 76px);
+    padding-top: clamp(28px, 4vh, 40px);
+    border-top: 1px solid var(--line);
+  }
+  .foot-word {
+    margin: 0;
+    /* Sized off the viewport so it reads as a masthead rather than a heading.
+       It is the only thing on the page allowed to be this big. */
+    font-size: clamp(52px, 12vw, 148px);
+    font-weight: 700;
+    letter-spacing: -0.055em;
+    line-height: 0.86;
+    color: var(--blue);
+  }
+  .foot-pron {
+    margin: 16px 0 0;
+    font-size: 14px;
+    color: var(--ink-faint);
+    letter-spacing: 0.01em;
+  }
+  .foot-pron em {
+    font-style: italic;
+    margin-left: 4px;
+  }
+  .foot-def {
+    margin: 10px 0 0;
+    max-width: 34ch;
+    font-size: clamp(17px, 2vw, 21px);
+    font-weight: 500;
+    line-height: 1.45;
+    letter-spacing: -0.3px;
+    color: var(--ink);
+  }
+  /* The clause the product exists for, so it gets the emphasis. */
+  .foot-def span {
+    color: var(--blue);
+  }
+
+  .foot-base {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: clamp(32px, 5vh, 52px);
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 13.5px;
+    color: var(--ink-faint);
+  }
+  .foot-base-links {
+    display: flex;
+    gap: 18px;
+  }
+  .foot-base-links a {
+    color: var(--ink-faint);
+  }
+  .foot-base-links a:hover {
+    color: var(--blue);
+  }
+
+  @media (max-width: 780px) {
+    .foot-top {
+      flex-direction: column;
+      gap: 32px;
+    }
+    .foot-cols {
+      gap: 28px 44px;
+    }
+    .foot-word {
+      letter-spacing: -0.04em;
+    }
+  }
+</style>

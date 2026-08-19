@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import Footer from "../components/Footer.astro";
 import Wave from "../components/Wave.astro";
 /* Nine real questions, one per deck, lifted from the question bank so the
    demo shows the actual product rather than a mock-up of it. */
@@ -93,7 +94,7 @@ const marquee = "Don't let the lecture sink. ";
 
       <div class="nav-links">
         <a href="#subjects">Try a question</a>
-        <a href="#ai">AI questions</a>
+        <a href="#evidence">Evidence</a>
         <a href="#how">How it works</a>
       </div>
 
@@ -373,6 +374,138 @@ const marquee = "Don't let the lecture sink. ";
 
   <Wave from="var(--blue)" to="var(--panel)" />
 
+  <!-- ========================================== LIGHT: THE EVIDENCE -->
+  <!-- The claim above this is the whole pitch, so it gets shown its working.
+       Every figure here is from published work and cited underneath; the
+       illustrations draw the finding rather than decorating the paragraph. -->
+  <section class="light evidence" id="evidence">
+    <div class="wrap">
+      <div class="head" data-reveal>
+        <span class="eyebrow">The evidence</span>
+        <h2>This isn't a study hack. It's the most tested finding in learning science.</h2>
+        <p class="head-sub">
+          Answering questions and spacing them out are the two techniques that
+          survive scrutiny. Everything Resurface does is built on them.
+        </p>
+      </div>
+
+      <div class="ev-grid">
+        <!-- 1 -->
+        <article class="ev-card" data-reveal>
+          <div class="ev-art">
+            <svg viewBox="0 0 200 120" role="img" aria-label="Ten techniques reviewed, two rated high utility">
+              <g class="ev-dots">
+                <circle cx="26"  cy="40" r="11" class="on" />
+                <circle cx="60"  cy="40" r="11" class="on" />
+                <circle cx="94"  cy="40" r="11" class="off" />
+                <circle cx="128" cy="40" r="11" class="off" />
+                <circle cx="162" cy="40" r="11" class="off" />
+                <circle cx="26"  cy="76" r="11" class="off" />
+                <circle cx="60"  cy="76" r="11" class="off" />
+                <circle cx="94"  cy="76" r="11" class="off" />
+                <circle cx="128" cy="76" r="11" class="off" />
+                <circle cx="162" cy="76" r="11" class="off" />
+              </g>
+              <path d="M20 58 H66" class="ev-rule" />
+            </svg>
+          </div>
+          <h3>Two techniques out of ten</h3>
+          <p>
+            A review of ten common study methods rated only two as
+            <strong>high utility</strong>: practice testing and spacing.
+            Highlighting, rereading and summarising — what most people
+            actually do — were rated low.
+          </p>
+          <p class="ev-cite">Dunlosky et al., <em>Psych. Science in the Public Interest</em>, 2013</p>
+        </article>
+
+        <!-- 2 -->
+        <article class="ev-card" data-reveal>
+          <div class="ev-art">
+            <svg viewBox="0 0 200 120" role="img" aria-label="Retention over time: reviewed material stays high, unreviewed material decays">
+              <path d="M14 96 H186" class="ev-axis" />
+              <!-- Left to rot -->
+              <path d="M18 26 C52 74, 96 90, 182 93" class="ev-decay" />
+              <!-- Brought back up, each time falling more slowly -->
+              <path d="M18 26 C36 58, 46 62, 58 62 L58 30 C74 56, 84 60, 100 60 L100 32 C120 52, 132 55, 152 55 L152 34 C168 44, 176 46, 186 47"
+                    class="ev-line" />
+              <circle cx="58"  cy="30" r="4" class="ev-node" />
+              <circle cx="100" cy="32" r="4" class="ev-node" />
+              <circle cx="152" cy="34" r="4" class="ev-node" />
+            </svg>
+          </div>
+          <h3>Each return costs less than the last</h3>
+          <p>
+            Recall decays fastest in the first days after learning. Meeting a
+            fact again just as it starts to fade resets the curve — and each
+            time, it falls more slowly than before.
+          </p>
+          <p class="ev-cite">Distributed practice; see systematic reviews in health professions education</p>
+        </article>
+
+        <!-- 3 -->
+        <article class="ev-card" data-reveal>
+          <div class="ev-art">
+            <svg viewBox="0 0 200 120" role="img" aria-label="Effect size of retrieval practice, around 0.5">
+              <path d="M20 78 H180" class="ev-axis" />
+              <g class="ev-ticks">
+                <path d="M20 72 V84" /><path d="M100 72 V84" /><path d="M180 72 V84" />
+              </g>
+              <text x="20"  y="102" class="ev-tick-label">0</text>
+              <text x="100" y="102" class="ev-tick-label" text-anchor="middle">0.5</text>
+              <text x="180" y="102" class="ev-tick-label" text-anchor="end">1.0+</text>
+              <!-- The range across individual studies -->
+              <path d="M70 56 H180" class="ev-range" />
+              <circle cx="100" cy="56" r="8" class="ev-node solid" />
+              <text x="100" y="36" class="ev-value" text-anchor="middle">g ≈ 0.50</text>
+            </svg>
+          </div>
+          <h3>A real effect, not a rounding error</h3>
+          <p>
+            Across meta-analyses, testing yourself lands around
+            <strong>g ≈ 0.50</strong> against rereading, with individual studies
+            from 0.31 to 1.26. It also carries to questions you have never seen
+            before, not just the ones you drilled.
+          </p>
+          <p class="ev-cite">Retrieval practice in the health professions, state-of-the-art review, 2025</p>
+        </article>
+
+        <!-- 4 -->
+        <article class="ev-card" data-reveal>
+          <div class="ev-art">
+            <svg viewBox="0 0 200 120" role="img" aria-label="Every option explained, not only the correct one">
+              <g class="ev-rows">
+                <rect x="18" y="16" width="164" height="26" rx="8" class="miss" />
+                <rect x="18" y="48" width="164" height="26" rx="8" class="hit" />
+                <rect x="18" y="80" width="164" height="26" rx="8" class="miss" />
+              </g>
+              <path d="M32 29 l6 6 l12 -13" class="ev-tick-mark faint" />
+              <path d="M32 61 l6 6 l12 -13" class="ev-tick-mark" />
+              <path d="M32 93 l6 6 l12 -13" class="ev-tick-mark faint" />
+              <g class="ev-note">
+                <path d="M62 29 H160" /><path d="M62 61 H150" /><path d="M62 93 H166" />
+              </g>
+            </svg>
+          </div>
+          <h3>Why the wrong ones are wrong</h3>
+          <p>
+            Multiple choice is the weaker form of recall — you can recognise an
+            answer you could not have produced. Feedback is what closes that
+            gap, so every option here carries its own explanation, not just the
+            correct one.
+          </p>
+          <p class="ev-cite">Feedback and test-enhanced learning in medical education</p>
+        </article>
+      </div>
+
+      <p class="ev-foot" data-reveal>
+        The uncomfortable part: students report rereading far more often than
+        testing themselves — the technique that works least is the one that
+        feels most like progress.
+      </p>
+    </div>
+  </section>
+
   <!-- ============================================ LIGHT: HOW IT WORKS -->
   <section class="light how" id="how" data-how>
     <div class="wrap">
@@ -452,29 +585,7 @@ const marquee = "Don't let the lecture sink. ";
 
   <Wave from="var(--blue)" to="var(--panel)" />
 
-  <!-- ------------------------------------------------------------- FOOT -->
-  <footer class="foot">
-    <div class="wrap foot-top">
-      <div class="foot-brand">
-        <img src="/logo-lockup.png" alt="Resurface" width="560" height="131" />
-        <p>
-          A question bank for UK medical students, with AI that can write
-          extra questions from your own study material.
-        </p>
-      </div>
-
-      <nav class="foot-nav" aria-label="Product">
-        <a href="#subjects">Try a question</a>
-        <a href="#ai">AI questions</a>
-        <a href="#how">How it works</a>
-        <a href={APP_URL}>Start studying</a>
-      </nav>
-    </div>
-
-    <div class="wrap foot-base">
-      <span>© Resurface {new Date().getFullYear()}</span>
-    </div>
-  </footer>
+  <Footer />
 </Base>
 
 <style>
@@ -1925,7 +2036,151 @@ const marquee = "Don't let the lecture sink. ";
     color: var(--ink-faint);
   }
 
+
+  /* ============================================================ EVIDENCE */
+  .evidence {
+    padding-bottom: clamp(48px, 8vh, 88px);
+  }
+  .ev-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+    gap: clamp(16px, 2vw, 26px);
+    margin-top: clamp(28px, 4vh, 44px);
+  }
+  .ev-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: clamp(20px, 2.4vw, 28px);
+    box-shadow: 0 1px 2px rgba(15, 27, 61, 0.04), 0 12px 32px rgba(20, 44, 130, 0.05);
+  }
+  .ev-card h3 {
+    margin: 20px 0 8px;
+    font-size: clamp(17px, 1.8vw, 19px);
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .ev-card p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .ev-card strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .ev-cite {
+    margin-top: 14px !important;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px !important;
+    line-height: 1.4 !important;
+    color: var(--ink-faint) !important;
+  }
+  .ev-cite em { font-style: italic; }
+
+  /* The illustration sits on the wash so the white card reads as paper and
+     the drawing as something printed on it. */
+  .ev-art {
+    background: var(--wash);
+    border-radius: 14px;
+    padding: 6px 4px;
+  }
+  .ev-art svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .ev-dots .on  { fill: var(--blue); }
+  .ev-dots .off { fill: #ffffff; stroke: var(--peri); stroke-width: 1.5; }
+  .ev-rule {
+    stroke: var(--blue);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .ev-axis {
+    stroke: var(--peri);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    opacity: 0.7;
+  }
+  .ev-decay {
+    fill: none;
+    stroke: var(--peri);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-dasharray: 3 5;
+  }
+  .ev-line {
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 3;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  .ev-node {
+    fill: var(--white);
+    stroke: var(--blue);
+    stroke-width: 3;
+  }
+  .ev-node.solid { fill: var(--blue); stroke: none; }
+
+  .ev-ticks path {
+    stroke: var(--peri);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+  }
+  .ev-tick-label {
+    font-size: 11px;
+    font-weight: 500;
+    fill: var(--ink-faint);
+  }
+  .ev-value {
+    font-size: 15px;
+    font-weight: 700;
+    fill: var(--blue);
+    letter-spacing: -0.3px;
+  }
+  .ev-range {
+    stroke: var(--peri);
+    stroke-width: 6;
+    stroke-linecap: round;
+  }
+
+  .ev-rows .hit  { fill: rgba(53, 98, 245, 0.14); stroke: var(--blue); stroke-width: 1.5; }
+  .ev-rows .miss { fill: var(--white); stroke: var(--peri); stroke-width: 1.5; }
+  .ev-tick-mark {
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .ev-tick-mark.faint { opacity: 0.32; }
+  .ev-note path {
+    stroke: var(--peri);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+
+  .ev-foot {
+    margin: clamp(28px, 4vh, 40px) auto 0;
+    max-width: 56ch;
+    text-align: center;
+    font-size: clamp(16px, 1.9vw, 19px);
+    font-weight: 500;
+    line-height: 1.5;
+    letter-spacing: -0.3px;
+    color: var(--ink);
+  }
+
   /* ================================================================ SMALL */
+
 
   @media (max-width: 1040px) {
     .hero {

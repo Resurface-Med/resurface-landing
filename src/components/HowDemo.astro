@@ -131,6 +131,9 @@ const OPTS = [
   .hw {
     display: grid;
     gap: 14px;
+    width: 100%;
+    max-width: 520px;
+    margin-inline: auto;
   }
 
   /* The animation's own space: a glass panel on the field, same language as
@@ -435,7 +438,130 @@ const OPTS = [
 
   @media (max-width: 1040px) {
     .hw {
-      max-width: 620px;
+      max-width: 420px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .hw {
+      max-width: 320px;
+      gap: 12px;
+    }
+    .hw-frame {
+      padding: 12px;
+      border-radius: 18px;
+    }
+    .hw-stage {
+      aspect-ratio: 5 / 3.15;
+    }
+    .hw-doc {
+      top: -10%;
+      left: -6%;
+      width: 52%;
+      padding: 12px 12px 14px;
+      border-radius: 10px;
+    }
+    .hw-doc__name {
+      font-size: 9.5px;
+      margin-bottom: 6px;
+    }
+    .hw-doc__title {
+      font-size: 12.5px;
+      margin-bottom: 8px;
+    }
+    .hw-doc__lines {
+      gap: 3px;
+    }
+    .hw-doc__lines li {
+      font-size: 10.5px;
+      padding: 2px 4px;
+    }
+    .hw-app {
+      border-radius: 14px;
+    }
+    .hw-app__bar {
+      padding: 8px 12px;
+    }
+    .hw-app__bar span {
+      width: 7px;
+      height: 7px;
+    }
+    .hw-app__bar p {
+      font-size: 11px;
+    }
+    .hw-app__body {
+      height: calc(100% - 32px);
+    }
+    .hw-screen {
+      padding: 12px 14px;
+    }
+    .hw-zone svg {
+      width: 28px;
+      height: 28px;
+    }
+    .hw-zone p {
+      font-size: 12px;
+    }
+    .hw-cards {
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .hw-cards span {
+      height: 40px;
+      border-radius: 9px;
+    }
+    .hw-made {
+      font-size: 12px;
+    }
+    .hw-made b {
+      font-size: 22px;
+    }
+    .hw-stem {
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .hw-opts {
+      gap: 6px;
+    }
+    .hw-opts li {
+      padding: 7px 10px;
+      font-size: 11px;
+      border-radius: 9px;
+      gap: 8px;
+    }
+    .hw-opt__mark {
+      width: 15px;
+      height: 15px;
+    }
+    .hw-meter {
+      margin-top: 12px;
+    }
+    .hw-meter__label {
+      font-size: 10.5px;
+    }
+    .hw-meter__track {
+      height: 6px;
+    }
+    .hw-steps {
+      gap: 6px;
+    }
+    .hw-steps li {
+      gap: 10px;
+      padding: 5px 2px;
+    }
+    .hw-steps__n {
+      width: 18px;
+      height: 18px;
+      font-size: 10px;
+    }
+    .hw-steps__t {
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .hw {
+      max-width: 288px;
     }
   }
 </style>

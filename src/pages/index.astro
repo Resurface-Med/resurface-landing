@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Footer from "../components/Footer.astro";
-import HeroDemo from "../components/HeroDemo.astro";
+import HowDemo from "../components/HowDemo.astro";
 import Wave from "../components/Wave.astro";
 /* Nine real questions, one per deck, lifted from the question bank so the
    demo shows the actual product rather than a mock-up of it. */
@@ -120,7 +120,7 @@ const marquee = "Don't let the lecture sink. ";
       </div>
 
       <div class="hero-demo">
-        <HeroDemo />
+        <HowDemo />
       </div>
     </section>
 
@@ -572,8 +572,6 @@ const marquee = "Don't let the lecture sink. ";
   .hero-demo {
     width: 100%;
     min-width: 0;
-    display: flex;
-    justify-content: center;
   }
 
   h1 {
@@ -1934,14 +1932,11 @@ const marquee = "Don't let the lecture sink. ";
   @media (max-width: 1040px) {
     .hero {
       grid-template-columns: 1fr;
-      justify-items: stretch;
+      justify-items: start;
       gap: clamp(24px, 4vh, 38px);
     }
     .hero-copy {
       max-width: none;
-    }
-    .hero-demo {
-      justify-content: center;
     }
   }
 

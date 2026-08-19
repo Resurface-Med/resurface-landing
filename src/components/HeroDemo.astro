@@ -1,234 +1,304 @@
 ---
 /**
- * Hero stage — editorial, not a product tour.
+ * A lecture goes in and questions come out of it.
  *
- * A lecture sheet sinks. The fact resurfaces as giant type. One metaphor,
- * readable at a glance. No app chrome, no step list, no micro-UI to decode.
+ * Every element of every beat is in the DOM from the start and the timeline
+ * reveals it. Nothing is created at runtime, so the sequence can be scrubbed
+ * and replayed, and the whole order lives in scripts/heroTimeline.js rather
+ * than being inferred from delays scattered through here.
+ *
+ * The card is one persistent object throughout — it takes the slide and then
+ * holds the questions. That is the point of the story, so nothing here ever
+ * swaps one element for another.
  */
+const OPTIONS = [
+  "Gi protein → decreased cAMP",
+  "Gq protein → IP₃/DAG",
+  "Gs protein → increased cAMP",
+  "Nuclear receptor",
+];
 ---
 
-<div class="ed" data-hero-demo aria-hidden="true">
-  <div class="ed-stage">
-    <!-- Ghost word in the field — atmosphere, not UI -->
-    <p class="ed-ghost" data-ghost>sink</p>
-
-    <!-- The lecture: a real page that will go under -->
-    <article class="ed-sheet" data-sheet>
-      <p class="ed-sheet__file">Lecture 12 · Adrenergic receptors</p>
-      <h3 class="ed-sheet__title">What you just sat through</h3>
-      <ul class="ed-sheet__lines">
-        <li>α1 — vessels, Gq</li>
-        <li data-line>β1 — heart, Gs, ↑ cAMP</li>
-        <li>β2 — lungs, Gs</li>
+<div class="hd" data-hero-demo aria-hidden="true">
+  <!-- BEAT 1 — the lecture, before it goes anywhere.
+       Real bullets rather than grey bars: the bars read as "a document", and
+       what needs reading here is "my lecture slides". One line is also the
+       line the question below is written from, so the scan can point at it. -->
+  <div class="hd-slide" data-slide>
+    <div class="hd-slide__bar">
+      <span class="hd-slide__dot"></span>
+      <span class="hd-slide__file">Lecture 12 — Adrenergic receptors.pdf</span>
+    </div>
+    <div class="hd-slide__page">
+      <p class="hd-slide__title">Adrenergic receptors</p>
+      <ul class="hd-slide__bullets">
+        <li>α1 — vasoconstriction, Gq</li>
+        <li data-source>β1 — heart, Gs, ↑ cAMP</li>
+        <li>β2 — bronchodilation, Gs</li>
+        <li>Agonists: adrenaline, dobutamine</li>
       </ul>
-      <p class="ed-sheet__note" data-note>…will be gone by Friday</p>
-    </article>
-
-    <!-- What comes back — oversized, unmissable -->
-    <div class="ed-back" data-back>
-      <p class="ed-back__tag" data-tag>Resurfaced</p>
-      <p class="ed-back__q" data-q>β1 receptors are coupled to?</p>
-      <p class="ed-back__a" data-a>Gs → ↑ cAMP</p>
+      <div class="hd-scan" data-scan></div>
     </div>
   </div>
+
+  <!-- The card. One object for the rest of the story. -->
+  <div class="hd-card" data-card>
+    <!-- BEAT 2 — questions coming out of it -->
+    <div class="hd-screen" data-screen="gen">
+      <div class="hd-fan">
+        <span data-fan></span>
+        <span data-fan></span>
+        <span data-fan></span>
+      </div>
+      <p class="hd-count"><b data-count>0</b> questions</p>
+      <p class="hd-count__sub">written from your lecture</p>
+    </div>
+
+    <!-- BEAT 3 — answering one -->
+    <div class="hd-screen" data-screen="q">
+      <p class="hd-stem">β1 receptors are coupled to:</p>
+      <ul class="hd-opts">
+        {OPTIONS.map((o, i) => (
+          <li data-opt data-correct={i === 2 ? "true" : undefined}>{o}</li>
+        ))}
+      </ul>
+      <div class="hd-exp" data-exp>
+        <b>Correct.</b> β1 raises cAMP — heart rate and contractility.
+      </div>
+    </div>
+  </div>
+
+  <!-- Two words per beat. An unlabelled animation asks the viewer to work out
+       what they are looking at in the second and a half it is on screen. -->
+  <p class="hd-caption">
+    <span data-cap>Your lecture</span>
+    <span data-cap>12 questions, written from it</span>
+    <span data-cap>Answer them</span>
+  </p>
 </div>
 
 <style>
-  .ed {
-    --ed-w: min(100%, 440px);
-    width: var(--ed-w);
-    margin-inline: auto;
-  }
-
-  .ed-stage {
+  .hd {
     position: relative;
     width: 100%;
-    aspect-ratio: 1 / 1.12;
-    overflow: hidden;
-    border-radius: 28px;
-    /* A deeper pocket of the field — so sink/rise reads as depth */
-    background:
-      radial-gradient(
-        120% 80% at 50% 110%,
-        rgba(15, 27, 61, 0.35) 0%,
-        transparent 55%
-      ),
-      rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    box-shadow: inset 0 -40px 80px rgba(15, 27, 61, 0.18);
+    aspect-ratio: 5 / 5.4;
+    max-width: 420px;
+    margin-inline: auto;
+    font-family: inherit;
   }
 
-  .ed-ghost {
+  /* ---------------------------------------------------------- THE SLIDE */
+  .hd-slide {
     position: absolute;
-    left: 50%;
-    top: 42%;
-    margin: 0;
-    transform: translate(-50%, -50%);
-    font-size: clamp(72px, 22vw, 120px);
-    font-weight: 800;
-    letter-spacing: -0.06em;
-    line-height: 0.85;
-    text-transform: lowercase;
-    color: rgba(255, 255, 255, 0.07);
-    pointer-events: none;
-    user-select: none;
-    white-space: nowrap;
-  }
-
-  /* ------------------------------------------------------------ SHEET */
-  .ed-sheet {
-    position: absolute;
-    left: 8%;
-    right: 8%;
-    top: 10%;
-    padding: 22px 22px 24px;
-    background: #fff;
-    color: var(--ink);
-    border-radius: 18px;
+    inset: 6% 4% auto 4%;
+    background: var(--white);
+    border-radius: 16px;
     box-shadow:
       0 2px 6px rgba(15, 27, 61, 0.06),
-      0 28px 60px rgba(20, 44, 130, 0.22);
-    transform-origin: 50% 80%;
+      0 18px 44px rgba(20, 44, 130, 0.16);
+    overflow: hidden;
+    transform-origin: 50% 40%;
   }
-  .ed-sheet__file {
-    margin: 0 0 10px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  /* A file bar, so the thing being dropped in is recognisably a file. */
+  .hd-slide__bar {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hd-slide__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--blue);
+    flex-shrink: 0;
+  }
+  .hd-slide__file {
+    font-size: 11.5px;
+    font-weight: 600;
     color: var(--ink-faint);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-  .ed-sheet__title {
-    margin: 0 0 16px;
-    font-size: clamp(20px, 4.2vw, 26px);
+  .hd-slide__page {
+    position: relative;
+    padding: 18px 18px 22px;
+    overflow: hidden;
+  }
+  .hd-slide__title {
+    margin: 0 0 12px;
+    font-size: 17px;
     font-weight: 700;
-    letter-spacing: -0.7px;
-    line-height: 1.15;
+    letter-spacing: -0.5px;
     color: var(--ink);
   }
-  .ed-sheet__lines {
+  .hd-slide__bullets {
     list-style: none;
     margin: 0;
     padding: 0;
-    display: grid;
-    gap: 8px;
-  }
-  .ed-sheet__lines li {
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: -0.15px;
-    color: var(--ink-soft);
-    padding: 6px 10px;
-    border-radius: 8px;
-  }
-  .ed-sheet__lines li[data-line] {
-    color: var(--blue);
-    font-weight: 700;
-    background: rgba(53, 98, 245, 0.1);
-  }
-  .ed-sheet__note {
-    margin: 16px 0 0;
-    font-family: "Caveat", cursive;
-    font-size: 26px;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    color: rgba(15, 27, 61, 0.45);
-    transform: rotate(-2deg);
-    transform-origin: left center;
-  }
-
-  /* ------------------------------------------------------------- BACK */
-  .ed-back {
-    position: absolute;
-    inset: 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 28px 24px;
-    text-align: center;
+    gap: 8px;
+  }
+  .hd-slide__bullets li {
+    position: relative;
+    padding-left: 15px;
+    font-size: 12.5px;
+    line-height: 1.4;
+    color: var(--ink-soft);
+    border-radius: 5px;
+  }
+  .hd-slide__bullets li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 7px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--peri);
+  }
+  .hd-scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 46%;
+    background: linear-gradient(
+      180deg,
+      rgba(53, 98, 245, 0) 0%,
+      rgba(53, 98, 245, 0.16) 62%,
+      rgba(53, 98, 245, 0.5) 96%,
+      rgba(53, 98, 245, 0) 100%
+    );
     opacity: 0;
-    pointer-events: none;
   }
-  .ed-back__tag {
-    margin: 0 0 14px;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--peri);
+
+  /* ----------------------------------------------------------- THE CARD */
+  .hd-card {
+    position: absolute;
+    inset: 4% 0 auto 0;
+    min-height: 286px;
+    padding: 24px 22px;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow:
+      0 2px 6px rgba(15, 27, 61, 0.06),
+      0 26px 64px rgba(20, 44, 130, 0.2);
+    opacity: 0;
+    transform-origin: 50% 42%;
   }
-  .ed-back__q {
+  .hd-screen {
+    position: absolute;
+    inset: 24px 22px auto;
+    opacity: 0;
+  }
+
+  /* BEAT 2 */
+  .hd-fan {
+    position: relative;
+    height: 92px;
+    margin-bottom: 18px;
+  }
+  .hd-fan span {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 128px;
+    height: 84px;
+    margin-left: -64px;
+    border-radius: 12px;
+    background: var(--panel);
+    border: 1.5px solid var(--line);
+    opacity: 0;
+  }
+  .hd-count {
     margin: 0;
-    max-width: 14em;
-    font-size: clamp(26px, 5.5vw, 34px);
-    font-weight: 600;
-    letter-spacing: -1.1px;
-    line-height: 1.15;
-    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink-soft);
   }
-  .ed-back__a {
-    margin: 18px 0 0;
-    font-size: clamp(36px, 8vw, 52px);
-    font-weight: 800;
-    letter-spacing: -1.8px;
-    line-height: 1;
-    color: #fff;
+  .hd-count b {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -1.4px;
+    color: var(--blue);
+    margin-right: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .hd-count__sub {
+    margin: 4px 0 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-faint);
+  }
+
+  /* The question */
+  .hd-stem {
+    margin: 0 0 14px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .hd-opts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .hd-opts li {
+    padding: 11px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: var(--white);
+  }
+  .hd-exp {
+    margin-top: 12px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    background: rgba(31, 157, 85, 0.1);
+    font-size: 13px;
+    line-height: 1.45;
+    color: #17703d;
+    opacity: 0;
+  }
+  .hd-exp b {
+    font-weight: 700;
+  }
+
+  /* The caption. All three occupy the same line; the timeline shows one. */
+  .hd-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    text-align: center;
+    min-height: 20px;
+  }
+  .hd-caption span {
+    position: absolute;
+    left: 0;
+    right: 0;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: -0.1px;
+    color: rgba(255, 255, 255, 0.92);
+    opacity: 0;
   }
 
   @media (max-width: 1040px) {
-    .ed {
-      --ed-w: min(100%, 380px);
-    }
-  }
-
-  @media (max-width: 560px) {
-    .ed {
-      --ed-w: min(100%, 300px);
-    }
-    .ed-stage {
-      aspect-ratio: 1 / 1.15;
-      border-radius: 22px;
-    }
-    .ed-ghost {
-      font-size: 64px;
-    }
-    .ed-sheet {
-      left: 7%;
-      right: 7%;
-      top: 9%;
-      padding: 16px 16px 18px;
-      border-radius: 14px;
-    }
-    .ed-sheet__title {
-      font-size: 18px;
-      margin-bottom: 12px;
-    }
-    .ed-sheet__lines li {
-      font-size: 12.5px;
-      padding: 5px 8px;
-    }
-    .ed-sheet__note {
-      font-size: 22px;
-      margin-top: 12px;
-    }
-    .ed-back {
-      padding: 20px 16px;
-    }
-    .ed-back__q {
-      font-size: 22px;
-      letter-spacing: -0.7px;
-    }
-    .ed-back__a {
-      font-size: 34px;
-      margin-top: 14px;
-      letter-spacing: -1.2px;
-    }
-  }
-
-  @media (max-width: 380px) {
-    .ed {
-      --ed-w: min(100%, 272px);
+    .hd {
+      max-width: 360px;
     }
   }
 </style>

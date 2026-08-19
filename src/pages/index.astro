@@ -375,49 +375,46 @@ const marquee = "Don't let the lecture sink. ";
   <Wave from="var(--blue)" to="var(--panel)" />
 
   <!-- ========================================== LIGHT: THE EVIDENCE -->
-  <!-- One study, not a wall of them. It is the only finding that makes a
-       reader distrust their own study habits, which is the only thing that
-       changes what they do. The dashed line is the whole argument: the
-       prediction was wrong in both directions at once. -->
+  <!-- A demonstration, not an argument. Low bar first so it reads left to
+       right as the method working, and the labels say exactly what the two
+       groups did — the study compared stopping once you have it right against
+       continuing to retrieve it, which is precisely what the product does. -->
   <section class="light proof" id="evidence">
     <div class="wrap proof-inner">
-      <h2 data-reveal>You are the worst judge of what is working.</h2>
+      <h2 data-reveal>Getting it right once isn’t learning it.</h2>
 
       <figure class="proof-fig" data-reveal>
-        <svg viewBox="0 0 340 210" role="img"
-             aria-label="After one week, students who kept testing recalled 80 percent; students who stopped recalled 35 percent. Both groups predicted 50 percent.">
-          <!-- what everyone expected -->
-          <line x1="18" y1="90" x2="322" y2="90" class="pf-guess" />
-          <text x="18" y="80" class="pf-guess-label">everyone predicted 50%</text>
+        <svg viewBox="0 0 340 200" role="img"
+             aria-label="One week later, students who stopped after answering correctly once recalled 35 percent. Students who kept coming back recalled 80 percent.">
+          <rect x="52" y="106" width="82" height="56" rx="7" class="pf-bar lo" />
+          <text x="93" y="94" class="pf-val muted" text-anchor="middle">35%</text>
+          <text x="93" y="182" class="pf-cap" text-anchor="middle">answered once</text>
 
-          <!-- kept testing -->
-          <rect x="66" y="42" width="76" height="128" rx="6" class="pf-bar hi" />
-          <text x="104" y="30" class="pf-val" text-anchor="middle">80%</text>
-          <text x="104" y="192" class="pf-cap" text-anchor="middle">kept testing</text>
+          <path d="M150 78 H186" class="pf-arrow" />
+          <path d="M180 72 l7 6 l-7 6" class="pf-arrow" />
 
-          <!-- stopped -->
-          <rect x="198" y="114" width="76" height="56" rx="6" class="pf-bar lo" />
-          <text x="236" y="102" class="pf-val muted" text-anchor="middle">35%</text>
-          <text x="236" y="192" class="pf-cap" text-anchor="middle">stopped early</text>
+          <rect x="206" y="34" width="82" height="128" rx="7" class="pf-bar hi" />
+          <text x="247" y="22" class="pf-val" text-anchor="middle">80%</text>
+          <text x="247" y="182" class="pf-cap strong" text-anchor="middle">kept coming back</text>
 
-          <line x1="18" y1="170" x2="322" y2="170" class="pf-base" />
+          <line x1="20" y1="162" x2="320" y2="162" class="pf-base" />
         </svg>
       </figure>
 
       <p class="proof-lead" data-reveal>
-        Same material, same time spent. A week later, the students who kept
-        testing themselves remembered more than twice as much — and not one
-        group could tell.
+        Same material, same total study time. A week later, the students who
+        kept returning to what they’d learned remembered more than twice as
+        much as those who stopped the moment they got it right.
       </p>
 
       <p class="proof-sub" data-reveal>
-        Of ten study techniques reviewed for <i>Psychological Science in the
-        Public Interest</i>, only two were rated high&nbsp;utility: testing
-        yourself, and spacing it out. Resurface does nothing else.
+        That gap is the whole product. Resurface brings a question back just
+        before you’d have forgotten it, and keeps doing it until you don’t
+        need it to.
       </p>
 
       <p class="proof-cite" data-reveal>
-        Karpicke &amp; Roediger, <i>Science</i>, 2008 · Dunlosky et al., 2013
+        Karpicke &amp; Roediger, <i>Science</i>, 2008
       </p>
     </div>
   </section>
@@ -2083,19 +2080,15 @@ const marquee = "Don't let the lecture sink. ";
     stroke: var(--line);
     stroke-width: 2;
   }
-  /* The prediction, drawn across both so the error is visible in one look:
-     they undershot one column and overshot the other by the same guess. */
-  .pf-guess {
-    stroke: var(--ink-faint);
-    stroke-width: 1.5;
-    stroke-dasharray: 5 5;
-    opacity: 0.75;
-  }
-  .pf-guess-label {
-    font-size: 11.5px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    fill: var(--ink-faint);
+  /* Points from the low bar to the high one, so the pair reads as a change
+     rather than as two facts side by side. */
+  .pf-arrow {
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0.55;
   }
 
   .pf-val {
@@ -2109,6 +2102,10 @@ const marquee = "Don't let the lecture sink. ";
     font-size: 12.5px;
     font-weight: 500;
     fill: var(--ink-soft);
+  }
+  .pf-cap.strong {
+    font-weight: 600;
+    fill: var(--ink);
   }
 
   .proof-lead {

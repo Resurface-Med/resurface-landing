@@ -100,8 +100,15 @@ const marquee = "Don't let the lecture sink. ";
         <h1>
           I want to study<br />
           <span class="typed">
-            <span class="typed-out hl" aria-hidden="true">Pathology</span
-            ><span class="caret" aria-hidden="true"></span>
+            <!-- Invisible stack of every subject, overlaid: the line keeps the
+                 width of the longest word so typing never reflows the page. -->
+            <span class="typed-sizers" aria-hidden="true">
+              {subjects.map((s) => <span class="typed-sizer">{s}</span>)}
+            </span>
+            <span class="typed-live">
+              <span class="typed-out hl" aria-hidden="true">Pathology</span
+              ><span class="caret" aria-hidden="true"></span>
+            </span>
             <span class="vh"
               >pathology, physiology, anatomy, and six more subjects.</span
             >
@@ -539,17 +546,36 @@ const marquee = "Don't let the lecture sink. ";
     color: var(--peri);
   }
 
-  /* The zero-width space is load-bearing: the word empties to "" between
-     subjects, and an empty inline box drops the line height to the caret's,
-     which walked everything below it up and down on every cycle. */
+  /* Hold the subject line at the width of the longest word. Without that,
+     "Biochemistry" wrapping (or the empty frame between words) lifts and
+     drops everything under the headline on every cycle. */
   .typed {
-    display: inline-block;
+    display: inline-grid;
+    vertical-align: bottom;
+    max-width: 100%;
   }
-  .typed::before {
-    content: "\200B";
+  .typed-sizers,
+  .typed-live {
+    grid-area: 1 / 1;
+  }
+  .typed-sizers {
+    display: grid;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .typed-sizer {
+    grid-area: 1 / 1;
+    white-space: nowrap;
+  }
+  .typed-live {
+    display: flex;
+    align-items: baseline;
+    white-space: nowrap;
+    min-width: 0;
   }
   .caret {
     display: inline-block;
+    flex: none;
     width: 0.055em;
     height: 0.72em;
     background: var(--peri);

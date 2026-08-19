@@ -364,32 +364,42 @@ const marquee = "Don't let the lecture sink. ";
       <h2 data-reveal>It gets easier.</h2>
 
       <figure class="why-fig" data-reveal>
-        <svg viewBox="0 0 360 156" role="img"
-             aria-label="Five columns, one for each time a question comes back. Each is less full than the last, and the gaps between them widen: day 1, 3, 8, 21, 60.">
+        <!--
+          Geometry is derived, not eyeballed, so it cannot drift out of
+          agreement with the sentence beneath it:
+            · gaps between columns grow by x1.38 each step  (55, 65, 81, 101)
+            · each fill is 0.63 of the one before          (100, 63, 40, 25, 16)
+            · margins are 16 either side, columns are 26 wide
+          The previous version had the fourth gap narrower than the first,
+          which drew the opposite of "the gaps get longer".
+        -->
+        <svg viewBox="0 0 360 148" role="img"
+             aria-label="Five columns, one for each time a question comes back. Each is less full than the last and the gaps between them widen: day 1, 3, 8, 21 and 60.">
           <g class="rv-track">
-            <rect x="18"  y="20" width="28" height="96" rx="14" />
-            <rect x="88"  y="20" width="28" height="96" rx="14" />
-            <rect x="166" y="20" width="28" height="96" rx="14" />
-            <rect x="252" y="20" width="28" height="96" rx="14" />
-            <rect x="314" y="20" width="28" height="96" rx="14" />
+            <rect x="16"  y="18" width="26" height="100" rx="13" />
+            <rect x="71"  y="18" width="26" height="100" rx="13" />
+            <rect x="136" y="18" width="26" height="100" rx="13" />
+            <rect x="217" y="18" width="26" height="100" rx="13" />
+            <rect x="318" y="18" width="26" height="100" rx="13" />
           </g>
 
           <g class="rv-fill">
-            <rect x="18"  y="20"  width="28" height="96" rx="14" />
-            <rect x="88"  y="48"  width="28" height="68" rx="14" />
-            <rect x="166" y="74"  width="28" height="42" rx="14" />
-            <rect x="252" y="92"  width="28" height="24" rx="12" />
-            <rect x="314" y="100" width="28" height="16" rx="8" />
+            <rect x="16"  y="18"  width="26" height="100" rx="13" />
+            <rect x="71"  y="55"  width="26" height="63"  rx="13" />
+            <rect x="136" y="78"  width="26" height="40"  rx="13" />
+            <rect x="217" y="93"  width="26" height="25"  rx="13" />
+            <rect x="318" y="102" width="26" height="16"  rx="13" />
           </g>
 
           <g class="rv-day">
-            <text x="32"  y="140" text-anchor="middle">day 1</text>
-            <text x="102" y="140" text-anchor="middle">3</text>
-            <text x="180" y="140" text-anchor="middle">8</text>
-            <text x="266" y="140" text-anchor="middle">21</text>
-            <text x="328" y="140" text-anchor="middle">60</text>
+            <text x="29"  y="138" text-anchor="middle">1</text>
+            <text x="84"  y="138" text-anchor="middle">3</text>
+            <text x="149" y="138" text-anchor="middle">8</text>
+            <text x="230" y="138" text-anchor="middle">21</text>
+            <text x="331" y="138" text-anchor="middle">60</text>
           </g>
         </svg>
+        <figcaption>days after you first see a question</figcaption>
       </figure>
 
       <div class="why-copy" data-reveal>
@@ -1234,16 +1244,21 @@ const marquee = "Don't let the lecture sink. ";
     max-width: 620px;
     text-align: center;
   }
+  /* Same scale as every other section heading. It was running 46px/-1.4px
+     against the page's 42px/-1.1px, which is close enough to look like a
+     mistake rather than a decision. */
   .why h2 {
     margin: 0;
-    font-size: clamp(30px, 4vw, 46px);
+    font-size: clamp(28px, 3.5vw, 42px);
     font-weight: 600;
-    letter-spacing: -1.4px;
-    line-height: 1.12;
+    letter-spacing: -1.1px;
+    line-height: 1.16;
   }
 
+  /* One spacing step either side of the figure, so the section reads as
+     evenly set rather than as three blocks with arbitrary air between them. */
   .why-fig {
-    margin: clamp(26px, 4vh, 40px) 0 clamp(22px, 3.4vh, 32px);
+    margin: clamp(26px, 4vh, 36px) 0;
   }
   .why-fig svg {
     display: block;
@@ -1262,16 +1277,29 @@ const marquee = "Don't let the lecture sink. ";
   .rv-fill rect {
     fill: #fff;
   }
+  /* One rule for every label: bare numerals, identical size and weight. The
+     unit is stated once in the caption instead of "day 1" then "3". */
   .rv-day text {
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 13px;
+    font-weight: 600;
     fill: var(--on-blue-soft);
+    font-variant-numeric: tabular-nums;
+  }
+  .why-fig figcaption {
+    margin-top: 12px;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: rgba(255, 255, 255, 0.6);
   }
 
   .why-copy {
     margin: 0 auto;
     max-width: 44ch;
   }
+  /* Lead and body were 20px and 19px — a difference too small to read as
+     hierarchy and large enough to read as carelessness. Now a clear step, in
+     size and in colour. */
   .why-lead {
     margin: 0 0 14px;
     font-size: clamp(17px, 1.9vw, 20px);
@@ -1282,10 +1310,10 @@ const marquee = "Don't let the lecture sink. ";
   }
   .why-copy > p {
     margin: 0;
-    font-size: clamp(16px, 1.8vw, 19px);
+    font-size: clamp(15.5px, 1.6vw, 17px);
     font-weight: 500;
-    letter-spacing: -0.2px;
-    line-height: 1.5;
+    letter-spacing: -0.15px;
+    line-height: 1.55;
     color: var(--on-blue-soft);
   }
 

@@ -1,17 +1,14 @@
 ---
 /**
- * Hero product shot: an angled laptop with one neutral practice question.
- * Decorative — not interactive. Copy comes from the real sample bank.
+ * Hero product shot: an angled laptop framing the real app Dashboard
+ * (served at /preview/dashboard on the app origin).
  */
 interface Props {
-  subject: string;
-  topic: string;
-  stem: string;
-  options: string[];
+  appUrl: string;
 }
 
-const { subject, topic, stem, options } = Astro.props;
-const letters = ["A", "B", "C", "D", "E"];
+const { appUrl } = Astro.props;
+const previewUrl = `${appUrl.replace(/\/$/, "")}/preview/dashboard`;
 ---
 
 <div class="hlaptop" aria-hidden="true">
@@ -20,22 +17,14 @@ const letters = ["A", "B", "C", "D", "E"];
       <div class="hlaptop-bezel">
         <span class="hlaptop-cam"></span>
         <div class="hlaptop-screen">
-          <header class="hlaptop-bar">
-            <span class="hlaptop-bar-title">Practice</span>
-            <span class="hlaptop-bar-meta">{subject} · {topic}</span>
-          </header>
-          <div class="hlaptop-body">
-            <p class="hlaptop-stem">{stem}</p>
-            <ul class="hlaptop-opts">
-              {
-                options.map((opt, i) => (
-                  <li class="hlaptop-opt">
-                    <span class="hlaptop-letter">{letters[i]}</span>
-                    <span class="hlaptop-opt-text">{opt}</span>
-                  </li>
-                ))
-              }
-            </ul>
+          <div class="hlaptop-viewport">
+            <iframe
+              class="hlaptop-frame"
+              src={previewUrl}
+              title="Resurface dashboard"
+              loading="lazy"
+              tabindex="-1"
+            ></iframe>
           </div>
         </div>
       </div>
@@ -45,25 +34,13 @@ const letters = ["A", "B", "C", "D", "E"];
 
     <div class="hlaptop-deck">
       <div class="hlaptop-keys" aria-hidden="true">
-        {
-          Array.from({ length: 14 }, () => (
-            <span class="hlaptop-key" />
-          ))
-        }
+        {Array.from({ length: 14 }, () => <span class="hlaptop-key" />)}
       </div>
       <div class="hlaptop-keys is-mid" aria-hidden="true">
-        {
-          Array.from({ length: 12 }, () => (
-            <span class="hlaptop-key" />
-          ))
-        }
+        {Array.from({ length: 12 }, () => <span class="hlaptop-key" />)}
       </div>
       <div class="hlaptop-keys is-low" aria-hidden="true">
-        {
-          Array.from({ length: 11 }, () => (
-            <span class="hlaptop-key" />
-          ))
-        }
+        {Array.from({ length: 11 }, () => <span class="hlaptop-key" />)}
       </div>
       <div class="hlaptop-pad"></div>
     </div>
@@ -120,89 +97,32 @@ const letters = ["A", "B", "C", "D", "E"];
   }
 
   .hlaptop-screen {
-    background: #f7f8fc;
+    background: #3562f5;
     border-radius: 3px;
     overflow: hidden;
-    min-height: 210px;
+    height: 228px;
     box-shadow: inset 0 0 0 1px rgba(15, 27, 61, 0.04);
   }
 
-  .hlaptop-bar {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 11px 12px 8px;
-    border-bottom: 1px solid rgba(15, 27, 61, 0.06);
-  }
-
-  .hlaptop-bar-title {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: -0.2px;
-    color: #0f1b3d;
-  }
-
-  .hlaptop-bar-meta {
-    font-size: 9.5px;
-    font-weight: 500;
-    color: #6b758c;
-    white-space: nowrap;
+  .hlaptop-viewport {
+    width: 100%;
+    height: 100%;
     overflow: hidden;
-    text-overflow: ellipsis;
+    position: relative;
   }
 
-  .hlaptop-body {
-    padding: 11px 12px 14px;
-  }
-
-  .hlaptop-stem {
-    margin: 0 0 9px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-    line-height: 1.3;
-    color: #0f1b3d;
-  }
-
-  .hlaptop-opts {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .hlaptop-opt {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 6px 8px;
-    border-radius: 8px;
-    background: #fff;
-    border: 1px solid rgba(15, 27, 61, 0.08);
-    box-shadow: 0 1px 2px rgba(20, 44, 130, 0.04);
-  }
-
-  .hlaptop-letter {
-    flex: none;
-    width: 15px;
-    height: 15px;
-    border-radius: 5px;
-    display: grid;
-    place-items: center;
-    font-size: 9px;
-    font-weight: 600;
-    color: #4d8ef5;
-    background: rgba(77, 142, 245, 0.12);
-  }
-
-  .hlaptop-opt-text {
-    font-size: 10.5px;
-    font-weight: 500;
-    line-height: 1.25;
-    color: #1a2438;
+  /* Render the real dashboard at desktop width, then scale into the bezel. */
+  .hlaptop-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1180px;
+    height: 820px;
+    border: 0;
+    transform: scale(0.32);
+    transform-origin: top left;
+    pointer-events: none;
+    background: #3562f5;
   }
 
   .hlaptop-hinge {
@@ -213,7 +133,6 @@ const letters = ["A", "B", "C", "D", "E"];
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
-  /* Mild foreshortening so the keyboard stays readable. */
   .hlaptop-deck {
     position: relative;
     z-index: 1;

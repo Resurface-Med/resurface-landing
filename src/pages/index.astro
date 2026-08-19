@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Footer from "../components/Footer.astro";
+import HeroLaptop from "../components/HeroLaptop.astro";
 import HowDemo from "../components/HowDemo.astro";
 import Wave from "../components/Wave.astro";
 /* Nine real questions, one per deck, lifted from the question bank so the
@@ -48,7 +49,7 @@ const marquee = "Don't let the lecture sink. ";
         transform: none !important;
         filter: none !important;
       }
-      .books-float { opacity: 1 !important; transform: none !important; }
+      .stage-float { opacity: 1 !important; transform: none !important; }
       .nav, .brand, .nav-links > *, .nav-cta {
         opacity: 1 !important;
         transform: none !important;
@@ -135,14 +136,12 @@ const marquee = "Don't let the lecture sink. ";
       </div>
 
       <div class="stage" id="hero-stage">
-        <div class="books-float" data-books-float>
-          <img
-            class="books"
-            src="/books.webp"
-            alt="Two stacked textbooks"
-            width="580"
-            height="839"
-            fetchpriority="high"
+        <div class="stage-float">
+          <HeroLaptop
+            subject={samples[0].subject}
+            topic={samples[0].topic}
+            stem={samples[0].q}
+            options={samples[0].opts}
           />
         </div>
       </div>
@@ -642,30 +641,27 @@ const marquee = "Don't let the lecture sink. ";
     position: relative;
     display: flex;
     justify-content: center;
+    align-items: center;
+    min-width: 0;
   }
-  .books-float {
+  .stage-float {
     opacity: 0;
-    transform: translate(46px, 30px) rotate(7deg) scale(0.9);
+    transform: translate(28px, 22px) scale(0.94);
     transition:
       opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
       transform 1.05s cubic-bezier(0.34, 1.4, 0.5, 1);
     will-change: transform, opacity;
+    width: min(100%, 520px);
   }
-  .stage.is-in .books-float {
+  .stage.is-in .stage-float {
     opacity: 1;
-    transform: translate(0, 0) rotate(0deg) scale(1);
+    transform: translate(0, 0) scale(1);
   }
-  .stage.is-live .books-float {
-    animation: books-bob 5.6s ease-in-out infinite;
-  }
-  .books {
-    width: clamp(180px, 20vw, 268px);
-    height: auto;
-    display: block;
-    filter: drop-shadow(0 26px 40px rgba(15, 30, 90, 0.28));
+  .stage.is-live .stage-float {
+    animation: stage-bob 5.6s ease-in-out infinite;
   }
 
-  @keyframes books-bob {
+  @keyframes stage-bob {
     0%,
     100% {
       transform: translateY(0);
@@ -676,12 +672,12 @@ const marquee = "Don't let the lecture sink. ";
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .books-float {
+    .stage-float {
       opacity: 1;
       transform: none;
       transition: none;
     }
-    .stage.is-live .books-float {
+    .stage.is-live .stage-float {
       animation: none;
     }
   }
@@ -1746,7 +1742,7 @@ const marquee = "Don't let the lecture sink. ";
 </style>
 
 <script>
-  // Hero books: soft entrance, then a light idle float.
+  // Hero laptop: soft entrance, then a light idle float.
   (() => {
     const stage = document.querySelector<HTMLElement>("#hero-stage");
     if (!stage) return;

@@ -11,14 +11,18 @@ const year = new Date().getFullYear();
       definition says the one thing the product is for.
     -->
     <div class="foot-mark">
+      <!-- Guide words: the first and last entries on a dictionary spread,
+           printed in the top corners so you can find a page by thumbing. The
+           pair here brackets the headword alphabetically, and the left one is
+           the technique this whole product exists to argue against. -->
+      <p class="foot-guide" aria-hidden="true"><span>restudy</span><span>resurgence</span></p>
+
       <p class="foot-word">resurface</p>
-      <p class="foot-pron">
-        <span class="ipa">/ˌriːˈsəːfɪs/</span><span class="mid">·</span><em>verb</em>
-      </p>
-      <ol class="foot-senses">
-        <li>to rise back up to the surface.</li>
-        <li>to bring a thing back into view <b>just before it is lost.</b></li>
-      </ol>
+      <p class="foot-pron"><span class="ipa">/ˌriːˈsəːfɪs/</span> <span class="pos">verb</span></p>
+
+      <p class="foot-senses"><b>1</b> to rise back up to the surface. <b>2</b> to bring a thing back into view <em class="key">just before it is lost</em>: <i>material resurfaces the day before you would have forgotten it.</i></p>
+
+      <p class="foot-etym"><span class="lbl">origin</span> <i>from</i> <b>re-</b> <i>‘again’</i> + <b>surface</b>, <i>from Latin</i> superficies <i>‘upper face’.</i></p>
     </div>
 
     <div class="foot-cols">
@@ -70,7 +74,7 @@ const year = new Date().getFullYear();
     gap: clamp(28px, 4vw, 64px);
   }
   .foot-mark {
-    max-width: 38ch;
+    max-width: 44ch;
   }
 
   .foot-cols {

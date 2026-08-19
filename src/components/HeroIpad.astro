@@ -1,0 +1,85 @@
+---
+/**
+ * Hero product shot: an iPad framing the real app Dashboard
+ * (served at /preview/dashboard on the app origin).
+ */
+interface Props {
+  appUrl: string;
+}
+
+const { appUrl } = Astro.props;
+const previewUrl = `${appUrl.replace(/\/$/, "")}/preview/dashboard`;
+---
+
+<div class="hipad" aria-hidden="true">
+  <div class="hipad-body">
+    <span class="hipad-cam"></span>
+    <div class="hipad-screen">
+      <div class="hipad-viewport">
+        <iframe
+          class="hipad-frame"
+          src={previewUrl}
+          title="Resurface dashboard"
+          loading="lazy"
+          tabindex="-1"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .hipad {
+    width: min(100%, 380px);
+    filter: drop-shadow(0 22px 40px rgba(15, 30, 90, 0.34));
+  }
+
+  .hipad-body {
+    position: relative;
+    background: linear-gradient(160deg, #2a3144 0%, #121722 100%);
+    border-radius: 28px;
+    padding: 14px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.14),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.35);
+  }
+
+  .hipad-cam {
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    margin-left: -2.5px;
+    border-radius: 50%;
+    background: #0a0d16;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  .hipad-screen {
+    background: #3562f5;
+    border-radius: 12px;
+    overflow: hidden;
+    height: 268px;
+  }
+
+  .hipad-viewport {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .hipad-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1180px;
+    height: 900px;
+    border: 0;
+    transform: scale(0.3);
+    transform-origin: top left;
+    pointer-events: none;
+    background: #3562f5;
+  }
+</style>

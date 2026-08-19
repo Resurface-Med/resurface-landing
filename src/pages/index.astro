@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Footer from "../components/Footer.astro";
-import HeroLaptop from "../components/HeroLaptop.astro";
+import HeroIpad from "../components/HeroIpad.astro";
 import HowDemo from "../components/HowDemo.astro";
 import Wave from "../components/Wave.astro";
 /* Nine real questions, one per deck, lifted from the question bank so the
@@ -137,7 +137,7 @@ const marquee = "Don't let the lecture sink. ";
 
       <div class="stage" id="hero-stage">
         <div class="stage-float">
-          <HeroLaptop appUrl={APP_URL} />
+          <HeroIpad appUrl={APP_URL} />
         </div>
       </div>
     </section>
@@ -646,7 +646,7 @@ const marquee = "Don't let the lecture sink. ";
       opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
       transform 1.05s cubic-bezier(0.34, 1.4, 0.5, 1);
     will-change: transform, opacity;
-    width: min(100%, 400px);
+    width: min(100%, 380px);
   }
   .stage.is-in .stage-float {
     opacity: 1;

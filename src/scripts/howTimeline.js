@@ -2,7 +2,7 @@ import gsap from "gsap";
 
 /**
  * How it works, in three acts: a lecture is dropped in, questions are written
- * from it, one gets answered and the topic fills in.
+ * from it, then the real practice session appears and one answer lands.
  *
  * One timeline with a label per act. Each act lights its own caption, so the
  * steps underneath and the animation cannot fall out of step with each other.
@@ -29,19 +29,21 @@ export function buildHowTimeline() {
   const made = qa("[data-made]");
   const countEl = q("[data-count]");
   const opts = qa("[data-opt]");
-  const meter = q("[data-meter]");
   const fill = q("[data-fill]");
   const steps = qa("[data-step]");
 
   if (!doc || !app) return null;
 
   const correct = opts.find((o) => o.dataset.correct);
-  const correctMark = correct?.querySelector(".hw-opt__mark");
   const counter = { n: 0 };
 
   const BLUE = "#3562f5";
-  const GREEN = "#1f9d55";
-  const GREEN_BG = "rgba(31, 157, 85, 0.1)";
+
+  const clearOptState = () => {
+    opts.forEach((el) => {
+      el.classList.remove("is-pending", "is-correct", "is-faded");
+    });
+  };
 
   /** Light the step the animation is on, and only that one. */
   const step = (i) => () => steps.forEach((el, j) => el.classList.toggle("is-on", j === i));
@@ -50,8 +52,13 @@ export function buildHowTimeline() {
   // explains itself, it simply does not move.
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
     gsap.set(doc, { autoAlpha: 0 });
-    gsap.set([app, ansScreen, meter], { autoAlpha: 1 });
-    gsap.set(fill, { width: "62%" });
+    gsap.set([app, ansScreen], { autoAlpha: 1 });
+    app.classList.add("is-session");
+    clearOptState();
+    opts.forEach((el) => {
+      el.classList.add(el.dataset.correct ? "is-correct" : "is-faded");
+    });
+    gsap.set(fill, { width: "15%" });
     step(2)();
     return null;
   }
@@ -65,11 +72,13 @@ export function buildHowTimeline() {
     .set(source, { backgroundColor: "rgba(53,98,245,0)", color: "", fontWeight: 400 })
     .set(zone, { borderColor: "", scale: 1 })
     .set(made, { autoAlpha: 0, scale: 0.7, y: 8 })
-    .set(opts, { autoAlpha: 0, y: 6, borderColor: "", backgroundColor: "", color: "" })
-    .set(correctMark, { backgroundColor: "", scale: 1 })
-    .set(meter, { autoAlpha: 0 })
+    .set(opts, { autoAlpha: 0, y: 6 })
     .set(fill, { width: "0%" })
-    .set(counter, { n: 0 });
+    .set(counter, { n: 0 })
+    .call(() => {
+      app.classList.remove("is-session");
+      clearOptState();
+    });
 
   // ── ACT 1 — the lecture goes in ─────────────────────────────────────
   tl.addLabel("drop")
@@ -121,29 +130,37 @@ export function buildHowTimeline() {
       "make+=0.5",
     );
 
-  // ── ACT 3 — answered, and the topic fills in ────────────────────────
+  // ── ACT 3 — practice session: select, then confirm ──────────────────
   tl.addLabel("answer", "make+=1.75")
     .call(step(2), null, "answer")
+    .call(() => {
+      app.classList.add("is-session");
+      clearOptState();
+    }, null, "answer")
     .to(makeScreen, { autoAlpha: 0, duration: 0.25 }, "answer")
     .to(ansScreen, { autoAlpha: 1, duration: 0.3 }, "answer+=0.2")
-    .to(opts, { autoAlpha: 1, y: 0, duration: 0.3, stagger: 0.06 }, "answer+=0.3")
-    // Picked, then confirmed. The gap between the two is the reading.
-    .to(
-      correct,
-      { borderColor: GREEN, backgroundColor: GREEN_BG, color: GREEN, duration: 0.28 },
-      "answer+=1.05",
-    )
-    .to(correctMark, { backgroundColor: GREEN, duration: 0.25 }, "answer+=1.05")
-    // Squash and settle: the whole reason the easing is springy.
-    .to(correct, { scale: 1.03, duration: 0.14 }, "answer+=1.05")
-    .to(correct, { scale: 1, duration: 0.3, ease: "elastic.out(1, 0.5)" }, "answer+=1.19")
-    // The topic it belongs to moves, which is the part people come back for.
-    .to(meter, { autoAlpha: 1, duration: 0.3 }, "answer+=1.35")
-    .to(fill, { width: "62%", duration: 0.9, ease: "power2.out" }, "answer+=1.45");
+    .to(opts, { autoAlpha: 1, y: 0, duration: 0.28, stagger: 0.05 }, "answer+=0.28")
+    .to(fill, { width: "15%", duration: 0.45, ease: "power2.out" }, "answer+=0.35")
+    // Pending selection (blue), then correct — same states as QuestionCard.
+    .call(() => {
+      correct?.classList.add("is-pending");
+    }, null, "answer+=1.0")
+    .call(() => {
+      opts.forEach((el) => {
+        el.classList.remove("is-pending");
+        el.classList.add(el.dataset.correct ? "is-correct" : "is-faded");
+      });
+    }, null, "answer+=1.55")
+    .to(correct, { scale: 1.03, duration: 0.14 }, "answer+=1.55")
+    .to(correct, { scale: 1, duration: 0.3, ease: "elastic.out(1, 0.5)" }, "answer+=1.69");
 
   tl.addLabel("out", "answer+=3.2")
     .to(app, { autoAlpha: 0, scale: 0.97, duration: 0.45 }, "out")
-    .call(() => steps.forEach((el) => el.classList.remove("is-on")), null, "out");
+    .call(() => {
+      app.classList.remove("is-session");
+      clearOptState();
+      steps.forEach((el) => el.classList.remove("is-on"));
+    }, null, "out");
 
   return tl;
 }

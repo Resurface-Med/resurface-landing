@@ -29,7 +29,10 @@ const OPTS = [
   "Gq — IP₃/DAG",
   "Gs — increased cAMP",
   "Nuclear receptor",
+  "Ion channel",
 ];
+const LETTERS = ["A", "B", "C", "D", "E"];
+const CORRECT = 2;
 ---
 
 <div class="hw" data-how-demo data-tone={tone}>
@@ -91,31 +94,37 @@ const OPTS = [
           <p class="hw-made"><b data-count>0</b> questions written</p>
         </div>
 
-        <!-- ACT 3 — answering, and the topic filling in -->
+        <!-- ACT 3 — real practice session chrome: field + question card -->
         <div class="hw-screen" data-screen="answer">
-          <p class="hw-stem">β1 receptors are coupled to:</p>
-          <ul class="hw-opts">
-            {OPTS.map((o, i) => (
-              <li data-opt data-correct={i === 2 ? "true" : undefined}>
-                <span class="hw-opt__mark" aria-hidden="true">
-                  <svg viewBox="0 0 16 16">
-                    <path
-                      d="M3.5 8.5 7 12l6-7"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2.2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      data-tick></path>
-                  </svg>
-                </span>
-                {o}
-              </li>
-            ))}
-          </ul>
-          <div class="hw-meter" data-meter>
-            <span class="hw-meter__label">Adrenergic receptors</span>
-            <span class="hw-meter__track"><i data-fill></i></span>
+          <div class="hw-session">
+            <div class="hw-rail">
+              <span class="hw-exit">Exit</span>
+              <span class="hw-topic">Pharmacology</span>
+              <span class="hw-pos">3 / 20</span>
+            </div>
+            <div class="hw-progress" aria-hidden="true">
+              <i data-fill></i>
+            </div>
+            <div class="hw-qcard">
+              <p class="hw-stem">β1 receptors are coupled to:</p>
+              <ul class="hw-opts">
+                {
+                  OPTS.map((o, i) => (
+                    <li
+                      class="hw-opt"
+                      data-opt
+                      data-correct={i === CORRECT ? "true" : undefined}
+                    >
+                      <span class="hw-opt__letter" aria-hidden="true">
+                        {LETTERS[i]}
+                      </span>
+                      <span class="hw-opt__text">{o}</span>
+                      <span class="hw-opt__mark" aria-hidden="true">✓</span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -160,8 +169,8 @@ const OPTS = [
   .hw-stage {
     position: relative;
     width: 100%;
-    /* Tall enough for the answer step (stem + four options + meter). */
-    aspect-ratio: 5 / 3.55;
+    /* Tall enough for the practice session (rail + five options). */
+    aspect-ratio: 5 / 3.85;
   }
 
   /* ------------------------------------------------------------ THE DOC */
@@ -247,6 +256,17 @@ const OPTS = [
       0 22px 54px rgba(20, 44, 130, 0.18);
     overflow: hidden;
     opacity: 0;
+    transition: background-color 0.25s ease;
+  }
+  /* Practice session: blue field, no fake browser chrome — matches the app. */
+  .hw-app.is-session {
+    background: var(--blue);
+  }
+  .hw-app.is-session .hw-app__bar {
+    display: none;
+  }
+  .hw-app.is-session .hw-app__body {
+    height: 100%;
   }
   .hw-app__bar {
     display: flex;
@@ -332,17 +352,81 @@ const OPTS = [
     font-variant-numeric: tabular-nums;
   }
 
-  /* ACT 3 */
+  /* ACT 3 — mirrors PracticeMode + QuestionCard */
   .hw-screen[data-screen="answer"] {
+    padding: 10px 12px 12px;
+  }
+  .hw-session {
+    height: 100%;
     display: flex;
     flex-direction: column;
-    padding: 14px 16px 12px;
+    gap: 8px;
+  }
+  .hw-rail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: none;
+  }
+  .hw-exit {
+    flex: none;
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-pill);
+    padding: 5px 11px;
+    font-size: 11px;
+    font-weight: 500;
+    color: #fff;
+  }
+  .hw-topic {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.78);
+  }
+  .hw-pos {
+    margin-left: auto;
+    flex: none;
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+  }
+  .hw-progress {
+    height: 3px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.22);
+    overflow: hidden;
+    flex: none;
+  }
+  .hw-progress i {
+    display: block;
+    height: 100%;
+    width: 0%;
+    border-radius: 99px;
+    background: #fff;
+  }
+  .hw-qcard {
+    flex: 1;
+    min-height: 0;
+    background: #fff;
+    border-radius: 16px;
+    padding: 12px 12px 10px;
+    box-shadow:
+      0 4px 12px rgba(20, 44, 130, 0.06),
+      0 16px 36px rgba(20, 44, 130, 0.14);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
   .hw-stem {
     margin: 0 0 8px;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: -0.2px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.35px;
+    line-height: 1.28;
     color: var(--ink);
     flex: none;
   }
@@ -355,57 +439,78 @@ const OPTS = [
     gap: 5px;
     flex: none;
   }
-  .hw-opts li {
+  .hw-opt {
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 7px 11px;
-    border: 1.5px solid var(--line);
+    width: 100%;
+    padding: 7px 10px;
+    border: 1.5px solid rgba(15, 27, 61, 0.08);
     border-radius: 10px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--ink-soft);
+    background: #fff;
+    text-align: left;
   }
-  .hw-opt__mark {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-    border-radius: 50%;
+  .hw-opt__letter {
+    width: 20px;
+    height: 20px;
+    flex: none;
     display: grid;
     place-items: center;
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 700;
     background: var(--wash);
+    color: var(--ink-faint);
+  }
+  .hw-opt__text {
+    flex: 1;
+    min-width: 0;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: -0.15px;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .hw-opt__mark {
+    flex: none;
+    font-size: 12px;
+    font-weight: 700;
+    color: #1f9d55;
+    opacity: 0;
+  }
+  .hw-opt.is-pending {
+    background: rgba(53, 98, 245, 0.1);
+    border-color: rgba(53, 98, 245, 0.32);
+    box-shadow: 0 0 0 2px rgba(53, 98, 245, 0.14);
+  }
+  .hw-opt.is-pending .hw-opt__letter {
+    background: var(--blue);
     color: #fff;
   }
-  .hw-opt__mark svg {
-    width: 12px;
-    height: 12px;
+  .hw-opt.is-pending .hw-opt__text {
+    color: var(--blue);
   }
-  .hw-meter {
-    margin-top: auto;
-    padding-top: 8px;
-    opacity: 0;
-    flex: none;
+  .hw-opt.is-correct {
+    background: rgba(31, 157, 85, 0.12);
+    border-color: rgba(31, 157, 85, 0.3);
   }
-  .hw-meter__label {
-    display: block;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--ink-faint);
-    margin-bottom: 5px;
+  .hw-opt.is-correct .hw-opt__letter {
+    background: #1f9d55;
+    color: #fff;
   }
-  .hw-meter__track {
-    display: block;
-    height: 7px;
-    border-radius: 99px;
+  .hw-opt.is-correct .hw-opt__text {
+    color: #1f9d55;
+  }
+  .hw-opt.is-correct .hw-opt__mark {
+    opacity: 1;
+  }
+  .hw-opt.is-faded .hw-opt__letter {
     background: var(--wash);
-    overflow: hidden;
+    color: var(--ink-faint);
   }
-  .hw-meter__track i {
-    display: block;
-    height: 100%;
-    width: 0%;
-    border-radius: 99px;
-    background: var(--blue);
+  .hw-opt.is-faded .hw-opt__text {
+    color: var(--ink-faint);
+    font-weight: 450;
   }
 
   /* ---------------------------------------------------------- THE STEPS */
@@ -493,7 +598,7 @@ const OPTS = [
       border-radius: 18px;
     }
     .hw-stage {
-      aspect-ratio: 5 / 3.55;
+      aspect-ratio: 5 / 3.85;
     }
     .hw-doc {
       top: -10%;
@@ -536,6 +641,9 @@ const OPTS = [
     .hw-screen {
       padding: 12px 14px;
     }
+    .hw-screen[data-screen="answer"] {
+      padding: 8px 9px 9px;
+    }
     .hw-zone svg {
       width: 28px;
       height: 28px;
@@ -557,31 +665,40 @@ const OPTS = [
     .hw-made b {
       font-size: 22px;
     }
+    .hw-session {
+      gap: 6px;
+    }
+    .hw-exit,
+    .hw-topic,
+    .hw-pos {
+      font-size: 10px;
+    }
+    .hw-exit {
+      padding: 4px 9px;
+    }
+    .hw-qcard {
+      border-radius: 12px;
+      padding: 9px 9px 8px;
+    }
     .hw-stem {
-      font-size: 12.5px;
+      font-size: 11.5px;
       margin-bottom: 6px;
     }
     .hw-opts {
       gap: 4px;
     }
-    .hw-opts li {
-      padding: 6px 9px;
-      font-size: 10.5px;
+    .hw-opt {
+      padding: 5px 8px;
       border-radius: 8px;
-      gap: 7px;
+      gap: 6px;
     }
-    .hw-opt__mark {
-      width: 14px;
-      height: 14px;
+    .hw-opt__letter {
+      width: 17px;
+      height: 17px;
+      font-size: 9px;
     }
-    .hw-meter {
-      padding-top: 6px;
-    }
-    .hw-meter__label {
+    .hw-opt__text {
       font-size: 10px;
-    }
-    .hw-meter__track {
-      height: 6px;
     }
     .hw-steps {
       gap: 6px;

@@ -5,11 +5,17 @@ const year = new Date().getFullYear();
 
 <footer class="foot">
   <div class="wrap foot-top">
-    <div class="foot-brand">
-      <img src="/logo-lockup.png" alt="Resurface" width="560" height="131" />
-      <p>
-        A question bank for UK medical students, with AI that can write extra
-        questions from your own study material.
+    <!--
+      A dictionary entry instead of a logo and a strapline. The lockup is
+      already at the top of every page, so repeating it here says nothing; the
+      definition says the one thing the product is for.
+    -->
+    <div class="foot-mark">
+      <p class="foot-word">resurface</p>
+      <p class="foot-pron"><span>/ˌriːˈsəːfɪs/</span> <em>verb</em></p>
+      <p class="foot-def">
+        to come back up into view; to bring a thing back
+        <span>just before it is lost.</span>
       </p>
     </div>
 
@@ -33,27 +39,6 @@ const year = new Date().getFullYear();
         <a class="foot-cta" href={APP_URL}>Start studying →</a>
       </div>
     </div>
-  </div>
-
-  <!--
-    A colophon rather than a sign-off. The word is the whole argument the
-    product makes — things sink, and the work is bringing them back before
-    they do — so the last thing on the page states it plainly and stops.
-  -->
-  <div class="wrap foot-mark">
-    <img
-      class="foot-word"
-      src="/logo-lockup.png"
-      alt="Resurface"
-      width="560"
-      height="131"
-      loading="lazy"
-    />
-    <p class="foot-pron"><span>/ˌriːˈsəːfɪs/</span> <em>verb</em></p>
-    <p class="foot-def">
-      to come back up into view; to bring a thing back
-      <span>just before it is lost.</span>
-    </p>
   </div>
 
   <div class="wrap foot-base">
@@ -82,18 +67,8 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     gap: clamp(28px, 4vw, 64px);
   }
-  .foot-brand {
+  .foot-mark {
     max-width: 34ch;
-  }
-  .foot-brand img {
-    width: 150px;
-    height: auto;
-  }
-  .foot-brand p {
-    margin-top: 14px;
-    font-size: 14.5px;
-    color: var(--ink-soft);
-    line-height: 1.5;
   }
 
   .foot-cols {
@@ -131,21 +106,19 @@ const year = new Date().getFullYear();
   }
 
   /* ---------------------------------------------------------- COLOPHON */
-  .foot-mark {
-    margin-top: clamp(44px, 7vh, 76px);
-    padding-top: clamp(28px, 4vh, 40px);
-    border-top: 1px solid var(--line);
-  }
+  /* Set as an entry, not a masthead: the headword carries the weight and
+     everything under it stays at reading size. */
   .foot-word {
-    /* Sized off the viewport so it reads as a masthead rather than a repeat of
-       the brand block above — the gap between 150px and this is the point. */
-    display: block;
-    width: clamp(220px, 46vw, 520px);
-    height: auto;
+    margin: 0;
+    font-size: clamp(26px, 3vw, 33px);
+    font-weight: 700;
+    letter-spacing: -1.1px;
+    line-height: 1;
+    color: var(--blue);
   }
   .foot-pron {
-    margin: 16px 0 0;
-    font-size: 14px;
+    margin: 9px 0 0;
+    font-size: 13px;
     color: var(--ink-faint);
     letter-spacing: 0.01em;
   }
@@ -154,13 +127,12 @@ const year = new Date().getFullYear();
     margin-left: 4px;
   }
   .foot-def {
-    margin: 10px 0 0;
-    max-width: 34ch;
-    font-size: clamp(17px, 2vw, 21px);
-    font-weight: 500;
-    line-height: 1.45;
-    letter-spacing: -0.3px;
-    color: var(--ink);
+    margin: 12px 0 0;
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.55;
+    letter-spacing: -0.1px;
+    color: var(--ink-soft);
   }
   /* The clause the product exists for, so it gets the emphasis. */
   .foot-def span {
@@ -198,7 +170,7 @@ const year = new Date().getFullYear();
       gap: 28px 44px;
     }
     .foot-word {
-      width: min(78vw, 320px);
+      letter-spacing: -0.9px;
     }
   }
 </style>

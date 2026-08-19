@@ -356,36 +356,15 @@ const marquee = "Don't let the lecture sink. ";
   <Wave from="var(--panel)" to="var(--blue)" flip />
 
   <!-- ============================================= BLUE: WHY IT WORKS -->
-  <section class="why">
+  <!-- The claim and the evidence for it were two sections saying the same
+       thing a screen apart. One section: the problem, the number, the fix. -->
+  <section class="why" id="evidence">
     <div class="wrap why-inner">
-      <h2>You forget most of a lecture within a week.</h2>
-      <div class="why-copy" data-reveal>
-        <p class="why-lead">
-          Practising with questions beats rereading notes on its own.
-        </p>
-        <p>
-          Resurface keeps track of what you’re finding hard, so the time you
-          spend studying goes toward the topics that still need work, not only
-          the ones that already feel familiar.
-        </p>
-      </div>
-    </div>
-  </section>
+      <h2 data-reveal>You forget most of a lecture within a week.</h2>
 
-  <Wave from="var(--blue)" to="var(--panel)" />
-
-  <!-- ========================================== LIGHT: THE EVIDENCE -->
-  <!-- A demonstration, not an argument. Low bar first so it reads left to
-       right as the method working, and the labels say exactly what the two
-       groups did — the study compared stopping once you have it right against
-       continuing to retrieve it, which is precisely what the product does. -->
-  <section class="light proof" id="evidence">
-    <div class="wrap proof-inner">
-      <h2 data-reveal>Getting it right once isn’t learning it.</h2>
-
-      <figure class="proof-fig" data-reveal>
+      <figure class="why-fig" data-reveal>
         <svg viewBox="0 0 340 200" role="img"
-             aria-label="One week later, students who stopped after answering correctly once recalled 35 percent. Students who kept coming back recalled 80 percent.">
+             aria-label="One week later: students who answered once recalled 35 percent, students who kept coming back recalled 80 percent.">
           <rect x="52" y="106" width="82" height="56" rx="7" class="pf-bar lo" />
           <text x="93" y="94" class="pf-val muted" text-anchor="middle">35%</text>
           <text x="93" y="182" class="pf-cap" text-anchor="middle">answered once</text>
@@ -401,23 +380,21 @@ const marquee = "Don't let the lecture sink. ";
         </svg>
       </figure>
 
-      <p class="proof-lead" data-reveal>
-        Same material, same total study time. A week later, the students who
-        kept returning to what they’d learned remembered more than twice as
-        much as those who stopped the moment they got it right.
-      </p>
-
-      <p class="proof-sub" data-reveal>
-        That gap is the whole product. Resurface brings a question back just
-        before you’d have forgotten it, and keeps doing it until you don’t
-        need it to.
-      </p>
-
-      <p class="proof-cite" data-reveal>
-        Karpicke &amp; Roediger, <i>Science</i>, 2008
-      </p>
+      <div class="why-copy" data-reveal>
+        <p class="why-lead">
+          Students who answered a question once and moved on remembered 35% of
+          it a week later. The ones who kept coming back to it remembered 80%.
+        </p>
+        <p>
+          Resurface shows you each question again just before you would have
+          forgotten it.
+        </p>
+        <p class="why-cite">Karpicke &amp; Roediger, <i>Science</i>, 2008</p>
+      </div>
     </div>
   </section>
+
+  <Wave from="var(--blue)" to="var(--panel)" />
 
   <!-- ============================================ LIGHT: HOW IT WORKS -->
   <section class="light how" id="how" data-how>
@@ -1242,50 +1219,80 @@ const marquee = "Don't let the lecture sink. ";
     padding: clamp(48px, 8vh, 92px) 0;
   }
   .why-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    gap: clamp(28px, 4vw, 64px);
-    align-items: center;
+    max-width: 620px;
+    text-align: center;
   }
   .why h2 {
     margin: 0;
-    font-size: clamp(30px, 4vw, 48px);
+    font-size: clamp(30px, 4vw, 46px);
     font-weight: 600;
     letter-spacing: -1.4px;
     line-height: 1.12;
-    max-width: 12em;
   }
+
+  .why-fig {
+    margin: clamp(26px, 4vh, 40px) 0 clamp(22px, 3.4vh, 32px);
+  }
+  .why-fig svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* On the field, so the chart is drawn in white rather than ink. */
+  .pf-bar.hi { fill: #fff; }
+  .pf-bar.lo { fill: rgba(255, 255, 255, 0.3); }
+  .pf-base { stroke: rgba(255, 255, 255, 0.28); stroke-width: 2; }
+  .pf-arrow {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.55);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .pf-val {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    fill: #fff;
+  }
+  .pf-val.muted { fill: var(--on-blue-soft); }
+  .pf-cap {
+    font-size: 12.5px;
+    font-weight: 500;
+    fill: var(--on-blue-soft);
+  }
+  .pf-cap.strong { font-weight: 600; fill: #fff; }
+
   .why-copy {
-    max-width: 28em;
-    padding-bottom: 4px;
+    margin: 0 auto;
+    max-width: 44ch;
   }
   .why-lead {
-    margin: 0 0 16px;
-    font-size: clamp(20px, 2.4vw, 28px);
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    line-height: 1.3;
+    margin: 0 0 14px;
+    font-size: clamp(17px, 1.9vw, 20px);
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    line-height: 1.55;
     color: #fff;
   }
-  .why-copy > p:last-child {
+  .why-copy > p {
     margin: 0;
-    font-size: clamp(17px, 1.8vw, 20px);
+    font-size: clamp(16px, 1.8vw, 19px);
     font-weight: 500;
     letter-spacing: -0.2px;
     line-height: 1.5;
     color: var(--on-blue-soft);
   }
-
-  @media (max-width: 800px) {
-    .why-inner {
-      grid-template-columns: 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-    .why h2 {
-      max-width: none;
-    }
+  .why-cite {
+    margin-top: 18px !important;
+    font-size: 12.5px !important;
+    font-weight: 400 !important;
+    color: rgba(255, 255, 255, 0.6) !important;
   }
+  .why-cite i { font-style: italic; }
+
 
   /* ------------------------------------------------------------- SUBJECTS */
   .subjects-band {
@@ -2040,97 +2047,6 @@ const marquee = "Don't let the lecture sink. ";
   .col-etym b { font-weight: 700; color: var(--ink-soft); }
   .col-etym i { font-style: italic; }
 
-
-  /* ================================================================ PROOF */
-  /* Full padding like every other band. Only padding-bottom was set, so the
-     heading sat flush against the wave above it and the section ran straight
-     into "How it works" below — two panel sections with nothing between them. */
-  .proof {
-    padding: clamp(44px, 8vh, 84px) 0 clamp(40px, 7vh, 76px);
-    scroll-margin-top: 100px;
-  }
-  /* .wrap sets the page measure; this section is a single narrow column. */
-  .proof-inner {
-    max-width: 620px;
-    text-align: center;
-  }
-  .proof h2 {
-    margin: 0;
-    font-size: clamp(28px, 4.2vw, 44px);
-    font-weight: 700;
-    letter-spacing: -1.4px;
-    line-height: 1.1;
-    color: var(--ink);
-  }
-
-  .proof-fig {
-    margin: clamp(26px, 4vh, 40px) 0 0;
-  }
-  .proof-fig svg {
-    display: block;
-    width: 100%;
-    height: auto;
-    overflow: visible;
-  }
-
-  .pf-bar.hi { fill: var(--blue); }
-  .pf-bar.lo { fill: var(--peri); opacity: 0.55; }
-
-  .pf-base {
-    stroke: var(--line);
-    stroke-width: 2;
-  }
-  /* Points from the low bar to the high one, so the pair reads as a change
-     rather than as two facts side by side. */
-  .pf-arrow {
-    fill: none;
-    stroke: var(--blue);
-    stroke-width: 2.2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    opacity: 0.55;
-  }
-
-  .pf-val {
-    font-size: 21px;
-    font-weight: 700;
-    letter-spacing: -0.6px;
-    fill: var(--blue);
-  }
-  .pf-val.muted { fill: var(--ink-faint); }
-  .pf-cap {
-    font-size: 12.5px;
-    font-weight: 500;
-    fill: var(--ink-soft);
-  }
-  .pf-cap.strong {
-    font-weight: 600;
-    fill: var(--ink);
-  }
-
-  .proof-lead {
-    margin: clamp(22px, 3.4vh, 32px) auto 0;
-    max-width: 46ch;
-    font-size: clamp(17px, 2vw, 20px);
-    font-weight: 500;
-    line-height: 1.5;
-    letter-spacing: -0.3px;
-    color: var(--ink);
-  }
-  .proof-sub {
-    margin: 16px auto 0;
-    max-width: 50ch;
-    font-size: 15.5px;
-    line-height: 1.6;
-    color: var(--ink-soft);
-  }
-  .proof-sub i { font-style: italic; }
-  .proof-cite {
-    margin: 20px 0 0;
-    font-size: 12.5px;
-    color: var(--ink-faint);
-  }
-  .proof-cite i { font-style: italic; }
 
   /* ================================================================ SMALL */
 

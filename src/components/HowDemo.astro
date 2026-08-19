@@ -132,9 +132,7 @@ const OPTS = [
   .hw-stage {
     position: relative;
     width: 100%;
-    max-width: 700px;
-    margin-inline: auto;
-    aspect-ratio: 5 / 3.2;
+    aspect-ratio: 5 / 3.3;
   }
 
   /* ------------------------------------------------------------ THE DOC */
@@ -376,10 +374,7 @@ const OPTS = [
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(12px, 2vw, 22px);
-    max-width: 700px;
-    margin-inline: auto;
+    gap: 8px;
   }
   .hw-steps li {
     display: flex;
@@ -433,10 +428,12 @@ const OPTS = [
     color: var(--ink);
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 1040px) {
+    .hw-stage {
+      max-width: 620px;
+    }
     .hw-steps {
-      grid-template-columns: 1fr;
-      max-width: 380px;
+      max-width: 620px;
     }
   }
 </style>

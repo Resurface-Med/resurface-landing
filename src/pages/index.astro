@@ -555,25 +555,22 @@ const marquee = "Don't let the lecture sink. ";
   }
 
   /* ----------------------------------------------------------------- HERO */
-  /* One column. The demo is the explanation, so it sits under the copy at
-     full width rather than beside it at half — a product shown small next to
-     a headline is decoration; shown large underneath it is the argument. */
+  /* The claim on the left, the thing happening on the right. The demo takes
+     the larger share — it is the explanation, not an illustration of one. */
   .hero {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
     align-items: center;
-    text-align: center;
-    gap: clamp(18px, 2.6vh, 30px);
-    padding-top: clamp(58px, 8vh, 92px);
-    padding-bottom: clamp(20px, 3vh, 36px);
+    gap: clamp(28px, 4vw, 60px);
+    padding-top: clamp(58px, 8vh, 96px);
+    padding-bottom: clamp(24px, 4vh, 48px);
   }
   .hero-copy {
-    max-width: 640px;
+    max-width: 520px;
   }
-  /* The demo is the point of the hero, so it gets the width. */
   .hero-demo {
     width: 100%;
-    max-width: 860px;
+    min-width: 0;
   }
 
   h1 {
@@ -630,7 +627,6 @@ const marquee = "Don't let the lecture sink. ";
   }
 
   .cta {
-    justify-content: center;
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
@@ -675,7 +671,6 @@ const marquee = "Don't let the lecture sink. ";
   }
 
   .note {
-    justify-content: center;
     display: flex;
     align-items: center;
     gap: 9px;
@@ -688,11 +683,6 @@ const marquee = "Don't let the lecture sink. ";
   }
 
   /* ---------------------------------------------------------------- STAGE */
-  .stage {
-    position: relative;
-    display: flex;
-    justify-content: center;
-  }
   /* The copy had no entrance at all — it was simply present, while the books
      faded up beside it. Each line now clears from blur in sequence, so the
      headline arrives rather than appears. Driven by a class set on load, not
@@ -1943,12 +1933,10 @@ const marquee = "Don't let the lecture sink. ";
     .hero {
       grid-template-columns: 1fr;
       justify-items: start;
+      gap: clamp(24px, 4vh, 38px);
     }
     .hero-copy {
       max-width: none;
-    }
-    .stage {
-      display: none;
     }
   }
 

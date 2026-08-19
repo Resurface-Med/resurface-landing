@@ -453,6 +453,24 @@ const marquee = "Don't let the lecture sink. ";
 
   <Wave from="var(--blue)" to="var(--panel)" />
 
+  <!-- ---------------------------------------------------------- COLOPHON -->
+  <!-- The last thing on the site is the word it is named after, given a page
+       of its own rather than a corner of the footer. The definition is the
+       argument the product makes, so it is allowed to be the size of one. -->
+  <section class="colophon">
+    <div class="wrap">
+      <p class="col-guide" aria-hidden="true"><span>restudy</span><span>resurgence</span></p>
+
+      <h2 class="col-word">resurface</h2>
+
+      <p class="col-pron"><span class="ipa">/ˌriːˈsəːfɪs/</span> <span class="pos">verb</span></p>
+
+      <p class="col-senses"><b>1</b> to rise back up to the surface. <b>2</b> to bring a thing back into view <em class="key">just before it is lost</em>: <i>material resurfaces the day before you would have forgotten it.</i></p>
+
+      <p class="col-etym"><span class="lbl">origin</span> <i>from</i> <b>re-</b> <i>‘again’</i> + <b>surface</b>, <i>from Latin</i> superficies <i>‘upper face’.</i></p>
+    </div>
+  </section>
+
   <Footer />
 </Base>
 
@@ -1905,7 +1923,99 @@ const marquee = "Don't let the lecture sink. ";
   }
 
 
+
+  /* ------------------------------------------------------------- COLOPHON */
+  /* Set in a serif, because nothing in print has ever been set in a geometric
+     sans and the face was undoing more of the illusion than the conventions
+     were building. A system stack — no webfont, no request. */
+  .colophon {
+    background: var(--panel);
+    padding: clamp(56px, 11vh, 130px) 0 clamp(48px, 9vh, 104px);
+    font-family: ui-serif, Charter, "Iowan Old Style", Georgia,
+      "Times New Roman", serif;
+  }
+
+  /* Guide words: the first and last entries on a spread, printed in the top
+     corners so a page can be found by thumbing. This pair brackets the
+     headword alphabetically, and the left one is the technique the whole
+     product exists to argue against. */
+  .col-guide {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 0 0 clamp(18px, 3vh, 30px);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+    font-size: clamp(12px, 1.3vw, 14px);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink-faint);
+  }
+
+  .col-word {
+    margin: 0;
+    font-size: clamp(64px, 16vw, 210px);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.86;
+    color: var(--blue);
+  }
+
+  .col-pron {
+    margin: clamp(18px, 3vh, 28px) 0 0;
+    font-size: clamp(16px, 1.8vw, 20px);
+    color: var(--ink-faint);
+  }
+  .col-pron .pos {
+    margin-left: 12px;
+    font-variant: small-caps;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+  }
+
+  /* Run in with bold numerals, not stacked: print columns are expensive and a
+     stacked list reads as a web page. */
+  .col-senses {
+    margin: clamp(16px, 2.4vh, 24px) 0 0;
+    max-width: 52ch;
+    font-size: clamp(18px, 2.1vw, 24px);
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .col-senses b {
+    font-weight: 700;
+    color: var(--ink);
+    margin-right: 4px;
+  }
+  .col-senses .key {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .col-senses i {
+    font-style: italic;
+    color: var(--ink-faint);
+  }
+
+  .col-etym {
+    margin: clamp(16px, 2.4vh, 26px) 0 0;
+    max-width: 52ch;
+    font-size: clamp(14px, 1.5vw, 16px);
+    line-height: 1.6;
+    color: var(--ink-faint);
+  }
+  .col-etym .lbl {
+    font-variant: small-caps;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    margin-right: 5px;
+  }
+  .col-etym b { font-weight: 700; color: var(--ink-soft); }
+  .col-etym i { font-style: italic; }
+
   /* ================================================================ SMALL */
+
 
 
   @media (max-width: 1040px) {

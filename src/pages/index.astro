@@ -356,40 +356,43 @@ const marquee = "Don't let the lecture sink. ";
   <Wave from="var(--panel)" to="var(--blue)" flip />
 
   <!-- ============================================= BLUE: WHY IT WORKS -->
-  <!-- The claim and the evidence for it were two sections saying the same
-       thing a screen apart. One section: the problem, the number, the fix. -->
-  <section class="why" id="evidence">
+  <!-- The promise every other study app avoids making: that the work shrinks.
+       The picture carries it — bars falling while the gaps between them widen
+       — so the copy only has to name what is already visible. -->
+  <section class="why">
     <div class="wrap why-inner">
-      <h2 data-reveal>You forget most of a lecture within a week.</h2>
+      <h2 data-reveal>It gets easier.</h2>
 
       <figure class="why-fig" data-reveal>
-        <svg viewBox="0 0 340 200" role="img"
-             aria-label="One week later: students who answered once recalled 35 percent, students who kept coming back recalled 80 percent.">
-          <rect x="52" y="106" width="82" height="56" rx="7" class="pf-bar lo" />
-          <text x="93" y="94" class="pf-val muted" text-anchor="middle">35%</text>
-          <text x="93" y="182" class="pf-cap" text-anchor="middle">answered once</text>
+        <svg viewBox="0 0 340 150" role="img"
+             aria-label="The same question returns on day 1, 3, 8, 21 and 60. Each return takes less effort than the last, and the gaps between them grow.">
+          <!-- Effort: falls every time the question comes round again. -->
+          <rect x="19"  y="46"  width="12" height="58" rx="6" class="rv-bar" />
+          <rect x="72"  y="62"  width="12" height="42" rx="6" class="rv-bar" />
+          <rect x="140" y="76"  width="12" height="28" rx="6" class="rv-bar" />
+          <rect x="221" y="87"  width="12" height="17" rx="6" class="rv-bar" />
+          <rect x="309" y="95"  width="12" height="9"  rx="6" class="rv-bar" />
 
-          <path d="M150 78 H186" class="pf-arrow" />
-          <path d="M180 72 l7 6 l-7 6" class="pf-arrow" />
+          <line x1="12" y1="107" x2="332" y2="107" class="rv-base" />
 
-          <rect x="206" y="34" width="82" height="128" rx="7" class="pf-bar hi" />
-          <text x="247" y="22" class="pf-val" text-anchor="middle">80%</text>
-          <text x="247" y="182" class="pf-cap strong" text-anchor="middle">kept coming back</text>
-
-          <line x1="20" y1="162" x2="320" y2="162" class="pf-base" />
+          <text x="25"  y="128" class="rv-day" text-anchor="middle">day 1</text>
+          <text x="78"  y="128" class="rv-day" text-anchor="middle">3</text>
+          <text x="146" y="128" class="rv-day" text-anchor="middle">8</text>
+          <text x="227" y="128" class="rv-day" text-anchor="middle">21</text>
+          <text x="315" y="128" class="rv-day" text-anchor="middle">60</text>
         </svg>
       </figure>
 
       <div class="why-copy" data-reveal>
         <p class="why-lead">
-          Students who answered a question once and moved on remembered 35% of
-          it a week later. The ones who kept coming back to it remembered 80%.
+          The first time you meet a question, it takes real thought. Resurface
+          brings it back three days later, then eight, then three weeks — and
+          each time it takes less.
         </p>
         <p>
-          Resurface shows you each question again just before you would have
-          forgotten it.
+          The gaps get longer because you are getting better. You end up doing
+          less to remember more.
         </p>
-        <p class="why-cite">Karpicke &amp; Roediger, <i>Science</i>, 2008</p>
       </div>
     </div>
   </section>
@@ -1240,30 +1243,15 @@ const marquee = "Don't let the lecture sink. ";
     overflow: visible;
   }
 
-  /* On the field, so the chart is drawn in white rather than ink. */
-  .pf-bar.hi { fill: #fff; }
-  .pf-bar.lo { fill: rgba(255, 255, 255, 0.3); }
-  .pf-base { stroke: rgba(255, 255, 255, 0.28); stroke-width: 2; }
-  .pf-arrow {
-    fill: none;
-    stroke: rgba(255, 255, 255, 0.55);
-    stroke-width: 2.2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .pf-val {
-    font-size: 21px;
-    font-weight: 700;
-    letter-spacing: -0.6px;
-    fill: #fff;
-  }
-  .pf-val.muted { fill: var(--on-blue-soft); }
-  .pf-cap {
-    font-size: 12.5px;
+  /* Drawn in white: this sits on the field, not on a panel. Each bar is one
+     return, and it is shorter than the one before it. */
+  .rv-bar { fill: #fff; }
+  .rv-base { stroke: rgba(255, 255, 255, 0.3); stroke-width: 2; }
+  .rv-day {
+    font-size: 12px;
     font-weight: 500;
     fill: var(--on-blue-soft);
   }
-  .pf-cap.strong { font-weight: 600; fill: #fff; }
 
   .why-copy {
     margin: 0 auto;
@@ -1285,13 +1273,7 @@ const marquee = "Don't let the lecture sink. ";
     line-height: 1.5;
     color: var(--on-blue-soft);
   }
-  .why-cite {
-    margin-top: 18px !important;
-    font-size: 12.5px !important;
-    font-weight: 400 !important;
-    color: rgba(255, 255, 255, 0.6) !important;
-  }
-  .why-cite i { font-style: italic; }
+
 
 
   /* ------------------------------------------------------------- SUBJECTS */

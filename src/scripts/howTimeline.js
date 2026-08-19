@@ -63,7 +63,7 @@ export function buildHowTimeline() {
     return null;
   }
 
-  const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.35, defaults: { ease: "power2.out" } });
+  const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.12, defaults: { ease: "power2.out" } });
 
   tl.set(app, { autoAlpha: 0, scale: 0.96, y: 10 })
     .set([dropScreen, makeScreen, ansScreen], { autoAlpha: 0 })
@@ -154,9 +154,9 @@ export function buildHowTimeline() {
     .to(correct, { scale: 1.03, duration: 0.14 }, "answer+=1.55")
     .to(correct, { scale: 1, duration: 0.3, ease: "elastic.out(1, 0.5)" }, "answer+=1.69");
 
-  // Short beat on the confirmed answer, then loop — no long dead hold.
-  tl.addLabel("out", "answer+=2.35")
-    .to(app, { autoAlpha: 0, scale: 0.97, duration: 0.35 }, "out")
+  // Brief flash on the confirmed answer, then straight back into the loop.
+  tl.addLabel("out", "answer+=2.05")
+    .to(app, { autoAlpha: 0, scale: 0.97, duration: 0.28 }, "out")
     .call(() => {
       app.classList.remove("is-session");
       clearOptState();

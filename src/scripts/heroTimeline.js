@@ -28,6 +28,8 @@ export function buildHeroTimeline() {
   const opts = qa("[data-opt]");
   const exp = q("[data-exp]");
   const countEl = q("[data-count]");
+  const caps = qa("[data-cap]");
+  const source = q("[data-source]");
 
   if (!slide || !card) return null;
 
@@ -37,6 +39,7 @@ export function buildHeroTimeline() {
     gsap.set(slide, { autoAlpha: 0 });
     gsap.set([card, qScreen], { autoAlpha: 1 });
     gsap.set([opts, exp], { autoAlpha: 1, y: 0 });
+    gsap.set(caps[2], { autoAlpha: 1 });
     return null;
   }
 
@@ -60,18 +63,39 @@ export function buildHeroTimeline() {
     .set(exp, { autoAlpha: 0, y: 6 })
     .set(scan, { autoAlpha: 0, top: "-46%" })
     .set(slide, { autoAlpha: 0, scale: 0.94, y: 26, rotate: -2.5 })
+    .set(caps, { autoAlpha: 0, y: 5 })
+    .set(source, { backgroundColor: "rgba(53,98,245,0)", color: "" })
     .set(counter, { n: 0 });
+
+  /**
+   * Swap the caption line. `pos` is any GSAP position — a number or a label —
+   * so a caption is placed against the beat it names rather than a time that
+   * has to be kept in step by hand. Labels resolve on insert, so each call has
+   * to come after the label it refers to has been added.
+   */
+  const caption = (i, pos) => {
+    tl.to(caps.filter((_, j) => j !== i), { autoAlpha: 0, duration: 0.22 }, pos)
+      .to(caps[i], { autoAlpha: 1, y: 0, duration: 0.32 }, pos);
+  };
 
   // ── 1. The lecture is over ──────────────────────────────────────────
   tl.addLabel("lecture")
     .to(slide, { autoAlpha: 1, scale: 1, y: 0, rotate: -1.5, duration: 0.7 })
     .to(slide, { rotate: 0, duration: 0.5 }, "-=0.15");
+  caption(0, 0.35);
 
   // ── 2. It goes in, and is read ──────────────────────────────────────
   tl.addLabel("drop", "+=0.45")
     .to(scan, { autoAlpha: 1, duration: 0.2 }, "drop")
     .to(scan, { top: "100%", duration: 0.95, ease: "none" }, "drop")
     .to(scan, { autoAlpha: 0, duration: 0.2 }, "drop+=0.85")
+    // The line the question below is taken from lights as the scan passes it,
+    // so "written from your lecture" is shown rather than claimed.
+    .to(
+      source,
+      { backgroundColor: "rgba(53,98,245,0.14)", color: "var(--blue)", duration: 0.25 },
+      "drop+=0.5",
+    )
     // Falls into the card's place and hands over.
     .to(slide, { y: 34, scale: 0.86, autoAlpha: 0, duration: 0.5, ease: "power2.in" }, "drop+=0.8")
     .to(card, { autoAlpha: 1, scale: 1, y: 0, duration: 0.55 }, "drop+=0.95");
@@ -104,6 +128,7 @@ export function buildHeroTimeline() {
       },
       "generate+=0.15",
     );
+  caption(1, "generate+=0.1");
 
   // ── 4. Answering one ────────────────────────────────────────────────
   tl.addLabel("answer", "generate+=1.55")
@@ -118,13 +143,12 @@ export function buildHeroTimeline() {
     )
     .to(correct, { scale: 1.02, duration: 0.16, yoyo: true, repeat: 1 }, "answer+=1.15")
     .to(exp, { autoAlpha: 1, y: 0, duration: 0.4 }, "answer+=1.4");
+  caption(2, "answer+=0.25");
 
   // Hold on the answered question, then clear for the loop.
-  tl.addLabel("out", "answer+=3.1").to(
-    card,
-    { autoAlpha: 0, scale: 0.96, duration: 0.45 },
-    "out",
-  );
+  tl.addLabel("out", "answer+=3.1")
+    .to(card, { autoAlpha: 0, scale: 0.96, duration: 0.45 }, "out")
+    .to(caps, { autoAlpha: 0, duration: 0.3 }, "out");
 
   return tl;
 }

@@ -356,61 +356,17 @@ const marquee = "Don't let the lecture sink. ";
   <Wave from="var(--panel)" to="var(--blue)" flip />
 
   <!-- ============================================= BLUE: WHY IT WORKS -->
-  <!-- The promise every other study app avoids making: that the work shrinks.
-       The picture carries it — bars falling while the gaps between them widen
-       — so the copy only has to name what is already visible. -->
   <section class="why">
     <div class="wrap why-inner">
-      <h2 data-reveal>It gets easier.</h2>
-
-      <figure class="why-fig" data-reveal>
-        <!--
-          Geometry is derived, not eyeballed, so it cannot drift out of
-          agreement with the sentence beneath it:
-            · gaps between columns grow by x1.38 each step  (55, 65, 81, 101)
-            · each fill is 0.63 of the one before          (100, 63, 40, 25, 16)
-            · margins are 16 either side, columns are 26 wide
-          The previous version had the fourth gap narrower than the first,
-          which drew the opposite of "the gaps get longer".
-        -->
-        <svg viewBox="0 0 360 148" role="img"
-             aria-label="Five columns, one for each time a question comes back. Each is less full than the last and the gaps between them widen: day 1, 3, 8, 21 and 60.">
-          <g class="rv-track">
-            <rect x="16"  y="18" width="26" height="100" rx="13" />
-            <rect x="71"  y="18" width="26" height="100" rx="13" />
-            <rect x="136" y="18" width="26" height="100" rx="13" />
-            <rect x="217" y="18" width="26" height="100" rx="13" />
-            <rect x="318" y="18" width="26" height="100" rx="13" />
-          </g>
-
-          <g class="rv-fill">
-            <rect x="16"  y="18"  width="26" height="100" rx="13" />
-            <rect x="71"  y="55"  width="26" height="63"  rx="13" />
-            <rect x="136" y="78"  width="26" height="40"  rx="13" />
-            <rect x="217" y="93"  width="26" height="25"  rx="13" />
-            <rect x="318" y="102" width="26" height="16"  rx="13" />
-          </g>
-
-          <g class="rv-day">
-            <text x="29"  y="138" text-anchor="middle">1</text>
-            <text x="84"  y="138" text-anchor="middle">3</text>
-            <text x="149" y="138" text-anchor="middle">8</text>
-            <text x="230" y="138" text-anchor="middle">21</text>
-            <text x="331" y="138" text-anchor="middle">60</text>
-          </g>
-        </svg>
-        <figcaption>days after you first see a question</figcaption>
-      </figure>
-
+      <h2>You forget most of a lecture within a week.</h2>
       <div class="why-copy" data-reveal>
         <p class="why-lead">
-          The first time you meet a question, it takes real thought. Resurface
-          brings it back three days later, then eight, then three weeks — and
-          each time it takes less.
+          Practising with questions beats rereading notes on its own.
         </p>
         <p>
-          The gaps get longer because you are getting better. You end up doing
-          less to remember more.
+          Resurface keeps track of what you’re finding hard, so the time you
+          spend studying goes toward the topics that still need work, not only
+          the ones that already feel familiar.
         </p>
       </div>
     </div>
@@ -1241,83 +1197,50 @@ const marquee = "Don't let the lecture sink. ";
     padding: clamp(48px, 8vh, 92px) 0;
   }
   .why-inner {
-    max-width: 620px;
-    text-align: center;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(28px, 4vw, 64px);
+    align-items: center;
   }
-  /* Same scale as every other section heading. It was running 46px/-1.4px
-     against the page's 42px/-1.1px, which is close enough to look like a
-     mistake rather than a decision. */
   .why h2 {
     margin: 0;
-    font-size: clamp(28px, 3.5vw, 42px);
+    font-size: clamp(30px, 4vw, 48px);
     font-weight: 600;
-    letter-spacing: -1.1px;
-    line-height: 1.16;
+    letter-spacing: -1.4px;
+    line-height: 1.12;
+    max-width: 12em;
   }
-
-  /* One spacing step either side of the figure, so the section reads as
-     evenly set rather than as three blocks with arbitrary air between them. */
-  .why-fig {
-    margin: clamp(26px, 4vh, 36px) 0;
-  }
-  .why-fig svg {
-    display: block;
-    width: 100%;
-    height: auto;
-    overflow: visible;
-  }
-
-  /* Each column sits in a full-height track, so what shrinks is how much of a
-     constant is used rather than the object itself. A bare rectangle getting
-     smaller reads as something diminishing; a track emptying reads as less
-     being needed, which is the claim. */
-  .rv-track rect {
-    fill: rgba(255, 255, 255, 0.15);
-  }
-  .rv-fill rect {
-    fill: #fff;
-  }
-  /* One rule for every label: bare numerals, identical size and weight. The
-     unit is stated once in the caption instead of "day 1" then "3". */
-  .rv-day text {
-    font-size: 13px;
-    font-weight: 600;
-    fill: var(--on-blue-soft);
-    font-variant-numeric: tabular-nums;
-  }
-  .why-fig figcaption {
-    margin-top: 12px;
-    font-size: 12.5px;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-    color: rgba(255, 255, 255, 0.6);
-  }
-
   .why-copy {
-    margin: 0 auto;
-    max-width: 44ch;
+    max-width: 28em;
+    padding-bottom: 4px;
   }
-  /* Lead and body were 20px and 19px — a difference too small to read as
-     hierarchy and large enough to read as carelessness. Now a clear step, in
-     size and in colour. */
   .why-lead {
-    margin: 0 0 14px;
-    font-size: clamp(17px, 1.9vw, 20px);
-    font-weight: 500;
-    letter-spacing: -0.2px;
-    line-height: 1.55;
+    margin: 0 0 16px;
+    font-size: clamp(20px, 2.4vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.3;
     color: #fff;
   }
-  .why-copy > p {
+  .why-copy > p:last-child {
     margin: 0;
-    font-size: clamp(15.5px, 1.6vw, 17px);
+    font-size: clamp(17px, 1.8vw, 20px);
     font-weight: 500;
-    letter-spacing: -0.15px;
-    line-height: 1.55;
+    letter-spacing: -0.2px;
+    line-height: 1.5;
     color: var(--on-blue-soft);
   }
 
-
+  @media (max-width: 800px) {
+    .why-inner {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .why h2 {
+      max-width: none;
+    }
+  }
 
   /* ------------------------------------------------------------- SUBJECTS */
   .subjects-band {
@@ -2072,9 +1995,7 @@ const marquee = "Don't let the lecture sink. ";
   .col-etym b { font-weight: 700; color: var(--ink-soft); }
   .col-etym i { font-style: italic; }
 
-
   /* ================================================================ SMALL */
-
 
 
 

@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { appUrl } = Astro.props;
-const previewUrl = `${appUrl.replace(/\/$/, "")}/preview/dashboard`;
+const previewUrl = `${appUrl.replace(/\/$/, "")}/preview/practice`;
 ---
 
 <div class="hipad" aria-hidden="true">
@@ -20,7 +20,7 @@ const previewUrl = `${appUrl.replace(/\/$/, "")}/preview/dashboard`;
           <iframe
             class="hipad-frame"
             src={previewUrl}
-            title="Resurface dashboard"
+            title="Resurface practice question"
             loading="lazy"
             tabindex="-1"
           ></iframe>
@@ -85,14 +85,15 @@ const previewUrl = `${appUrl.replace(/\/$/, "")}/preview/dashboard`;
     position: relative;
   }
 
+  /* Question session is narrower than the dashboard — scale a bit larger. */
   .hipad-frame {
     position: absolute;
     top: 0;
     left: 0;
-    width: 1180px;
-    height: 920px;
+    width: 820px;
+    height: 780px;
     border: 0;
-    transform: scale(0.33);
+    transform: scale(0.475);
     transform-origin: top left;
     pointer-events: none;
     background: #3562f5;

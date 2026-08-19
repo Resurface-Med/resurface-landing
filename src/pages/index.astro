@@ -172,10 +172,12 @@ const marquee = "Don't let the lecture sink. ";
           <h2 class="ai-heading section-h">
             Generic question banks do not cover your lectures.
           </h2>
-          <p class="ai-solve">
+          <p class="ai-support">
             They are written for every course. Yours is not every course.
-            Upload your slides or notes and Resurface writes questions from
-            what you were actually taught.
+          </p>
+          <p class="ai-solve">
+            Upload your slides or notes. Resurface writes questions from the
+            material you were actually taught.
           </p>
         </div>
 
@@ -1450,14 +1452,23 @@ const marquee = "Don't let the lecture sink. ";
   .ai-heading {
     margin: 0;
   }
-  .ai-solve {
-    margin: 16px 0 0;
+  .ai-support {
+    margin: 14px 0 0;
     max-width: 28em;
-    font-size: clamp(16px, 1.6vw, 18.5px);
+    font-size: clamp(16px, 1.55vw, 18px);
     font-weight: 500;
     letter-spacing: -0.2px;
-    line-height: 1.5;
+    line-height: 1.45;
     color: var(--ink-soft);
+  }
+  .ai-solve {
+    margin: 18px 0 0;
+    max-width: 22em;
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    line-height: 1.35;
+    color: var(--blue);
   }
 
   .ai-stage {

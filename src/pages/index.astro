@@ -376,7 +376,13 @@ const marquee = "Don't let the lecture sink. ";
     </div>
   </section>
 
-  <Wave from="var(--blue)" to="var(--blue-deep)" />
+  <Wave from="var(--blue)" to="var(--panel)" />
+
+  <!-- The gap itself. Waves are edges; without a band between them there is
+       nothing for the two curves to bound. -->
+  <div class="band-gap" aria-hidden="true"></div>
+
+  <Wave from="var(--panel)" to="var(--blue)" flip />
 
   <!-- ------------------------------------------------------------ CLOSER -->
   <section class="closer">
@@ -390,7 +396,7 @@ const marquee = "Don't let the lecture sink. ";
     </div>
   </section>
 
-  <Wave from="var(--blue-deep)" to="var(--panel)" />
+  <Wave from="var(--blue)" to="var(--panel)" />
 
   <!-- ---------------------------------------------------------- COLOPHON -->
   <!-- The last thing on the site is the word it is named after, given a page
@@ -1777,9 +1783,14 @@ const marquee = "Don't let the lecture sink. ";
     }
   }
 
+  .band-gap {
+    height: clamp(30px, 5vh, 60px);
+    background: var(--panel);
+  }
+
   /* --------------------------------------------------------------- CLOSER */
   .closer {
-    background: var(--blue-deep);
+    background: var(--blue);
     color: #fff;
     padding: clamp(48px, 8vh, 92px) 0 clamp(52px, 9vh, 96px);
   }

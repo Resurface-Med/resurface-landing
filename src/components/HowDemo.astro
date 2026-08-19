@@ -126,25 +126,25 @@ const OPTS = [
 <style>
   .hw {
     display: grid;
-    gap: clamp(26px, 4vh, 40px);
+    gap: clamp(14px, 2vh, 22px);
   }
 
   .hw-stage {
     position: relative;
     width: 100%;
-    max-width: 560px;
+    max-width: 700px;
     margin-inline: auto;
-    aspect-ratio: 5 / 3.9;
+    aspect-ratio: 5 / 3.2;
   }
 
   /* ------------------------------------------------------------ THE DOC */
   .hw-doc {
     position: absolute;
     z-index: 3;
-    top: 6%;
-    left: 4%;
-    width: 46%;
-    padding: 14px 15px 16px;
+    top: 5%;
+    left: 3%;
+    width: 44%;
+    padding: 17px 18px 19px;
     background: var(--white);
     border: 1.5px solid var(--line);
     border-radius: 12px;
@@ -164,15 +164,15 @@ const OPTS = [
   }
   .hw-doc__name {
     margin: 0 0 8px;
-    font-size: 9.5px;
+    font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--ink-faint);
   }
   .hw-doc__title {
-    margin: 0 0 9px;
-    font-size: 13px;
+    margin: 0 0 11px;
+    font-size: 15.5px;
     font-weight: 700;
     letter-spacing: -0.3px;
     color: var(--ink);
@@ -186,9 +186,9 @@ const OPTS = [
     gap: 5px;
   }
   .hw-doc__lines li {
-    padding: 2px 4px;
-    border-radius: 4px;
-    font-size: 10.5px;
+    padding: 3px 5px;
+    border-radius: 5px;
+    font-size: 12.5px;
     line-height: 1.35;
     color: var(--ink-soft);
   }
@@ -222,32 +222,32 @@ const OPTS = [
   .hw-app__bar {
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 9px 12px;
+    gap: 6px;
+    padding: 11px 15px;
     background: var(--panel);
     border-bottom: 1px solid var(--line);
   }
   .hw-app__bar span {
-    width: 7px;
-    height: 7px;
+    width: 9px;
+    height: 9px;
     border-radius: 50%;
     background: var(--line);
   }
   .hw-app__bar p {
-    margin: 0 0 0 8px;
-    font-size: 10.5px;
+    margin: 0 0 0 10px;
+    font-size: 12.5px;
     font-weight: 700;
     letter-spacing: -0.1px;
     color: var(--ink-faint);
   }
   .hw-app__body {
     position: relative;
-    height: calc(100% - 31px);
+    height: calc(100% - 39px);
   }
   .hw-screen {
     position: absolute;
     inset: 0;
-    padding: 16px 18px;
+    padding: 20px 24px;
     opacity: 0;
   }
 
@@ -264,12 +264,12 @@ const OPTS = [
     color: var(--ink-faint);
   }
   .hw-zone svg {
-    width: 30px;
-    height: 30px;
+    width: 38px;
+    height: 38px;
   }
   .hw-zone p {
     margin: 0;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
   }
 
@@ -277,12 +277,12 @@ const OPTS = [
   .hw-cards {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    margin-bottom: 14px;
+    gap: 10px;
+    margin-bottom: 18px;
   }
   .hw-cards span {
-    height: 40px;
-    border-radius: 9px;
+    height: 52px;
+    border-radius: 11px;
     background: var(--panel);
     border: 1.5px solid var(--line);
     opacity: 0;
@@ -290,12 +290,12 @@ const OPTS = [
   .hw-made {
     margin: 0;
     text-align: center;
-    font-size: 12.5px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--ink-soft);
   }
   .hw-made b {
-    font-size: 22px;
+    font-size: 28px;
     font-weight: 700;
     letter-spacing: -0.8px;
     color: var(--blue);
@@ -305,8 +305,8 @@ const OPTS = [
 
   /* ACT 3 */
   .hw-stem {
-    margin: 0 0 10px;
-    font-size: 13px;
+    margin: 0 0 13px;
+    font-size: 15.5px;
     font-weight: 700;
     letter-spacing: -0.2px;
     color: var(--ink);
@@ -317,22 +317,22 @@ const OPTS = [
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
   }
   .hw-opts li {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 7px 10px;
+    gap: 10px;
+    padding: 9px 13px;
     border: 1.5px solid var(--line);
-    border-radius: 9px;
-    font-size: 11px;
+    border-radius: 11px;
+    font-size: 12.5px;
     font-weight: 500;
     color: var(--ink-soft);
   }
   .hw-opt__mark {
-    width: 15px;
-    height: 15px;
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
     border-radius: 50%;
     display: grid;
@@ -341,23 +341,23 @@ const OPTS = [
     color: #fff;
   }
   .hw-opt__mark svg {
-    width: 11px;
-    height: 11px;
+    width: 13px;
+    height: 13px;
   }
   .hw-meter {
-    margin-top: 12px;
+    margin-top: 16px;
     opacity: 0;
   }
   .hw-meter__label {
     display: block;
-    font-size: 10px;
+    font-size: 11.5px;
     font-weight: 600;
     color: var(--ink-faint);
-    margin-bottom: 5px;
+    margin-bottom: 6px;
   }
   .hw-meter__track {
     display: block;
-    height: 6px;
+    height: 8px;
     border-radius: 99px;
     background: var(--wash);
     overflow: hidden;
@@ -378,7 +378,7 @@ const OPTS = [
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(12px, 2vw, 22px);
-    max-width: 760px;
+    max-width: 700px;
     margin-inline: auto;
   }
   .hw-steps li {

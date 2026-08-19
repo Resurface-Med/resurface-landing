@@ -199,21 +199,22 @@ const marquee = "Don't let the lecture sink. ";
     <div class="wrap">
       <div class="ai-layout">
         <div class="ai-intro" data-reveal>
-          <p class="ai-problem">The problem</p>
           <h2 class="ai-heading section-h">
             Generic question banks do not cover your lectures.
           </h2>
-          <p class="ai-support">
-            They are written for every course. Yours is not every course.
-          </p>
           <p class="ai-solve">
             Upload your slides or notes. Resurface writes questions from the
             material you were actually taught.
           </p>
+          <ol class="ai-steps">
+            <li>Drop in your lecture</li>
+            <li>AI writes questions from it</li>
+            <li>Answer them, and they come back</li>
+          </ol>
         </div>
 
         <div class="ai-demo" data-reveal>
-          <HowDemo tone="light" />
+          <HowDemo tone="light" showSteps={false} />
         </div>
       </div>
     </div>
@@ -1465,7 +1466,7 @@ const marquee = "Don't let the lecture sink. ";
 
   /* ---------------------------------------------------------- AI SECTION */
   .ai-band {
-    padding: clamp(56px, 9vh, 96px) 0 clamp(24px, 4vh, 40px);
+    padding: clamp(48px, 8vh, 80px) 0 clamp(20px, 3.5vh, 36px);
     scroll-margin-top: 100px;
   }
   .ai-layout {
@@ -1477,35 +1478,45 @@ const marquee = "Don't let the lecture sink. ";
   .ai-intro {
     text-align: left;
   }
-  .ai-problem {
-    margin: 0 0 10px;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-  }
   .ai-heading {
     margin: 0;
   }
-  .ai-support {
-    margin: 14px 0 0;
-    max-width: 28em;
-    font-size: clamp(16px, 1.55vw, 18px);
-    font-weight: 500;
-    letter-spacing: -0.2px;
-    line-height: 1.45;
-    color: var(--ink-soft);
-  }
   .ai-solve {
-    margin: 18px 0 0;
+    margin: 16px 0 0;
     max-width: 22em;
-    font-size: clamp(18px, 2vw, 24px);
+    font-size: clamp(17px, 1.7vw, 21px);
     font-weight: 600;
-    letter-spacing: -0.5px;
-    line-height: 1.35;
+    letter-spacing: -0.4px;
+    line-height: 1.4;
     color: var(--blue);
   }
+  .ai-steps {
+    list-style: none;
+    margin: 28px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+    max-width: 26em;
+  }
+  .ai-steps li {
+    position: relative;
+    padding-left: 1.6em;
+    font-size: 15.5px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--ink-soft);
+    letter-spacing: -0.15px;
+  }
+  .ai-steps li::before {
+    position: absolute;
+    left: 0;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--blue);
+  }
+  .ai-steps li:nth-child(1)::before { content: "1"; }
+  .ai-steps li:nth-child(2)::before { content: "2"; }
+  .ai-steps li:nth-child(3)::before { content: "3"; }
 
   .ai-demo {
     min-width: 0;

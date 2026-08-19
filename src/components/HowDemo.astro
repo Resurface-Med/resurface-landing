@@ -2,10 +2,8 @@
 /**
  * How it works, animated.
  *
- * The three steps stay as readable text underneath — they are the content, and
- * they work with JavaScript off. The animation runs alongside and lights
- * whichever step it is currently on, so the captions are not a description of
- * the animation, they are the same thing said twice.
+ * The three steps can sit under the frame (`showSteps`) or live in the
+ * section copy instead — same information, not said twice in one column.
  *
  * Everything is drawn in DOM and SVG rather than imported as artwork, because
  * the parts have to move independently: a bullet lights, a page tears into
@@ -13,7 +11,12 @@
  *
  * `tone`: "field" (default) for the blue hero; "light" for the pale panel.
  */
-const { tone = "field" } = Astro.props;
+interface Props {
+  tone?: "field" | "light";
+  showSteps?: boolean;
+}
+
+const { tone = "field", showSteps = true } = Astro.props;
 
 const STEPS = [
   { n: "1", label: "Drop in your lecture" },
@@ -120,15 +123,18 @@ const OPTS = [
     </div>
   </div>
 
-  <!-- The steps: content first, and the animation lights whichever is live. -->
-  <ol class="hw-steps">
-    {STEPS.map((s, i) => (
-      <li data-step={i}>
-        <span class="hw-steps__n">{s.n}</span>
-        <span class="hw-steps__t">{s.label}</span>
-      </li>
-    ))}
-  </ol>
+  <!-- The steps: content first, and the animation lights whichever is live.
+       Optional when the parent section already lists the same three beats. -->
+  {showSteps && (
+    <ol class="hw-steps">
+      {STEPS.map((s, i) => (
+        <li data-step={i}>
+          <span class="hw-steps__n">{s.n}</span>
+          <span class="hw-steps__t">{s.label}</span>
+        </li>
+      ))}
+    </ol>
+  )}
 </div>
 
 <style>

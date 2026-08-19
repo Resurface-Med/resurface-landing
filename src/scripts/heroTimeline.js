@@ -1,16 +1,16 @@
 import gsap from "gsap";
 
 /**
- * Hero sequence on one persistent card.
+ * The hero sequence: a lecture goes in, questions come out, one gets answered.
  *
- * 1. Lecture lands
- * 2. Scan reads the line that will become the question
- * 3. That line births a fan of questions
- * 4. First try — wrong answer
- * 5. Same question returns quieter, answered right
+ * Written as one timeline with named beats so the order and the timing can be
+ * read and changed here without touching markup. About nine seconds, then it
+ * loops back to a fresh slide.
  *
- * Named labels so beats can be retimed without hunting absolute offsets.
- * Transforms only — the card never swaps for a second element.
+ * Transforms on a persistent card rather than Flip: Flip earns its keep when an
+ * element moves between containers and the layout does the positioning. Here
+ * the card owns its own space for the whole sequence, so plain transforms are
+ * both simpler and steadier.
  */
 export function buildHeroTimeline() {
   const root = document.querySelector("[data-hero-demo]");
@@ -19,270 +19,136 @@ export function buildHeroTimeline() {
   const q = (sel) => root.querySelector(sel);
   const qa = (sel) => Array.from(root.querySelectorAll(sel));
 
-  const card = q("[data-card]");
-  const lecture = q('[data-layer="lecture"]');
-  const make = q('[data-layer="make"]');
-  const quiz = q('[data-layer="quiz"]');
+  const slide = q("[data-slide]");
   const scan = q("[data-scan]");
-  const source = q("[data-source]");
-  const bullets = qa(".hd-bullets li");
+  const card = q("[data-card]");
+  const genScreen = q('[data-screen="gen"]');
+  const qScreen = q('[data-screen="q"]');
   const fan = qa("[data-fan]");
-  const countEl = q("[data-count]");
-  const stem = q("[data-stem]");
   const opts = qa("[data-opt]");
-  const wrong = opts.find((o) => o.dataset.wrong);
-  const correct = opts.find((o) => o.dataset.correct);
-  const verdict = q("[data-verdict]");
-  const ret = q("[data-return]");
+  const exp = q("[data-exp]");
+  const countEl = q("[data-count]");
   const caps = qa("[data-cap]");
+  const source = q("[data-source]");
 
-  if (!card || !lecture || !quiz || !wrong || !correct) return null;
+  if (!slide || !card) return null;
 
-  const BLUE = "#3562f5";
-  const BLUE_BG = "rgba(53, 98, 245, 0.12)";
-  const INK_SOFT = "#5a6485";
-  const counter = { n: 0 };
-
-  const caption = (i, pos) => {
-    tl.to(
-      caps.filter((_, j) => j !== i),
-      { autoAlpha: 0, duration: 0.2 },
-      pos,
-    ).to(caps[i], { autoAlpha: 1, y: 0, duration: 0.3 }, pos);
-  };
-
-  // Still end-state for reduced motion — the product, not an empty box.
+  // The finished state, held still. Someone who has asked the system for less
+  // motion should still see what the product is, not an empty box.
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    gsap.set([lecture, make], { autoAlpha: 0 });
-    gsap.set([card, quiz], { autoAlpha: 1 });
-    gsap.set(ret, { autoAlpha: 1 });
-    gsap.set(opts, { autoAlpha: 1 });
-    gsap.set(correct, {
-      borderColor: BLUE,
-      backgroundColor: BLUE_BG,
-      color: BLUE,
-    });
-    gsap.set(verdict, { autoAlpha: 1 });
-    verdict.textContent = "Known.";
-    verdict.classList.add("is-hit");
-    gsap.set(caps[3], { autoAlpha: 1 });
+    gsap.set(slide, { autoAlpha: 0 });
+    gsap.set([card, qScreen], { autoAlpha: 1 });
+    gsap.set([opts, exp], { autoAlpha: 1, y: 0 });
+    gsap.set(caps[2], { autoAlpha: 1 });
     return null;
   }
 
+  const correct = opts.find((o) => o.dataset.correct);
+  const counter = { n: 0 };
+
+  const GREEN = "#1f9d55";
+  const GREEN_BG = "rgba(31, 157, 85, 0.1)";
+
   const tl = gsap.timeline({
     repeat: -1,
-    repeatDelay: 1.1,
+    repeatDelay: 1.2,
     defaults: { ease: "power2.out" },
   });
 
-  // Known start — every repeat looks like the first run.
-  tl.set(card, { autoAlpha: 0, scale: 0.9, y: 28, rotate: -2.2 })
-    .set(lecture, { autoAlpha: 0, y: 0 })
-    .set(make, { autoAlpha: 0, scale: 1 })
-    .set(quiz, { autoAlpha: 0, y: 0 })
-    .set(scan, { autoAlpha: 0, top: "-42%" })
-    .set(source, {
-      backgroundColor: "rgba(53,98,245,0)",
-      color: "",
-      fontWeight: 500,
-      scale: 1,
-      y: 0,
-      clearProps: "backgroundColor,color,fontWeight",
-    })
-    .set(
-      bullets.filter((b) => b !== source),
-      { autoAlpha: 1, x: 0 },
-    )
-    .set(fan, { autoAlpha: 0, y: 18, rotate: 0, x: 0, scale: 0.85 })
-    .set(opts, {
-      autoAlpha: 0,
-      y: 12,
-      x: 0,
-      borderColor: "",
-      backgroundColor: "",
-      color: "",
-      scale: 1,
-      opacity: 1,
-      clearProps: "borderColor,backgroundColor,color,textDecoration",
-    })
-    .set(stem, { autoAlpha: 1, y: 0 })
-    .set(ret, { autoAlpha: 0, y: -4 })
-    .set(verdict, { autoAlpha: 0, y: 4 })
-    .set(caps, { autoAlpha: 0, y: 6 })
-    .set(counter, { n: 0 })
-    .call(() => {
-      countEl.textContent = "0";
-      verdict.textContent = "";
-      verdict.classList.remove("is-miss", "is-hit");
-      quiz.classList.remove("is-quiet");
-    });
+  // Everything starts from a known state so a repeat looks like the first run.
+  tl.set(card, { autoAlpha: 0, scale: 0.92, y: 18 })
+    .set([genScreen, qScreen], { autoAlpha: 0 })
+    .set(fan, { autoAlpha: 0, y: 12, rotate: 0, x: 0 })
+    .set(opts, { autoAlpha: 0, y: 10, borderColor: "", backgroundColor: "", color: "" })
+    .set(exp, { autoAlpha: 0, y: 6 })
+    .set(scan, { autoAlpha: 0, top: "-46%" })
+    .set(slide, { autoAlpha: 0, scale: 0.94, y: 26, rotate: -2.5 })
+    .set(caps, { autoAlpha: 0, y: 5 })
+    .set(source, { backgroundColor: "rgba(53,98,245,0)", color: "" })
+    .set(counter, { n: 0 });
 
-  // ── 1. Lecture lands ────────────────────────────────────────────────
+  /**
+   * Swap the caption line. `pos` is any GSAP position — a number or a label —
+   * so a caption is placed against the beat it names rather than a time that
+   * has to be kept in step by hand. Labels resolve on insert, so each call has
+   * to come after the label it refers to has been added.
+   */
+  const caption = (i, pos) => {
+    tl.to(caps.filter((_, j) => j !== i), { autoAlpha: 0, duration: 0.22 }, pos)
+      .to(caps[i], { autoAlpha: 1, y: 0, duration: 0.32 }, pos);
+  };
+
+  // ── 1. The lecture is over ──────────────────────────────────────────
   tl.addLabel("lecture")
-    .to(card, { autoAlpha: 1, scale: 1, y: 0, rotate: -0.6, duration: 0.7, ease: "back.out(1.4)" }, "lecture")
-    .to(lecture, { autoAlpha: 1, duration: 0.35 }, "lecture+=0.15")
-    .to(card, { rotate: 0, duration: 0.45 }, "lecture+=0.45");
-  caption(0, "lecture+=0.25");
+    .to(slide, { autoAlpha: 1, scale: 1, y: 0, rotate: -1.5, duration: 0.7 })
+    .to(slide, { rotate: 0, duration: 0.5 }, "-=0.15");
+  caption(0, 0.35);
 
-  // ── 2. Read the line that becomes the question ──────────────────────
-  tl.addLabel("read", "+=0.55")
-    .to(scan, { autoAlpha: 1, duration: 0.18 }, "read")
-    .to(scan, { top: "100%", duration: 1.05, ease: "none" }, "read")
-    .to(scan, { autoAlpha: 0, duration: 0.2 }, "read+=0.95")
+  // ── 2. It goes in, and is read ──────────────────────────────────────
+  tl.addLabel("drop", "+=0.45")
+    .to(scan, { autoAlpha: 1, duration: 0.2 }, "drop")
+    .to(scan, { top: "100%", duration: 0.95, ease: "none" }, "drop")
+    .to(scan, { autoAlpha: 0, duration: 0.2 }, "drop+=0.85")
+    // The line the question below is taken from lights as the scan passes it,
+    // so "written from your lecture" is shown rather than claimed.
     .to(
       source,
-      {
-        backgroundColor: "rgba(53,98,245,0.16)",
-        color: BLUE,
-        fontWeight: 700,
-        duration: 0.28,
-      },
-      "read+=0.48",
+      { backgroundColor: "rgba(53,98,245,0.14)", color: "var(--blue)", duration: 0.25 },
+      "drop+=0.5",
     )
-    // Other bullets step aside — attention collapses onto one fact.
-    .to(
-      bullets.filter((b) => b !== source),
-      { autoAlpha: 0.28, x: -4, duration: 0.35, stagger: 0.04 },
-      "read+=0.55",
-    )
-    .to(source, { scale: 1.04, duration: 0.35, ease: "power2.out" }, "read+=0.7");
+    // Falls into the card's place and hands over.
+    .to(slide, { y: 34, scale: 0.86, autoAlpha: 0, duration: 0.5, ease: "power2.in" }, "drop+=0.8")
+    .to(card, { autoAlpha: 1, scale: 1, y: 0, duration: 0.55 }, "drop+=0.95");
 
-  // ── 3. That line becomes questions ──────────────────────────────────
-  tl.addLabel("make", "read+=1.25")
-    .to(lecture, { autoAlpha: 0, y: -10, duration: 0.4, ease: "power2.in" }, "make")
-    .to(make, { autoAlpha: 1, duration: 0.35 }, "make+=0.25")
+  // ── 3. Questions come out of it ─────────────────────────────────────
+  tl.addLabel("generate", "drop+=1.25")
+    .to(genScreen, { autoAlpha: 1, duration: 0.3 }, "generate")
     .to(
       fan,
       {
         autoAlpha: 1,
         y: 0,
-        scale: 1,
-        x: (i) => [-22, 0, 22][i],
-        rotate: (i) => [-9, 0, 9][i],
-        duration: 0.55,
-        stagger: 0.1,
-        ease: "back.out(1.7)",
+        x: (i) => [-16, 0, 16][i],
+        rotate: (i) => [-7, 0, 7][i],
+        duration: 0.5,
+        stagger: 0.11,
+        ease: "back.out(1.6)",
       },
-      "make+=0.3",
+      "generate+=0.1",
     )
     .to(
       counter,
       {
         n: 12,
-        duration: 0.95,
+        duration: 0.9,
         ease: "power1.out",
         onUpdate: () => {
           countEl.textContent = String(Math.round(counter.n));
         },
       },
-      "make+=0.35",
+      "generate+=0.15",
     );
-  caption(1, "make+=0.2");
+  caption(1, "generate+=0.1");
 
-  // ── 4. First try — miss ─────────────────────────────────────────────
-  tl.addLabel("try", "make+=1.7")
-    .to(make, { autoAlpha: 0, scale: 0.96, duration: 0.3 }, "try")
-    .set(quiz, { autoAlpha: 0, y: 10 }, "try")
-    .to(quiz, { autoAlpha: 1, y: 0, duration: 0.4 }, "try+=0.2")
-    .to(opts, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.07 }, "try+=0.35")
-    // Hesitation, then the wrong pick.
-    .to(
-      wrong,
-      {
-        borderColor: "rgba(15,27,61,0.35)",
-        backgroundColor: "rgba(15,27,61,0.06)",
-        color: INK_SOFT,
-        duration: 0.28,
-      },
-      "try+=1.25",
-    )
-    .to(wrong, { x: -5, duration: 0.07 }, "try+=1.35")
-    .to(wrong, { x: 5, duration: 0.07 }, "try+=1.42")
-    .to(wrong, { x: -3, duration: 0.06 }, "try+=1.49")
-    .to(wrong, { x: 0, duration: 0.08 }, "try+=1.55")
-    .to(
-      wrong,
-      {
-        textDecoration: "line-through",
-        opacity: 0.55,
-        duration: 0.25,
-      },
-      "try+=1.6",
-    )
-    .call(
-      () => {
-        verdict.textContent = "Not yet.";
-        verdict.classList.add("is-miss");
-      },
-      null,
-      "try+=1.6",
-    )
-    .to(verdict, { autoAlpha: 1, y: 0, duration: 0.3 }, "try+=1.65");
-  caption(2, "try+=0.25");
-
-  // Sink — the gap before it resurfaces.
-  tl.addLabel("sink", "try+=2.55")
-    .to(verdict, { autoAlpha: 0, duration: 0.25 }, "sink")
-    .to(card, { y: 18, scale: 0.94, autoAlpha: 0.35, duration: 0.55, ease: "power2.in" }, "sink")
-    .to(caps, { autoAlpha: 0, duration: 0.25 }, "sink");
-
-  // ── 5. Comes back easier ────────────────────────────────────────────
-  tl.addLabel("return", "sink+=0.7")
-    .call(() => {
-      quiz.classList.add("is-quiet");
-      verdict.textContent = "";
-      verdict.classList.remove("is-miss");
-      // Reset option chrome for the quieter pass.
-      gsap.set(opts, {
-        borderColor: "",
-        backgroundColor: "",
-        color: "",
-        textDecoration: "none",
-        opacity: 1,
-        scale: 1,
-      });
-      // Distractors start already faded — less to think about.
-      gsap.set(
-        opts.filter((o) => o !== correct),
-        { opacity: 0.35 },
-      );
-    }, null, "return")
-    .set(ret, { autoAlpha: 0, y: -6 }, "return")
-    .to(
-      card,
-      { y: 0, scale: 1, autoAlpha: 1, duration: 0.65, ease: "back.out(1.5)" },
-      "return",
-    )
-    .to(ret, { autoAlpha: 1, y: 0, duration: 0.35 }, "return+=0.15")
+  // ── 4. Answering one ────────────────────────────────────────────────
+  tl.addLabel("answer", "generate+=1.55")
+    .to(genScreen, { autoAlpha: 0, duration: 0.3 }, "answer")
+    .to(qScreen, { autoAlpha: 1, duration: 0.3 }, "answer+=0.2")
+    .to(opts, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.07 }, "answer+=0.3")
+    // Chosen, then confirmed. The pause between is the reading.
     .to(
       correct,
-      {
-        borderColor: BLUE,
-        backgroundColor: BLUE_BG,
-        color: BLUE,
-        duration: 0.35,
-      },
-      "return+=0.85",
+      { borderColor: GREEN, backgroundColor: GREEN_BG, color: GREEN, duration: 0.3 },
+      "answer+=1.15",
     )
-    .to(correct, { scale: 1.03, duration: 0.14 }, "return+=0.85")
-    .to(correct, { scale: 1, duration: 0.35, ease: "elastic.out(1, 0.55)" }, "return+=0.99")
-    .call(
-      () => {
-        verdict.textContent = "Got it — less effort this time.";
-        verdict.classList.add("is-hit");
-      },
-      null,
-      "return+=1.15",
-    )
-    .to(verdict, { autoAlpha: 1, y: 0, duration: 0.35 }, "return+=1.15");
-  caption(3, "return+=0.1");
+    .to(correct, { scale: 1.02, duration: 0.16, yoyo: true, repeat: 1 }, "answer+=1.15")
+    .to(exp, { autoAlpha: 1, y: 0, duration: 0.4 }, "answer+=1.4");
+  caption(2, "answer+=0.25");
 
-  // Hold, then clear for the loop.
-  tl.addLabel("out", "return+=3.0")
-    .to(card, { autoAlpha: 0, scale: 0.96, y: -8, duration: 0.45 }, "out")
-    .to(caps, { autoAlpha: 0, duration: 0.3 }, "out")
-    .set(lecture, { y: 0 }, "out+=0.4")
-    .set(make, { scale: 1 }, "out+=0.4");
+  // Hold on the answered question, then clear for the loop.
+  tl.addLabel("out", "answer+=3.1")
+    .to(card, { autoAlpha: 0, scale: 0.96, duration: 0.45 }, "out")
+    .to(caps, { autoAlpha: 0, duration: 0.3 }, "out");
 
   return tl;
 }

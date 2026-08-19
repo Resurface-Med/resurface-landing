@@ -1,139 +1,120 @@
 ---
 /**
- * Hero product demo — one persistent card.
+ * A lecture goes in and questions come out of it.
  *
- * A lecture becomes a question on the same sheet: the line is read, lifts,
- * and the card flips into an MCQ. First pass gets it wrong; it comes back
- * quieter and lands right. Captions name each beat so the loop reads without
- * inference.
+ * Every element of every beat is in the DOM from the start and the timeline
+ * reveals it. Nothing is created at runtime, so the sequence can be scrubbed
+ * and replayed, and the whole order lives in scripts/heroTimeline.js rather
+ * than being inferred from delays scattered through here.
  *
- * Every node exists in the markup from the start. The timeline in
- * scripts/heroTimeline.js only reveals and transforms — nothing is created
- * at runtime, so reduced-motion can freeze on the final answered state.
+ * The card is one persistent object throughout — it takes the slide and then
+ * holds the questions. That is the point of the story, so nothing here ever
+ * swaps one element for another.
  */
 const OPTIONS = [
-  { text: "Gi — decreased cAMP", wrong: true },
-  { text: "Gq — IP₃/DAG" },
-  { text: "Gs — increased cAMP", correct: true },
-  { text: "Nuclear receptor" },
+  "Gi protein → decreased cAMP",
+  "Gq protein → IP₃/DAG",
+  "Gs protein → increased cAMP",
+  "Nuclear receptor",
 ];
 ---
 
 <div class="hd" data-hero-demo aria-hidden="true">
-  <div class="hd-stage">
-    <!-- One sheet for the whole story. -->
-    <div class="hd-card" data-card>
-      <!-- BEAT 1–2: lecture -->
-      <div class="hd-layer hd-lecture" data-layer="lecture">
-        <div class="hd-file">
-          <span class="hd-file__dot"></span>
-          <span class="hd-file__name">Lecture 12 — Adrenergic receptors.pdf</span>
-        </div>
-        <p class="hd-title">Adrenergic receptors</p>
-        <ul class="hd-bullets">
-          <li>α1 — vasoconstriction, Gq</li>
-          <li data-source>β1 — heart, Gs, ↑ cAMP</li>
-          <li>β2 — bronchodilation, Gs</li>
-          <li>Agonists: adrenaline, dobutamine</li>
-        </ul>
-        <div class="hd-scan" data-scan aria-hidden="true"></div>
-      </div>
+  <!-- BEAT 1 — the lecture, before it goes anywhere.
+       Real bullets rather than grey bars: the bars read as "a document", and
+       what needs reading here is "my lecture slides". One line is also the
+       line the question below is written from, so the scan can point at it. -->
+  <div class="hd-slide" data-slide>
+    <div class="hd-slide__bar">
+      <span class="hd-slide__dot"></span>
+      <span class="hd-slide__file">Lecture 12 — Adrenergic receptors.pdf</span>
+    </div>
+    <div class="hd-slide__page">
+      <p class="hd-slide__title">Adrenergic receptors</p>
+      <ul class="hd-slide__bullets">
+        <li>α1 — vasoconstriction, Gq</li>
+        <li data-source>β1 — heart, Gs, ↑ cAMP</li>
+        <li>β2 — bronchodilation, Gs</li>
+        <li>Agonists: adrenaline, dobutamine</li>
+      </ul>
+      <div class="hd-scan" data-scan></div>
+    </div>
+  </div>
 
-      <!-- BEAT 3: peel into questions (brief) -->
-      <div class="hd-layer hd-make" data-layer="make">
-        <div class="hd-fan" aria-hidden="true">
-          <span data-fan></span>
-          <span data-fan></span>
-          <span data-fan></span>
-        </div>
-        <p class="hd-count"><b data-count>0</b> questions</p>
-        <p class="hd-count__sub">from that line in your lecture</p>
+  <!-- The card. One object for the rest of the story. -->
+  <div class="hd-card" data-card>
+    <!-- BEAT 2 — questions coming out of it -->
+    <div class="hd-screen" data-screen="gen">
+      <div class="hd-fan">
+        <span data-fan></span>
+        <span data-fan></span>
+        <span data-fan></span>
       </div>
+      <p class="hd-count"><b data-count>0</b> questions</p>
+      <p class="hd-count__sub">written from your lecture</p>
+    </div>
 
-      <!-- BEAT 4–5: answer, miss, return -->
-      <div class="hd-layer hd-quiz" data-layer="quiz">
-        <p class="hd-return" data-return>Back again</p>
-        <p class="hd-stem" data-stem>β1 receptors are coupled to:</p>
-        <ul class="hd-opts">
-          {
-            OPTIONS.map((o) => (
-              <li
-                data-opt
-                data-correct={o.correct ? "true" : undefined}
-                data-wrong={o.wrong ? "true" : undefined}
-              >
-                {o.text}
-              </li>
-            ))
-          }
-        </ul>
-        <p class="hd-verdict" data-verdict></p>
+    <!-- BEAT 3 — answering one -->
+    <div class="hd-screen" data-screen="q">
+      <p class="hd-stem">β1 receptors are coupled to:</p>
+      <ul class="hd-opts">
+        {OPTIONS.map((o, i) => (
+          <li data-opt data-correct={i === 2 ? "true" : undefined}>{o}</li>
+        ))}
+      </ul>
+      <div class="hd-exp" data-exp>
+        <b>Correct.</b> β1 raises cAMP — heart rate and contractility.
       </div>
     </div>
   </div>
 
+  <!-- Two words per beat. An unlabelled animation asks the viewer to work out
+       what they are looking at in the second and a half it is on screen. -->
   <p class="hd-caption">
     <span data-cap>Your lecture</span>
-    <span data-cap>Written from it</span>
-    <span data-cap>First try</span>
-    <span data-cap>Comes back easier</span>
+    <span data-cap>12 questions, written from it</span>
+    <span data-cap>Answer them</span>
   </p>
 </div>
 
 <style>
   .hd {
-    --hd-max: 400px;
+    position: relative;
     width: 100%;
-    max-width: var(--hd-max);
+    aspect-ratio: 5 / 5.4;
+    max-width: 420px;
     margin-inline: auto;
     font-family: inherit;
   }
 
-  .hd-stage {
-    position: relative;
-    width: 100%;
-    /* Tall enough for the quiz layer; not a wide fat frame. */
-    aspect-ratio: 4 / 5.05;
-  }
-
-  .hd-card {
+  /* ---------------------------------------------------------- THE SLIDE */
+  .hd-slide {
     position: absolute;
-    inset: 0;
+    inset: 6% 4% auto 4%;
     background: var(--white);
-    border-radius: 22px;
+    border-radius: 16px;
     box-shadow:
       0 2px 6px rgba(15, 27, 61, 0.06),
-      0 26px 64px rgba(20, 44, 130, 0.2);
+      0 18px 44px rgba(20, 44, 130, 0.16);
     overflow: hidden;
     transform-origin: 50% 40%;
   }
-
-  .hd-layer {
-    position: absolute;
-    inset: 0;
-    padding: 22px 22px 24px;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  /* ----------------------------------------------------------- LECTURE */
-  .hd-file {
+  /* A file bar, so the thing being dropped in is recognisably a file. */
+  .hd-slide__bar {
     display: flex;
     align-items: center;
     gap: 9px;
-    margin: -22px -22px 16px;
-    padding: 12px 16px;
+    padding: 11px 14px;
     border-bottom: 1px solid var(--line);
-    background: var(--panel);
   }
-  .hd-file__dot {
+  .hd-slide__dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
     background: var(--blue);
     flex-shrink: 0;
   }
-  .hd-file__name {
+  .hd-slide__file {
     font-size: 11.5px;
     font-weight: 600;
     color: var(--ink-faint);
@@ -141,14 +122,19 @@ const OPTIONS = [
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .hd-title {
-    margin: 0 0 14px;
-    font-size: 18px;
+  .hd-slide__page {
+    position: relative;
+    padding: 18px 18px 22px;
+    overflow: hidden;
+  }
+  .hd-slide__title {
+    margin: 0 0 12px;
+    font-size: 17px;
     font-weight: 700;
     letter-spacing: -0.5px;
     color: var(--ink);
   }
-  .hd-bullets {
+  .hd-slide__bullets {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -156,79 +142,86 @@ const OPTIONS = [
     flex-direction: column;
     gap: 8px;
   }
-  .hd-bullets li {
+  .hd-slide__bullets li {
     position: relative;
-    padding: 7px 10px 7px 18px;
-    border-radius: 8px;
-    font-size: 13px;
-    line-height: 1.35;
+    padding-left: 15px;
+    font-size: 12.5px;
+    line-height: 1.4;
     color: var(--ink-soft);
+    border-radius: 5px;
   }
-  .hd-bullets li::before {
+  .hd-slide__bullets li::before {
     content: "";
     position: absolute;
-    left: 6px;
-    top: 13px;
+    left: 2px;
+    top: 7px;
     width: 5px;
     height: 5px;
     border-radius: 50%;
     background: var(--peri);
   }
-  .hd-bullets li[data-source] {
-    font-weight: 500;
-  }
   .hd-scan {
     position: absolute;
     left: 0;
     right: 0;
-    height: 42%;
-    top: -42%;
+    height: 46%;
     background: linear-gradient(
       180deg,
       rgba(53, 98, 245, 0) 0%,
-      rgba(53, 98, 245, 0.14) 55%,
-      rgba(53, 98, 245, 0.48) 96%,
+      rgba(53, 98, 245, 0.16) 62%,
+      rgba(53, 98, 245, 0.5) 96%,
       rgba(53, 98, 245, 0) 100%
     );
     opacity: 0;
-    pointer-events: none;
   }
 
-  /* -------------------------------------------------------------- MAKE */
-  .hd-make {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+  /* ----------------------------------------------------------- THE CARD */
+  .hd-card {
+    position: absolute;
+    inset: 4% 0 auto 0;
+    min-height: 286px;
+    padding: 24px 22px;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow:
+      0 2px 6px rgba(15, 27, 61, 0.06),
+      0 26px 64px rgba(20, 44, 130, 0.2);
+    opacity: 0;
+    transform-origin: 50% 42%;
   }
+  .hd-screen {
+    position: absolute;
+    inset: 24px 22px auto;
+    opacity: 0;
+  }
+
+  /* BEAT 2 */
   .hd-fan {
     position: relative;
-    width: 100%;
-    height: 110px;
+    height: 92px;
     margin-bottom: 18px;
   }
   .hd-fan span {
     position: absolute;
     left: 50%;
-    top: 12px;
-    width: 118px;
-    height: 78px;
-    margin-left: -59px;
-    border-radius: 14px;
+    top: 0;
+    width: 128px;
+    height: 84px;
+    margin-left: -64px;
+    border-radius: 12px;
     background: var(--panel);
     border: 1.5px solid var(--line);
-    box-shadow: 0 8px 20px rgba(20, 44, 130, 0.08);
     opacity: 0;
   }
   .hd-count {
     margin: 0;
+    text-align: center;
     font-size: 15px;
     font-weight: 500;
     color: var(--ink-soft);
   }
   .hd-count b {
-    font-size: 36px;
+    font-size: 34px;
     font-weight: 700;
     letter-spacing: -1.4px;
     color: var(--blue);
@@ -236,32 +229,20 @@ const OPTIONS = [
     font-variant-numeric: tabular-nums;
   }
   .hd-count__sub {
-    margin: 6px 0 0;
+    margin: 4px 0 0;
+    text-align: center;
     font-size: 13px;
     color: var(--ink-faint);
   }
 
-  /* -------------------------------------------------------------- QUIZ */
-  .hd-return {
-    margin: 0 0 8px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--blue);
-    opacity: 0;
-  }
+  /* The question */
   .hd-stem {
     margin: 0 0 14px;
-    font-size: 16.5px;
+    font-size: 16px;
     font-weight: 600;
-    letter-spacing: -0.35px;
-    line-height: 1.3;
+    letter-spacing: -0.3px;
+    line-height: 1.35;
     color: var(--ink);
-  }
-  .hd-quiz.is-quiet .hd-stem {
-    color: var(--ink-soft);
-    font-weight: 500;
   }
   .hd-opts {
     list-style: none;
@@ -275,40 +256,39 @@ const OPTIONS = [
     padding: 11px 14px;
     border: 1.5px solid var(--line);
     border-radius: 12px;
-    font-size: 13px;
+    font-size: 13.5px;
     font-weight: 500;
     color: var(--ink-soft);
     background: var(--white);
-    transform-origin: 50% 50%;
   }
-  .hd-verdict {
-    margin: 12px 0 0;
-    min-height: 1.2em;
+  .hd-exp {
+    margin-top: 12px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    background: rgba(31, 157, 85, 0.1);
     font-size: 13px;
-    font-weight: 600;
-    letter-spacing: -0.1px;
-    color: var(--ink-faint);
+    line-height: 1.45;
+    color: #17703d;
     opacity: 0;
   }
-  .hd-verdict.is-miss {
-    color: var(--ink-soft);
-  }
-  .hd-verdict.is-hit {
-    color: var(--blue);
+  .hd-exp b {
+    font-weight: 700;
   }
 
-  /* ----------------------------------------------------------- CAPTION */
+  /* The caption. All three occupy the same line; the timeline shows one. */
   .hd-caption {
-    position: relative;
-    margin: 14px 0 0;
-    min-height: 1.3em;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
     text-align: center;
+    min-height: 20px;
   }
   .hd-caption span {
     position: absolute;
     left: 0;
     right: 0;
-    top: 0;
     font-size: 13.5px;
     font-weight: 600;
     letter-spacing: -0.1px;
@@ -316,97 +296,9 @@ const OPTIONS = [
     opacity: 0;
   }
 
-  /* Desktop: breathe a little larger in the wide column. */
-  @media (min-width: 1041px) {
-    .hd {
-      --hd-max: 420px;
-    }
-  }
-
-  /* Tablet / stacked hero: keep the demo compact and centred so it does not
-     balloon to full column width. */
   @media (max-width: 1040px) {
     .hd {
-      --hd-max: 360px;
-    }
-  }
-
-  /* Phones: scale the whole composition down as a unit so type, padding and
-     the card shrink together — not a fat full-bleed frame. */
-  @media (max-width: 560px) {
-    .hd {
-      --hd-max: 300px;
-    }
-    .hd-stage {
-      aspect-ratio: 4 / 5.1;
-    }
-    .hd-card {
-      border-radius: 18px;
-    }
-    .hd-layer {
-      padding: 16px 16px 18px;
-    }
-    .hd-file {
-      margin: -16px -16px 12px;
-      padding: 10px 12px;
-    }
-    .hd-file__name {
-      font-size: 10.5px;
-    }
-    .hd-title {
-      font-size: 15.5px;
-      margin-bottom: 10px;
-    }
-    .hd-bullets {
-      gap: 6px;
-    }
-    .hd-bullets li {
-      padding: 5px 8px 5px 16px;
-      font-size: 11.5px;
-    }
-    .hd-fan {
-      height: 88px;
-      margin-bottom: 12px;
-    }
-    .hd-fan span {
-      width: 96px;
-      height: 64px;
-      margin-left: -48px;
-    }
-    .hd-count b {
-      font-size: 28px;
-    }
-    .hd-count,
-    .hd-count__sub {
-      font-size: 12px;
-    }
-    .hd-stem {
-      font-size: 14.5px;
-      margin-bottom: 10px;
-    }
-    .hd-opts {
-      gap: 6px;
-    }
-    .hd-opts li {
-      padding: 9px 11px;
-      font-size: 12px;
-      border-radius: 10px;
-    }
-    .hd-verdict {
-      font-size: 12px;
-      margin-top: 10px;
-    }
-    .hd-caption {
-      margin-top: 12px;
-    }
-    .hd-caption span {
-      font-size: 12.5px;
-    }
-  }
-
-  @media (max-width: 380px) {
-    .hd {
-      --hd-max: 272px;
+      max-width: 360px;
     }
   }
 </style>

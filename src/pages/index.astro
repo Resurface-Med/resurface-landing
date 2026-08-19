@@ -364,22 +364,34 @@ const marquee = "Don't let the lecture sink. ";
       <h2 data-reveal>It gets easier.</h2>
 
       <figure class="why-fig" data-reveal>
-        <svg viewBox="0 0 340 150" role="img"
-             aria-label="The same question returns on day 1, 3, 8, 21 and 60. Each return takes less effort than the last, and the gaps between them grow.">
-          <!-- Effort: falls every time the question comes round again. -->
-          <rect x="19"  y="46"  width="12" height="58" rx="6" class="rv-bar" />
-          <rect x="72"  y="62"  width="12" height="42" rx="6" class="rv-bar" />
-          <rect x="140" y="76"  width="12" height="28" rx="6" class="rv-bar" />
-          <rect x="221" y="87"  width="12" height="17" rx="6" class="rv-bar" />
-          <rect x="309" y="95"  width="12" height="9"  rx="6" class="rv-bar" />
+        <svg viewBox="0 0 360 168" role="img"
+             aria-label="A line showing how well you remember something over time. It falls after learning, and each time Resurface brings the question back it returns to the top and falls more slowly, until it stays up on its own.">
+          <!-- The line you drop below when it has gone. Named, because the
+               copy above promises to catch you just before you cross it. -->
+          <line x1="14" y1="126" x2="352" y2="126" class="rv-floor" />
+          <text x="14" y="144" class="rv-floor-label">forgotten</text>
 
-          <line x1="12" y1="107" x2="332" y2="107" class="rv-base" />
+          <!-- Memory over time. Each fall is longer and shallower than the one
+               before, and the last one never gets near the line. -->
+          <path d="M18,34
+                   C30,74 40,102 56,116
+                   L56,30
+                   C74,70 92,98 116,112
+                   L116,26
+                   C146,66 176,94 208,108
+                   L208,22
+                   C258,48 300,62 348,74"
+                class="rv-curve" />
 
-          <text x="25"  y="128" class="rv-day" text-anchor="middle">day 1</text>
-          <text x="78"  y="128" class="rv-day" text-anchor="middle">3</text>
-          <text x="146" y="128" class="rv-day" text-anchor="middle">8</text>
-          <text x="227" y="128" class="rv-day" text-anchor="middle">21</text>
-          <text x="315" y="128" class="rv-day" text-anchor="middle">60</text>
+          <!-- Every dot is a question coming back up. -->
+          <circle cx="56"  cy="30" r="5" class="rv-dot" />
+          <circle cx="116" cy="26" r="5" class="rv-dot" />
+          <circle cx="208" cy="22" r="5" class="rv-dot" />
+
+          <text x="56"  y="144" class="rv-day" text-anchor="middle">day 1</text>
+          <text x="116" y="144" class="rv-day" text-anchor="middle">day 4</text>
+          <text x="208" y="144" class="rv-day" text-anchor="middle">day 12</text>
+          <text x="348" y="144" class="rv-day" text-anchor="end">day 40</text>
         </svg>
       </figure>
 
@@ -1243,10 +1255,33 @@ const marquee = "Don't let the lecture sink. ";
     overflow: visible;
   }
 
-  /* Drawn in white: this sits on the field, not on a panel. Each bar is one
-     return, and it is shorter than the one before it. */
-  .rv-bar { fill: #fff; }
-  .rv-base { stroke: rgba(255, 255, 255, 0.3); stroke-width: 2; }
+  /* Drawn in white: this sits on the field, not on a panel.
+     Bars were wrong for this — a shrinking rectangle reads as decline, which
+     is the opposite of what happens. A line that keeps being lifted back to
+     the top, falling more slowly each time, is the thing itself. */
+  .rv-curve {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .rv-dot {
+    fill: var(--blue);
+    stroke: #fff;
+    stroke-width: 3;
+  }
+  .rv-floor {
+    stroke: rgba(255, 255, 255, 0.32);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 6;
+  }
+  .rv-floor-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    fill: rgba(255, 255, 255, 0.5);
+  }
   .rv-day {
     font-size: 12px;
     font-weight: 500;

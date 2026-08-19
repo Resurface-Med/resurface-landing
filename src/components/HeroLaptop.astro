@@ -1,0 +1,75 @@
+---
+/**
+ * Hero product shot: the supplied laptop mockup with the real practice
+ * session framed in the screen.
+ */
+interface Props {
+  appUrl: string;
+}
+
+const { appUrl } = Astro.props;
+const previewUrl = `${appUrl.replace(/\/$/, "")}/preview/practice`;
+---
+
+<div class="hlaptop" aria-hidden="true">
+  <div class="hlaptop-screen">
+    <iframe
+      class="hlaptop-frame"
+      src={previewUrl}
+      title="Resurface practice question"
+      loading="lazy"
+      tabindex="-1"
+    ></iframe>
+  </div>
+  <img
+    class="hlaptop-device"
+    src="/laptop-mockup.png"
+    alt=""
+    width="1024"
+    height="1024"
+    decoding="async"
+  />
+</div>
+
+<style>
+  .hlaptop {
+    position: relative;
+    width: min(100%, 460px);
+    filter: drop-shadow(0 28px 48px rgba(15, 30, 90, 0.38));
+  }
+
+  .hlaptop-device {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+  }
+
+  /* Fits the blank screen in laptop-mockup.png (measured from the asset). */
+  .hlaptop-screen {
+    position: absolute;
+    z-index: 2;
+    left: 16.89%;
+    top: 28.22%;
+    width: 66.21%;
+    height: 41.31%;
+    overflow: hidden;
+    background: #3562f5;
+    border-radius: 2px;
+  }
+
+  .hlaptop-frame {
+    position: absolute;
+    top: -4px;
+    left: -20px;
+    width: 720px;
+    height: 620px;
+    border: 0;
+    transform: scale(0.46);
+    transform-origin: top left;
+    pointer-events: none;
+    background: #3562f5;
+  }
+</style>

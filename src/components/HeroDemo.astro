@@ -1,31 +1,308 @@
 ---
 /**
- * The animated product demo in the hero.
+ * Friday afternoon to exam day, in one shot.
  *
- * Markup only — every scene's elements exist in the DOM from the start and the
- * timeline reveals them. Nothing is created at runtime, so the animation can be
- * scrubbed, replayed and reasoned about from one place (scripts/heroTimeline.js)
- * rather than being spread across the components it touches.
+ * Every element of every beat is in the DOM from the start and the timeline
+ * reveals it. Nothing is created at runtime, so the sequence can be scrubbed
+ * and replayed, and the whole order lives in scripts/heroTimeline.js rather
+ * than being inferred from delays scattered through here.
+ *
+ * The card is one persistent object throughout — it takes the slide, holds the
+ * questions, shrinks onto the schedule and becomes the exam paper. That is the
+ * point of the story, so nothing here ever swaps one element for another.
  */
+const OPTIONS = [
+  "Gi protein → decreased cAMP",
+  "Gq protein → IP₃/DAG",
+  "Gs protein → increased cAMP",
+  "Nuclear receptor",
+];
 ---
 
-<div class="hero-demo" data-hero-demo>
-  <div class="hero-demo__card" data-demo-card></div>
+<div class="hd" data-hero-demo aria-hidden="true">
+  <!-- BEAT 1 — the lecture, before it goes anywhere -->
+  <div class="hd-slide" data-slide>
+    <span class="hd-slide__tag">Lecture 12</span>
+    <p class="hd-slide__title">Adrenergic receptors</p>
+    <div class="hd-slide__body">
+      <span style="width: 96%"></span>
+      <span style="width: 88%"></span>
+      <span style="width: 92%"></span>
+      <span style="width: 64%"></span>
+      <span style="width: 90%"></span>
+      <span style="width: 78%"></span>
+    </div>
+    <div class="hd-scan" data-scan></div>
+  </div>
+
+  <!-- The card. One object for the rest of the story. -->
+  <div class="hd-card" data-card>
+    <!-- BEAT 2 — questions coming out of it -->
+    <div class="hd-screen" data-screen="gen">
+      <div class="hd-fan">
+        <span data-fan></span>
+        <span data-fan></span>
+        <span data-fan></span>
+      </div>
+      <p class="hd-count"><b data-count>0</b> questions</p>
+      <p class="hd-count__sub">written from your lecture</p>
+    </div>
+
+    <!-- BEAT 3 — answering one -->
+    <div class="hd-screen" data-screen="q">
+      <p class="hd-stem">β1 receptors are coupled to:</p>
+      <ul class="hd-opts">
+        {OPTIONS.map((o, i) => (
+          <li data-opt data-correct={i === 2 ? "true" : undefined}>{o}</li>
+        ))}
+      </ul>
+      <div class="hd-exp" data-exp>
+        <b>Correct.</b> β1 raises cAMP — heart rate and contractility.
+      </div>
+    </div>
+
+    <!-- BEAT 5 — the same knowledge, under exam conditions -->
+    <div class="hd-screen" data-screen="exam">
+      <div class="hd-exam__head">
+        <span>Paper 1</span>
+        <span class="hd-exam__time" data-timer>01:00</span>
+      </div>
+      <p class="hd-stem">Which receptor raises cardiac cAMP?</p>
+      <ul class="hd-opts">
+        <li data-exam-opt>α1</li>
+        <li data-exam-opt>α2</li>
+        <li data-exam-opt data-correct="true">β1</li>
+        <li data-exam-opt>M2</li>
+      </ul>
+      <p class="hd-exam__foot" data-exam-foot>Answered in 1.4s</p>
+    </div>
+  </div>
+
+  <!-- BEAT 4 — the schedule the card lands on -->
+  <div class="hd-strip" data-strip>
+    <span data-strip-item>3 days</span>
+    <span data-strip-item>8 days</span>
+    <span data-strip-item>3 weeks</span>
+  </div>
 </div>
 
 <style>
-  .hero-demo {
+  .hd {
     position: relative;
     width: 100%;
+    aspect-ratio: 5 / 5.4;
+    max-width: 420px;
+    margin-inline: auto;
+    font-family: inherit;
   }
-  .hero-demo__card {
-    position: relative;
+
+  /* ---------------------------------------------------------- THE SLIDE */
+  .hd-slide {
+    position: absolute;
+    inset: 6% 4% auto 4%;
+    padding: 22px 22px 26px;
     background: var(--white);
-    border-radius: 24px;
+    border-radius: 16px;
     box-shadow:
       0 2px 6px rgba(15, 27, 61, 0.06),
-      0 24px 64px rgba(20, 44, 130, 0.18);
-    aspect-ratio: 4 / 3;
+      0 18px 44px rgba(20, 44, 130, 0.16);
+    overflow: hidden;
+    transform-origin: 50% 40%;
+  }
+  .hd-slide__tag {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+  .hd-slide__title {
+    margin: 8px 0 16px;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+  }
+  /* Bars, not lorem ipsum: a slide you are not meant to read, only recognise. */
+  .hd-slide__body {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .hd-slide__body span {
+    height: 7px;
+    border-radius: 4px;
+    background: var(--wash);
+  }
+  .hd-scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 46%;
+    background: linear-gradient(
+      180deg,
+      rgba(53, 98, 245, 0) 0%,
+      rgba(53, 98, 245, 0.16) 62%,
+      rgba(53, 98, 245, 0.5) 96%,
+      rgba(53, 98, 245, 0) 100%
+    );
+    opacity: 0;
+  }
+
+  /* ----------------------------------------------------------- THE CARD */
+  .hd-card {
+    position: absolute;
+    inset: 4% 0 auto 0;
+    min-height: 300px;
+    padding: 24px 22px;
+    background: var(--white);
+    border-radius: 20px;
+    box-shadow:
+      0 2px 6px rgba(15, 27, 61, 0.06),
+      0 26px 64px rgba(20, 44, 130, 0.2);
+    opacity: 0;
+    transform-origin: 50% 42%;
+  }
+  .hd-screen {
+    position: absolute;
+    inset: 24px 22px auto;
+    opacity: 0;
+  }
+
+  /* BEAT 2 */
+  .hd-fan {
+    position: relative;
+    height: 92px;
+    margin-bottom: 18px;
+  }
+  .hd-fan span {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 128px;
+    height: 84px;
+    margin-left: -64px;
+    border-radius: 12px;
+    background: var(--panel);
+    border: 1.5px solid var(--line);
+    opacity: 0;
+  }
+  .hd-count {
+    margin: 0;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink-soft);
+  }
+  .hd-count b {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -1.4px;
+    color: var(--blue);
+    margin-right: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .hd-count__sub {
+    margin: 4px 0 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--ink-faint);
+  }
+
+  /* BEATS 3 + 5 share the question language */
+  .hd-stem {
+    margin: 0 0 14px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .hd-opts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .hd-opts li {
+    padding: 11px 14px;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    background: var(--white);
+  }
+  .hd-exp {
+    margin-top: 12px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    background: rgba(31, 157, 85, 0.1);
+    font-size: 13px;
+    line-height: 1.45;
+    color: #17703d;
+    opacity: 0;
+  }
+  .hd-exp b {
+    font-weight: 700;
+  }
+
+  /* BEAT 5 */
+  .hd-exam__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .hd-exam__time {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+    color: var(--ink-soft);
+  }
+  .hd-exam__foot {
+    margin: 14px 0 0;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--blue);
+    opacity: 0;
+  }
+
+  /* BEAT 4 — the schedule */
+  .hd-strip {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 4%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  .hd-strip span {
+    padding: 7px 14px;
+    border-radius: var(--radius-pill);
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #fff;
+    opacity: 0;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 1040px) {
+    .hd {
+      max-width: 360px;
+    }
   }
 </style>
 

@@ -1,6 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Footer from "../components/Footer.astro";
+import HeroDemo from "../components/HeroDemo.astro";
 import Wave from "../components/Wave.astro";
 /* Nine real questions, one per deck, lifted from the question bank so the
    demo shows the actual product rather than a mock-up of it. */
@@ -68,7 +69,6 @@ const marquee = "Don't let the lecture sink. ";
         transform: none !important;
         filter: none !important;
       }
-      .books-float { opacity: 1 !important; transform: none !important; }
       .nav, .brand, .nav-links > *, .nav-cta {
         opacity: 1 !important;
         transform: none !important;
@@ -155,15 +155,7 @@ const marquee = "Don't let the lecture sink. ";
       </div>
 
       <div class="stage" id="hero-stage">
-        <div class="books-float" data-books-float>
-          <img
-            class="books"
-            src="/books.webp"
-            alt="Two stacked textbooks"
-            width="580"
-            height="839"
-          />
-        </div>
+        <HeroDemo />
       </div>
     </section>
 
@@ -356,7 +348,7 @@ const marquee = "Don't let the lecture sink. ";
   <Wave from="var(--panel)" to="var(--blue)" flip />
 
   <!-- ============================================= BLUE: WHY IT WORKS -->
-  <!-- Same question, three returns. Soft white sheets on the blue field. -->
+  <!-- Same fact, three returns: margin notes → clean recall. -->
   <section class="why">
     <div class="wrap why-grid">
       <div class="why-copy-block" data-reveal>
@@ -370,58 +362,48 @@ const marquee = "Don't let the lecture sink. ";
       </div>
 
       <figure
-        class="why-stage"
+        class="why-proof"
         data-reveal
-        aria-label="The same question three times. Day 1 it takes thought. Day 8 it is getting easier. Day 60 it takes almost no effort."
+        aria-label="The same fact three times. Day 1 you guess wrong in the margin. Day 8 wrong answers are crossed out. Day 60 you just know 7.4."
       >
-        <ol class="echoes">
-          <li class="echo is-guess" style="--i: 0; --gap: 1.25rem">
-            <div class="echo-rail" aria-hidden="true"><span class="echo-node"></span></div>
-            <article class="echo-card">
-              <header class="echo-head">
-                <span class="echo-day">Day 1</span>
-                <span class="echo-effort">Takes thought</span>
-              </header>
-              <p class="echo-stem">Normal arterial blood pH is approximately:</p>
-              <div class="echo-opts" aria-hidden="true">
-                <span>6.8</span>
-                <span class="is-pick is-wrong">7.0</span>
-                <span>7.4</span>
-                <span>7.8</span>
-              </div>
-            </article>
+        <ol class="proof-beats">
+          <li class="proof-beat is-messy" style="--i: 0">
+            <header class="proof-meta">
+              <span class="proof-day">Day 1</span>
+              <span class="proof-effort">Takes thought</span>
+            </header>
+            <p class="proof-stem">Normal arterial blood pH is approximately:</p>
+            <p class="proof-line" aria-hidden="true">
+              <span class="ink wrong">7.0</span>
+              <span class="ink wrong is-soft">7.8</span>
+              <span class="ink unsure">?</span>
+            </p>
           </li>
 
-          <li class="echo is-learning" style="--i: 1; --gap: 1.9rem">
-            <div class="echo-rail" aria-hidden="true"><span class="echo-node"></span></div>
-            <article class="echo-card">
-              <header class="echo-head">
-                <span class="echo-day">Day 8</span>
-                <span class="echo-effort">Getting easier</span>
-              </header>
-              <p class="echo-stem">Normal arterial blood pH is approximately:</p>
-              <div class="echo-opts" aria-hidden="true">
-                <span class="is-fade">7.0</span>
-                <span class="is-pick is-ans">7.4</span>
-                <span class="is-fade">7.8</span>
-              </div>
-            </article>
+          <li class="proof-beat is-settling" style="--i: 1">
+            <header class="proof-meta">
+              <span class="proof-day">Day 8</span>
+              <span class="proof-effort">Getting easier</span>
+            </header>
+            <p class="proof-stem">Normal arterial blood pH is approximately:</p>
+            <p class="proof-line" aria-hidden="true">
+              <span class="ink wrong is-faint">7.0</span>
+              <span class="ink right is-hand">7.4</span>
+              <span class="ink wrong is-faint">7.8</span>
+            </p>
           </li>
 
-          <li class="echo is-mastered" style="--i: 2; --gap: 0px">
-            <div class="echo-rail" aria-hidden="true"><span class="echo-node"></span></div>
-            <article class="echo-card">
-              <header class="echo-head">
-                <span class="echo-day">Day 60</span>
-                <span class="echo-effort">Almost no effort</span>
-              </header>
-              <p class="echo-stem is-quiet">Normal arterial blood pH is approximately:</p>
-              <div class="echo-opts" aria-hidden="true">
-                <span class="is-fade is-gone">7.0</span>
-                <span class="is-pick is-ans">7.4</span>
-                <span class="is-fade is-gone">7.8</span>
-              </div>
-            </article>
+          <li class="proof-beat is-known" style="--i: 2">
+            <header class="proof-meta">
+              <span class="proof-day">Day 60</span>
+              <span class="proof-effort">Almost no effort</span>
+            </header>
+            <p class="proof-stem is-quiet">Normal arterial blood pH is approximately:</p>
+            <p class="proof-line" aria-hidden="true">
+              <span class="ink wrong is-gone">7.0</span>
+              <span class="ink right is-typed">7.4</span>
+              <span class="ink wrong is-gone">7.8</span>
+            </p>
           </li>
         </ol>
       </figure>
@@ -801,51 +783,6 @@ const marquee = "Don't let the lecture sink. ";
     display: flex;
     justify-content: center;
   }
-  .books-float {
-    opacity: 0;
-    transform: translate(46px, 30px) rotate(7deg) scale(0.9);
-    transition:
-      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 1.05s cubic-bezier(0.34, 1.4, 0.5, 1);
-    will-change: transform, opacity;
-  }
-  .stage.is-in .books-float {
-    opacity: 1;
-    transform: translate(0, 0) rotate(0deg) scale(1);
-  }
-  .stage.is-live .books-float {
-    animation: books-bob 5.6s ease-in-out infinite;
-  }
-  .books {
-    width: clamp(180px, 20vw, 268px);
-    height: auto;
-    display: block;
-    filter: drop-shadow(0 26px 40px rgba(15, 30, 90, 0.28));
-  }
-
-  @keyframes books-bob {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-8px);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .books-float {
-      opacity: 1;
-      transform: none;
-      transition: none;
-    }
-    .stage.is-live .books-float {
-      animation: none;
-    }
-  }
-
-
-  /* ------------------------------------------------------- HERO ENTRANCE */
   /* The copy had no entrance at all — it was simply present, while the books
      faded up beside it. Each line now clears from blur in sequence, so the
      headline arrives rather than appears. Driven by a class set on load, not
@@ -1247,7 +1184,7 @@ const marquee = "Don't let the lecture sink. ";
   }
 
   /* ------------------------------------------------------------------ WHY */
-  /* Same question, three returns. Soft white sheets on the blue field. */
+  /* Same fact three times: margin scribbles → clean recall. No product cards. */
   .why {
     background: var(--blue);
     color: #fff;
@@ -1274,7 +1211,7 @@ const marquee = "Don't let the lecture sink. ";
   .why-grid {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
     gap: clamp(28px, 4vw, 56px);
     align-items: center;
   }
@@ -1298,187 +1235,188 @@ const marquee = "Don't let the lecture sink. ";
     color: #fff;
   }
 
-  .why-stage {
+  .why-proof {
     margin: 0;
+    max-width: 34em;
   }
 
-  .echoes {
-    --node: 12px;
-    --node-top: 18px;
-    --gap-scale: 1;
+  .proof-beats {
     list-style: none;
     margin: 0;
     padding: 0;
-    max-width: 440px;
+    display: grid;
+    gap: 0;
   }
 
-  .echo {
-    display: grid;
-    grid-template-columns: var(--node) minmax(0, 1fr);
-    column-gap: 14px;
-    align-items: stretch;
-    padding-bottom: calc(var(--gap, 0px) * var(--gap-scale));
+  .proof-beat {
+    position: relative;
+    padding: 0 0 28px 22px;
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(12px);
     transition:
-      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-    transition-delay: calc(var(--i, 0) * 80ms + 40ms);
+      opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--i, 0) * 110ms + 40ms);
   }
-  .echo:last-child {
+  .proof-beat:last-child {
     padding-bottom: 0;
   }
-  .why-stage.is-vis .echo {
+  .proof-beat::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    bottom: -0.2em;
+    width: 1.5px;
+    background: rgba(255, 255, 255, 0.28);
+  }
+  .proof-beat:last-child::before {
+    bottom: auto;
+    height: 0.55em;
+  }
+  .proof-beat::after {
+    content: "";
+    position: absolute;
+    left: -3.5px;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 3px var(--blue);
+  }
+  .why-proof.is-vis .proof-beat {
     opacity: 1;
     transform: none;
   }
 
-  .echo-rail {
-    position: relative;
-    width: var(--node);
-  }
-  .echo:not(:last-child) .echo-rail::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: calc(var(--node-top) + var(--node) / 2);
-    bottom: calc(-1 * var(--gap) * var(--gap-scale) - var(--node-top) - var(--node) / 2);
-    width: 2px;
-    margin-left: -1px;
-    background: rgba(255, 255, 255, 0.35);
-    pointer-events: none;
-  }
-
-  .echo-node {
-    position: absolute;
-    top: var(--node-top);
-    left: 0;
-    width: var(--node);
-    height: var(--node);
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 0 3px var(--blue);
-    z-index: 1;
-  }
-
-  .echo-card {
-    background: #fff;
-    color: var(--ink);
-    border-radius: 20px;
-    padding: 16px 18px;
-    border: 1px solid rgba(15, 27, 61, 0.06);
-    box-shadow:
-      0 1px 2px rgba(15, 27, 61, 0.04),
-      0 12px 28px rgba(20, 44, 130, 0.14);
-    text-align: left;
-    min-width: 0;
-  }
-  .echo.is-learning .echo-card {
-    background: rgba(255, 255, 255, 0.92);
-    box-shadow:
-      0 1px 2px rgba(15, 27, 61, 0.03),
-      0 10px 24px rgba(20, 44, 130, 0.11);
-  }
-  .echo.is-mastered .echo-card {
-    background: rgba(255, 255, 255, 0.78);
-    box-shadow:
-      0 1px 2px rgba(15, 27, 61, 0.02),
-      0 8px 20px rgba(20, 44, 130, 0.08);
-  }
-
-  .echo-head {
+  .proof-meta {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 8px;
+    gap: 12px;
+    margin-bottom: 6px;
   }
-  .echo-day {
+  .proof-day {
     font-size: 12px;
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--blue);
+    color: rgba(255, 255, 255, 0.72);
   }
-  .echo-effort {
+  .proof-effort {
     font-size: 13px;
     font-weight: 500;
     letter-spacing: -0.1px;
-    color: var(--ink-soft);
-  }
-  .echo.is-mastered .echo-effort {
-    color: var(--ink-faint);
+    color: rgba(255, 255, 255, 0.55);
   }
 
-  .echo-stem {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-    line-height: 1.35;
-    color: var(--ink);
-  }
-  .echo-stem.is-quiet {
-    color: var(--ink-faint);
+  .proof-stem {
+    margin: 0 0 10px;
+    font-size: clamp(15px, 1.45vw, 17px);
     font-weight: 500;
+    letter-spacing: -0.2px;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, 0.92);
+  }
+  .proof-stem.is-quiet {
+    color: rgba(255, 255, 255, 0.42);
+    font-weight: 400;
   }
 
-  .echo-opts {
-    margin-top: 12px;
+  .proof-line {
+    margin: 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 7px;
-  }
-  .echo-opts span {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 2.4em;
-    padding: 7px 12px;
-    border-radius: var(--radius-pill);
-    font-size: 13.5px;
-    font-weight: 500;
-    letter-spacing: -0.15px;
-    color: var(--ink-soft);
-    background: var(--wash);
+    align-items: baseline;
+    gap: 0.55em 1em;
+    min-height: 1.4em;
   }
 
-  .echo-opts .is-wrong {
-    color: var(--ink);
+  .ink {
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+  }
+
+  /* Day 1 — messy margin notes */
+  .is-messy .ink {
+    font-family: "Caveat", cursive;
     font-weight: 600;
+    font-size: clamp(28px, 3.2vw, 36px);
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.92);
+    transform: rotate(-2deg);
+  }
+  .is-messy .ink:nth-child(2) {
+    transform: rotate(1.5deg);
+  }
+  .is-messy .ink:nth-child(3) {
+    transform: rotate(-3deg);
+    opacity: 0.7;
+  }
+  .is-messy .ink.wrong {
+    text-decoration: line-through;
+    text-decoration-thickness: 2.5px;
+    text-decoration-color: rgba(255, 255, 255, 0.75);
+  }
+  .is-messy .ink.is-soft {
+    opacity: 0.45;
+  }
+  .is-messy .ink.unsure {
+    opacity: 0.55;
+  }
+
+  /* Day 8 — settling: wrongs fade, answer still a bit hand-like */
+  .is-settling .ink.wrong {
+    font-family: "Caveat", cursive;
+    font-weight: 600;
+    font-size: clamp(24px, 2.6vw, 30px);
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: rgba(255, 255, 255, 0.45);
+  }
+  .is-settling .ink.is-faint {
+    opacity: 0.35;
+  }
+  .is-settling .ink.right.is-hand {
+    font-family: "Caveat", cursive;
+    font-weight: 700;
+    font-size: clamp(32px, 3.6vw, 42px);
+    color: #fff;
+    transform: rotate(-0.8deg);
+  }
+
+  /* Day 60 — typed, known; wrongs almost gone */
+  .is-known .ink.wrong.is-gone {
+    font-family: "Caveat", cursive;
+    font-weight: 500;
+    font-size: clamp(18px, 2vw, 22px);
+    color: rgba(255, 255, 255, 0.22);
     text-decoration: line-through;
     text-decoration-thickness: 1.5px;
-    background: rgba(15, 27, 61, 0.08);
+    text-decoration-color: rgba(255, 255, 255, 0.2);
   }
-  .echo-opts .is-ans {
-    color: var(--blue);
-    font-weight: 600;
-    background: rgba(53, 98, 245, 0.12);
-    box-shadow: inset 0 0 0 1.5px rgba(53, 98, 245, 0.35);
-  }
-  .echo-opts .is-fade {
-    opacity: 0.38;
-  }
-  .echo-opts .is-gone {
-    opacity: 0.18;
-  }
-  .echo.is-mastered .echo-opts .is-ans {
-    background: rgba(53, 98, 245, 0.1);
-    box-shadow: inset 0 0 0 1.5px rgba(53, 98, 245, 0.28);
+  .is-known .ink.right.is-typed {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: clamp(34px, 4vw, 48px);
+    letter-spacing: -1.2px;
+    color: #fff;
   }
 
   @media (max-width: 900px) {
     .why-grid {
       grid-template-columns: 1fr;
-      gap: 24px;
+      gap: 28px;
       align-items: start;
     }
     .why-copy-block {
       max-width: 36em;
     }
-    .echoes {
-      max-width: 100%;
-      --gap-scale: 0.9;
+    .why-proof {
+      max-width: none;
     }
   }
 
@@ -1489,42 +1427,20 @@ const marquee = "Don't let the lecture sink. ";
     .why-copy-block h2 {
       margin-bottom: 10px;
     }
-    .echoes {
-      --node: 10px;
-      --node-top: 16px;
-      --gap-scale: 0.75;
+    .proof-beat {
+      padding: 0 0 22px 18px;
     }
-    .echo {
-      column-gap: 12px;
+    .proof-effort {
+      font-size: 12px;
     }
-    .echo-card {
-      border-radius: 18px;
-      padding: 14px 15px;
-    }
-    .echo-head {
-      margin-bottom: 6px;
-    }
-    .echo-day {
-      font-size: 11px;
-    }
-    .echo-effort {
-      font-size: 12.5px;
-    }
-    .echo-stem {
-      font-size: 15px;
-    }
-    .echo-opts {
-      margin-top: 10px;
-      gap: 6px;
-    }
-    .echo-opts span {
-      padding: 6px 10px;
-      font-size: 12.5px;
+    .proof-stem {
+      font-size: 14.5px;
+      margin-bottom: 8px;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .echo {
+    .proof-beat {
       opacity: 1;
       transform: none;
       transition: none;
@@ -2367,38 +2283,6 @@ const marquee = "Don't let the lecture sink. ";
 </style>
 
 <script>
-  // Hero books: soft entrance, then a light idle float.
-  (() => {
-    const stage = document.querySelector<HTMLElement>("#hero-stage");
-    if (!stage) return;
-
-    const calm = matchMedia("(prefers-reduced-motion: reduce)");
-    if (calm.matches) {
-      stage.classList.add("is-in");
-      return;
-    }
-
-    const reveal = () => {
-      stage.classList.add("is-in");
-      window.setTimeout(() => stage.classList.add("is-live"), 900);
-    };
-
-    if (stage.getBoundingClientRect().top < window.innerHeight * 0.9) {
-      requestAnimationFrame(reveal);
-    } else {
-      const io = new IntersectionObserver(
-        (entries) => {
-          if (entries.some((e) => e.isIntersecting)) {
-            reveal();
-            io.disconnect();
-          }
-        },
-        { threshold: 0.2 }
-      );
-      io.observe(stage);
-    }
-  })();
-
   // Hero: the copy clears from blur on load. Not scroll-driven — it is already
   // on screen, and waiting for an intersection would mean a visible pause.
   (() => {

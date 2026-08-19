@@ -396,27 +396,20 @@ const OPTS = [
   .hw-steps li {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border-radius: 13px;
-    border: 1.5px solid rgba(255, 255, 255, 0.22);
-    background: rgba(255, 255, 255, 0.1);
+    gap: 12px;
+    padding: 7px 2px;
     text-align: left;
-    transition:
-      border-color 0.3s ease,
-      background-color 0.3s ease,
-      box-shadow 0.3s ease;
   }
   .hw-steps__n {
     flex-shrink: 0;
-    width: 22px;
-    height: 22px;
+    width: 21px;
+    height: 21px;
     border-radius: 50%;
     display: grid;
     place-items: center;
-    background: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    font-size: 12px;
+    background: rgba(255, 255, 255, 0.18);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 11.5px;
     font-weight: 700;
     transition:
       background-color 0.3s ease,
@@ -427,22 +420,17 @@ const OPTS = [
     font-weight: 600;
     letter-spacing: -0.2px;
     line-height: 1.3;
-    color: rgba(255, 255, 255, 0.82);
+    color: rgba(255, 255, 255, 0.55);
     transition: color 0.3s ease;
   }
-  /* The step the animation is on: the white object, as everywhere else on the
-     field. Everything unlit stays glass. */
-  .hw-steps li.is-on {
-    border-color: #fff;
-    background: #fff;
-    box-shadow: 0 10px 26px rgba(15, 27, 61, 0.18);
-  }
+  /* The live step brightens rather than being boxed. Nothing gains an edge,
+     so the frame above stays the only object on this side with a border. */
   .hw-steps li.is-on .hw-steps__n {
-    background: var(--blue);
-    color: #fff;
+    background: #fff;
+    color: var(--blue);
   }
   .hw-steps li.is-on .hw-steps__t {
-    color: var(--ink);
+    color: #fff;
   }
 
   @media (max-width: 1040px) {

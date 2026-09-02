@@ -710,6 +710,10 @@ const marquee = "Don't let the lecture sink. ";
        container, so the flex-end alignment still does the work and nothing
        needs a transform it would have to share with the entrance and the bob. */
     padding-right: clamp(12px, 2.6vw, 42px);
+    /* Lifted. .hero is align-items: center, so a bottom margin makes the
+       margin box taller below the art and the centring pushes the art itself
+       up — again without touching a transform that is already spoken for. */
+    margin-bottom: clamp(14px, 3vh, 38px);
   }
   .books-float {
     opacity: 0;
@@ -730,7 +734,7 @@ const marquee = "Don't let the lecture sink. ";
      landscape. Sized between the two: a square object at a landscape width
      would tower over the copy beside it. */
   .books {
-    width: clamp(200px, 26vw, 340px);
+    width: clamp(230px, 30vw, 396px);
     height: auto;
     display: block;
     /* Overall level. The bloom was taken off in the asset itself — a gamma on

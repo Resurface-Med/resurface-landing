@@ -359,6 +359,59 @@ const marquee = "Don't let the lecture sink. ";
 
   <Wave from="var(--blue)" to="var(--panel)" />
 
+  <!-- ------------------------------------------------- DATA TRANSPARENCY -->
+  <!-- Google's OAuth brand verification asks the homepage to state, in plain
+       sight and without a login, what the app does with a user's data and why
+       it asks for it.
+
+       Before the colophon, not after. The colophon is meant to be the last
+       thing on the site — that is the whole point of giving the word its own
+       page — and appending this to the end had quietly taken that place away
+       from it, which is why it read as something dumped in the footer.
+
+       Written as two short lists rather than three paragraphs of prose. What
+       a reader wants here is to check a fact, not read an essay, and a list
+       is what you can check. -->
+  <section class="datanote">
+    <div class="wrap">
+      <h2 class="dn-title">What signing in gives us</h2>
+
+      <p class="dn-lead">
+        Resurface is a spaced-repetition question bank for Year&nbsp;1 medical
+        students: you practise multiple-choice questions, generate more from
+        your own lecture slides, and the app schedules them to come back just
+        before you would have forgotten them. Your answers and scores are
+        readable only by your own account.
+      </p>
+
+      <div class="dn-cols">
+        <div class="dn-col">
+          <h3 class="dn-col-head">What we receive</h3>
+          <dl class="dn-defs">
+            <dt>Your email address</dt>
+            <dd>Identifies your account, so your progress follows you between devices.</dd>
+            <dt>Your name</dt>
+            <dd>Appears on the leaderboard, and only if you choose to be on it.</dd>
+          </dl>
+        </div>
+
+        <div class="dn-col">
+          <h3 class="dn-col-head">What we never receive</h3>
+          <dl class="dn-defs">
+            <dt>Your Google password</dt>
+            <dd>Google signs you in. It never reaches us.</dd>
+            <dt>Gmail, Drive, contacts, calendar</dt>
+            <dd>We ask for no access to any of them.</dd>
+          </dl>
+        </div>
+      </div>
+
+      <p class="dn-foot">
+        Full detail is in the <a href="https://tryresurface.com/privacy">privacy policy</a>.
+      </p>
+    </div>
+  </section>
+
   <!-- ---------------------------------------------------------- COLOPHON -->
   <!-- The last thing on the site is the word it is named after, given a page
        of its own rather than a corner of the footer. The definition is the
@@ -372,37 +425,6 @@ const marquee = "Don't let the lecture sink. ";
       <p class="col-senses"><b>1</b> to rise back up to the surface. <b>2</b> to bring a thing back into view <em class="key">just before it is lost</em>: <i>material resurfaces the day before you would have forgotten it.</i></p>
 
       <p class="col-etym"><span class="lbl">origin</span> <i>from</i> <b>re-</b> <i>‘again’</i> + <b>surface</b>, <i>from Latin</i> superficies <i>‘upper face’.</i></p>
-    </div>
-  </section>
-
-  <!-- ------------------------------------------------- DATA TRANSPARENCY -->
-  <!-- Google's OAuth brand verification asks the homepage to state, in plain
-       sight and without a login, what the app does with a user's data and why
-       it asks for it. That was only ever on /privacy; a reviewer reading the
-       front page could not tell. It belongs here anyway — the person deciding
-       whether to press "Sign in with Google" is on this page, not that one. -->
-  <section class="datanote">
-    <div class="wrap">
-      <h2 class="dn-title">What signing in gives us</h2>
-      <p class="dn-body">
-        Resurface is a spaced-repetition question bank for Year&nbsp;1 medical
-        students: you practise multiple-choice questions, generate more from
-        your own lecture slides, and the app schedules them to come back just
-        before you would have forgotten them.
-      </p>
-      <p class="dn-body">
-        If you sign in with Google we receive two things — your
-        <b>email address</b> and your <b>name</b> — and nothing else. The email
-        identifies your account so your progress follows you between devices;
-        the name is what appears on the leaderboard if you choose to be on it.
-        We never receive your Google password, and we ask for no access to your
-        Gmail, Drive, contacts or calendar.
-      </p>
-      <p class="dn-body">
-        Your answers and scores are readable only by your own account. Full
-        detail is in the
-        <a href="https://tryresurface.com/privacy">privacy policy</a>.
-      </p>
     </div>
   </section>
 
@@ -1572,28 +1594,74 @@ const marquee = "Don't let the lecture sink. ";
      sliver; give them something to bound and they read as a gap. */
   .datanote {
     background: var(--panel);
-    padding: 44px 0 52px;
+    padding: clamp(40px, 6vh, 60px) 0;
     border-top: 1px solid var(--line);
   }
   .dn-title {
-    margin: 0 0 14px;
-    font-size: 20px;
+    margin: 0 0 12px;
+    font-size: clamp(20px, 2.2vw, 25px);
     font-weight: 600;
-    letter-spacing: -0.3px;
+    letter-spacing: -0.5px;
     color: var(--ink);
   }
-  .dn-body {
-    margin: 0 0 12px;
+  .dn-lead {
+    margin: 0 0 clamp(22px, 3vw, 30px);
     max-width: 62ch;
     font-size: 15px;
-    line-height: 1.7;
+    line-height: 1.65;
     color: var(--ink-soft);
   }
-  .dn-body:last-child { margin-bottom: 0; }
-  .dn-body a {
+
+  .dn-cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(22px, 3.5vw, 48px);
+    max-width: 74ch;
+  }
+  .dn-col-head {
+    margin: 0 0 10px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid var(--line);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .dn-defs {
+    margin: 0;
+  }
+  .dn-defs dt {
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+    color: var(--ink);
+  }
+  .dn-defs dd {
+    margin: 2px 0 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .dn-defs dd + dt {
+    margin-top: 14px;
+  }
+
+  .dn-foot {
+    margin: clamp(22px, 3vw, 30px) 0 0;
+    font-size: 14.5px;
+    color: var(--ink-soft);
+  }
+  .dn-foot a {
     color: var(--blue);
     text-decoration: underline;
     text-underline-offset: 2px;
+  }
+
+  @media (max-width: 560px) {
+    .dn-cols {
+      grid-template-columns: 1fr;
+    }
   }
 
   .band-gap {

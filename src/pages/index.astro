@@ -1641,8 +1641,10 @@ const marquee = "Don't let the lecture sink. ";
   .closer-hello {
     position: absolute;
     /* em, so the whole annotation tracks the heading through its clamp
-       instead of drifting off the words as the type grows. */
-    top: 0.66em;
+       instead of drifting off the words as the type grows. 1.24em clears the
+       baseline and the underline beneath it — 0.66em put the arrow's head
+       inside the word it was meant to be pointing at. */
+    top: 1.24em;
     left: 52%;
     display: flex;
     align-items: flex-end;

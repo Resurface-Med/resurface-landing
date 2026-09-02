@@ -33,6 +33,45 @@ const subjects = [
 ];
 
 const marquee = "Don't let the lecture sink. ";
+
+/* The "It gets easier" band is filled with the answer written out over and
+   over, the way you write a fact down until it stays — faint at the top,
+   firmer toward the bottom, so the ground itself is better known by the time
+   you reach "Once you know it".
+ *
+ * Seeded rather than Math.random(): an unseeded scatter would recompose
+ * itself on every deploy, which makes the page's diffs noise and means a
+ * composition I like can't be kept. mulberry32, seeded on the answer.
+ */
+function mulberry32(a) {
+  return function () {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const COLS = 6;
+const ROWS = 6;
+const rand = mulberry32(74);
+
+/* A jittered grid, not pure random. Random scattering clumps and leaves
+   holes at this count; one mark per cell with a generous offset inside it
+   covers the band evenly while never landing on a visible rhythm. */
+const written = [];
+for (let row = 0; row < ROWS; row++) {
+  for (let col = 0; col < COLS; col++) {
+    const depth = (row + rand() * 0.6) / ROWS;
+    written.push({
+      left: ((col + 0.12 + rand() * 0.76) * (100 / COLS)).toFixed(2),
+      top: ((row + 0.1 + rand() * 0.8) * (100 / ROWS)).toFixed(2),
+      rot: (rand() * 24 - 12).toFixed(1),
+      size: (1.05 + rand() * 1.05).toFixed(2),
+      op: (0.05 + depth * 0.09).toFixed(3),
+    });
+  }
+}
 ---
 
 <Base
@@ -290,6 +329,19 @@ const marquee = "Don't let the lecture sink. ";
   <!-- ============================================= BLUE: WHY IT WORKS -->
   <!-- One question. Three attempts. Hand → known. -->
   <section class="why">
+    <div class="why-written" aria-hidden="true">
+      {
+        written.map((w) => (
+          <span
+            class="wr"
+            style={`left:${w.left}%;top:${w.top}%;--rot:${w.rot}deg;font-size:${w.size}rem;opacity:${w.op}`}
+          >
+            7.4
+          </span>
+        ))
+      }
+    </div>
+
     <div class="wrap why-grid">
       <div class="why-copy-block" data-reveal>
         <h2>It gets easier.</h2>
@@ -338,26 +390,6 @@ const marquee = "Don't let the lecture sink. ";
       </figure>
     </div>
 
-    <!-- The argument the three beats make, drawn once. Each dip is a stretch
-         of time with no review in it; each is shallower and longer than the
-         last, and only the first one reaches the floor. Schematic, not to
-         scale — real intervals would make the first dip invisible. -->
-    <div class="wrap why-curve" data-reveal>
-      <svg class="wc-svg" viewBox="0 0 860 152" fill="none" aria-hidden="true">
-        <path class="wc-thresh" d="M0,104 H860" />
-        <text class="wc-lbl" x="0" y="126">gone</text>
-        <path
-          class="wc-line"
-          d="M0,30 L20,30 C68,30 78,116 120,116 C162,116 172,30 220,30 C292,30 302,78 370,78 C438,78 448,30 520,30 C602,30 612,50 690,50 C768,50 778,30 860,30"
-        />
-        <circle class="wc-dot" cx="20" cy="30" r="5" />
-        <circle class="wc-dot" cx="220" cy="30" r="5" />
-        <circle class="wc-dot" cx="520" cy="30" r="5" />
-      </svg>
-      <p class="wc-cap">
-        Every dot is a review. Each one buys you longer before it fades.
-      </p>
-    </div>
   </section>
 
   <Wave from="var(--blue)" to="var(--panel)" />
@@ -1039,8 +1071,33 @@ const marquee = "Don't let the lecture sink. ";
     pointer-events: none;
   }
 
+  /* ------------------------------------------------- WRITTEN-OUT GROUND */
+  .why-written {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    /* One axis only. Two mask layers would need mask-composite: intersect,
+       and where that is unsupported the layers fall back to `add` — the union,
+       which drops the fade entirely rather than degrading it. The sides are
+       handled by the section's own overflow: hidden, and a mark running off
+       the edge is what a written-on page looks like anyway. */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 15%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 15%);
+  }
+  .wr {
+    position: absolute;
+    font-family: "Caveat", cursive;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    white-space: nowrap;
+    transform: translate(-50%, -50%) rotate(var(--rot));
+  }
+
   .why-grid {
     position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
     gap: clamp(28px, 4vw, 56px);
@@ -1208,100 +1265,6 @@ const marquee = "Don't let the lecture sink. ";
     color: #fff;
   }
 
-  /* ---------------------------------------------------- RETENTION CURVE */
-  /* Full width under the grid, so it reads as the section's baseline rather
-     than an inset chart — and it fills the band that was empty below the
-     third beat. */
-  .why-curve {
-    margin-top: clamp(30px, 5vh, 56px);
-  }
-  .wc-svg {
-    display: block;
-    width: 100%;
-    height: auto;
-    overflow: visible;
-  }
-  /* No non-scaling-stroke here: it makes dash lengths resolve in screen
-     space, which would break the draw-on below. Stroke widths are in viewBox
-     units and scale with the drawing, which is what a drawn line should do. */
-  .wc-line {
-    fill: none;
-    stroke: #fff;
-    stroke-width: 2.6;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .wc-thresh {
-    stroke: rgba(255, 255, 255, 0.32);
-    stroke-width: 1.4;
-    stroke-dasharray: 3 8;
-    stroke-linecap: round;
-  }
-  .wc-dot {
-    fill: #fff;
-  }
-  .wc-lbl {
-    fill: rgba(255, 255, 255, 0.5);
-    font-family: "Poppins", sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: -0.1px;
-  }
-  .wc-cap {
-    margin: 16px 0 0;
-    font-size: clamp(14px, 1.4vw, 16.5px);
-    font-weight: 500;
-    letter-spacing: -0.2px;
-    color: rgba(255, 255, 255, 0.74);
-  }
-
-  /* Drawn on arrival. 1300 clears the path's true length (~1180), so the
-     line is fully revealed at the end of the sweep. */
-  .wc-line {
-    stroke-dasharray: 1300;
-    stroke-dashoffset: 1300;
-  }
-  .why-curve.is-vis .wc-line {
-    stroke-dashoffset: 0;
-    transition: stroke-dashoffset 1.6s cubic-bezier(0.33, 0.75, 0.35, 1) 0.15s;
-  }
-  .wc-dot,
-  .wc-thresh,
-  .wc-lbl {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-  .why-curve.is-vis .wc-thresh,
-  .why-curve.is-vis .wc-lbl {
-    opacity: 1;
-    transition-delay: 0.5s;
-  }
-  .why-curve.is-vis .wc-dot {
-    opacity: 1;
-  }
-  .why-curve.is-vis .wc-dot:nth-of-type(1) {
-    transition-delay: 0.3s;
-  }
-  .why-curve.is-vis .wc-dot:nth-of-type(2) {
-    transition-delay: 0.85s;
-  }
-  .why-curve.is-vis .wc-dot:nth-of-type(3) {
-    transition-delay: 1.25s;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .wc-line {
-      stroke-dasharray: none;
-      stroke-dashoffset: 0;
-    }
-    .wc-dot,
-    .wc-thresh,
-    .wc-lbl {
-      opacity: 1;
-      transition: none;
-    }
-  }
-
   @media (max-width: 900px) {
     .why-grid {
       grid-template-columns: 1fr;
@@ -1364,19 +1327,6 @@ const marquee = "Don't let the lecture sink. ";
     }
     .is-known .ink.right.is-typed {
       font-size: clamp(44px, 12vw, 56px);
-    }
-    .why-curve {
-      margin-top: 30px;
-    }
-    /* Deliberately not forced taller here. min-height would only letterbox
-       the drawing (uniform scale, meet), and preserveAspectRatio="none" would
-       thicken the near-horizontal strokes unevenly — the same trap the ribbon
-       above documents. At 360px the dips are 36 / 20 / 8px, which still reads
-       as big, smaller, almost flat. That is the whole message. */
-    .wc-cap {
-      text-align: center;
-      margin-inline: auto;
-      max-width: 24em;
     }
   }
 

@@ -311,29 +311,52 @@ const marquee = "Don't let the lecture sink. ";
           <li class="proof-beat is-messy" style="--i: 0">
             <span class="proof-label">First try</span>
             <p class="proof-line" aria-hidden="true">
-              <span class="ink wrong">7.0</span>
-              <span class="ink wrong is-soft">7.8</span>
-              <span class="ink unsure">?</span>
+              <span class="ink wrong side-l">7.0<svg class="slash" viewBox="0 0 100 40" preserveAspectRatio="none"><path d="M3,26 C28,19 62,15 97,12" /></svg></span>
+              <span class="ink unsure axis">?</span>
+              <span class="ink wrong side-r">7.8<svg class="slash" viewBox="0 0 100 40" preserveAspectRatio="none"><path d="M4,14 C30,21 63,26 96,29" /></svg></span>
             </p>
           </li>
 
           <li class="proof-beat is-settling" style="--i: 1">
             <span class="proof-label">A few days later</span>
             <p class="proof-line" aria-hidden="true">
-              <span class="ink wrong is-faint">7.0</span>
-              <span class="ink right is-hand">7.4</span>
-              <span class="ink wrong is-faint">7.8</span>
+              <span class="ink wrong is-faint side-l">7.0</span>
+              <span class="ink right is-hand axis">7.4</span>
+              <span class="ink wrong is-faint side-r">7.8</span>
             </p>
           </li>
 
           <li class="proof-beat is-known" style="--i: 2">
             <span class="proof-label">Once you know it</span>
             <p class="proof-line" aria-hidden="true">
-              <span class="ink right is-typed">7.4</span>
+              <span class="ink side-l"></span>
+              <span class="ink right is-typed axis">7.4</span>
+              <span class="ink side-r"></span>
             </p>
           </li>
         </ol>
       </figure>
+    </div>
+
+    <!-- The argument the three beats make, drawn once. Each dip is a stretch
+         of time with no review in it; each is shallower and longer than the
+         last, and only the first one reaches the floor. Schematic, not to
+         scale — real intervals would make the first dip invisible. -->
+    <div class="wrap why-curve" data-reveal>
+      <svg class="wc-svg" viewBox="0 0 860 152" fill="none" aria-hidden="true">
+        <path class="wc-thresh" d="M0,104 H860" />
+        <text class="wc-lbl" x="0" y="126">gone</text>
+        <path
+          class="wc-line"
+          d="M0,30 L20,30 C68,30 78,116 120,116 C162,116 172,30 220,30 C292,30 302,78 370,78 C438,78 448,30 520,30 C602,30 612,50 690,50 C768,50 778,30 860,30"
+        />
+        <circle class="wc-dot" cx="20" cy="30" r="5" />
+        <circle class="wc-dot" cx="220" cy="30" r="5" />
+        <circle class="wc-dot" cx="520" cy="30" r="5" />
+      </svg>
+      <p class="wc-cap">
+        Every dot is a review. Each one buys you longer before it fades.
+      </p>
     </div>
   </section>
 
@@ -1090,18 +1113,52 @@ const marquee = "Don't let the lecture sink. ";
     padding-top: 0.35em;
   }
 
+  /* Three columns, not a flex row. The answer owns the centre column in
+     every beat, so it lands on one vertical axis while the distractors fall
+     away either side — which is the whole point the figure is making. As a
+     flex row each beat packed from the left and the answer wandered by up to
+     100px between rows. */
   .proof-line {
     margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.5em 0.9em;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0 0.7em;
+  }
+  .side-l {
+    justify-self: end;
+  }
+  .axis {
+    justify-self: center;
+  }
+  .side-r {
+    justify-self: start;
   }
 
   .ink {
     position: relative;
     display: inline-block;
     line-height: 1;
+  }
+
+  /* A drawn crossing-out, not text-decoration. A ruler-straight line through
+     a Caveat numeral is the one thing on this page that looks machine-made;
+     these are two different curves so the pair doesn't read as stamped. */
+  .slash {
+    position: absolute;
+    left: -8%;
+    top: 0;
+    width: 116%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .slash path {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.82);
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
   }
 
   /* First try — messy guesses */
@@ -1113,23 +1170,15 @@ const marquee = "Don't let the lecture sink. ";
     color: rgba(255, 255, 255, 0.92);
     transform: rotate(-2deg);
   }
-  .is-messy .ink:nth-child(2) {
+  .is-messy .axis {
+    transform: rotate(3deg);
+  }
+  .is-messy .side-r {
     transform: rotate(1.5deg);
-  }
-  .is-messy .ink:nth-child(3) {
-    transform: rotate(-3deg);
-    opacity: 0.7;
-  }
-  .is-messy .ink.wrong {
-    text-decoration: line-through;
-    text-decoration-thickness: 2.5px;
-    text-decoration-color: rgba(255, 255, 255, 0.75);
-  }
-  .is-messy .ink.is-soft {
-    opacity: 0.45;
+    opacity: 0.74;
   }
   .is-messy .ink.unsure {
-    opacity: 0.55;
+    opacity: 0.62;
   }
 
   /* A few days later — wrongs fade, answer still hand-like */
@@ -1138,9 +1187,6 @@ const marquee = "Don't let the lecture sink. ";
     font-weight: 600;
     font-size: clamp(22px, 2.4vw, 28px);
     color: rgba(255, 255, 255, 0.5);
-    text-decoration: line-through;
-    text-decoration-thickness: 2px;
-    text-decoration-color: rgba(255, 255, 255, 0.4);
   }
   .is-settling .ink.is-faint {
     opacity: 0.32;
@@ -1160,6 +1206,100 @@ const marquee = "Don't let the lecture sink. ";
     font-size: clamp(34px, 4vw, 48px);
     letter-spacing: -1.2px;
     color: #fff;
+  }
+
+  /* ---------------------------------------------------- RETENTION CURVE */
+  /* Full width under the grid, so it reads as the section's baseline rather
+     than an inset chart — and it fills the band that was empty below the
+     third beat. */
+  .why-curve {
+    margin-top: clamp(30px, 5vh, 56px);
+  }
+  .wc-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  /* No non-scaling-stroke here: it makes dash lengths resolve in screen
+     space, which would break the draw-on below. Stroke widths are in viewBox
+     units and scale with the drawing, which is what a drawn line should do. */
+  .wc-line {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .wc-thresh {
+    stroke: rgba(255, 255, 255, 0.32);
+    stroke-width: 1.4;
+    stroke-dasharray: 3 8;
+    stroke-linecap: round;
+  }
+  .wc-dot {
+    fill: #fff;
+  }
+  .wc-lbl {
+    fill: rgba(255, 255, 255, 0.5);
+    font-family: "Poppins", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.1px;
+  }
+  .wc-cap {
+    margin: 16px 0 0;
+    font-size: clamp(14px, 1.4vw, 16.5px);
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    color: rgba(255, 255, 255, 0.74);
+  }
+
+  /* Drawn on arrival. 1300 clears the path's true length (~1180), so the
+     line is fully revealed at the end of the sweep. */
+  .wc-line {
+    stroke-dasharray: 1300;
+    stroke-dashoffset: 1300;
+  }
+  .why-curve.is-vis .wc-line {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1.6s cubic-bezier(0.33, 0.75, 0.35, 1) 0.15s;
+  }
+  .wc-dot,
+  .wc-thresh,
+  .wc-lbl {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .why-curve.is-vis .wc-thresh,
+  .why-curve.is-vis .wc-lbl {
+    opacity: 1;
+    transition-delay: 0.5s;
+  }
+  .why-curve.is-vis .wc-dot {
+    opacity: 1;
+  }
+  .why-curve.is-vis .wc-dot:nth-of-type(1) {
+    transition-delay: 0.3s;
+  }
+  .why-curve.is-vis .wc-dot:nth-of-type(2) {
+    transition-delay: 0.85s;
+  }
+  .why-curve.is-vis .wc-dot:nth-of-type(3) {
+    transition-delay: 1.25s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wc-line {
+      stroke-dasharray: none;
+      stroke-dashoffset: 0;
+    }
+    .wc-dot,
+    .wc-thresh,
+    .wc-lbl {
+      opacity: 1;
+      transition: none;
+    }
   }
 
   @media (max-width: 900px) {
@@ -1224,6 +1364,19 @@ const marquee = "Don't let the lecture sink. ";
     }
     .is-known .ink.right.is-typed {
       font-size: clamp(44px, 12vw, 56px);
+    }
+    .why-curve {
+      margin-top: 30px;
+    }
+    /* Deliberately not forced taller here. min-height would only letterbox
+       the drawing (uniform scale, meet), and preserveAspectRatio="none" would
+       thicken the near-horizontal strokes unevenly — the same trap the ribbon
+       above documents. At 360px the dips are 36 / 20 / 8px, which still reads
+       as big, smaller, almost flat. That is the whole message. */
+    .wc-cap {
+      text-align: center;
+      margin-inline: auto;
+      max-width: 24em;
     }
   }
 

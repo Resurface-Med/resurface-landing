@@ -358,9 +358,6 @@ const marquee = "Don't let the lecture sink. ";
           rel="noopener noreferrer">a med <span class="closer-who-end">student<span
               class="closer-who-arrow"
               aria-hidden="true">↗</span><span class="closer-hello" aria-hidden="true"><svg class="closer-hello-arrow" viewBox="0 0 132 96" fill="none"><path class="closer-hello-line" d="M118,84 C92,80 60,77 44,61 C32,49 24,33 19,16" /><path class="closer-hello-head" d="M14,29 L19,16 L29,26" /></svg><span class="closer-hello-text">say hello</span></span></span></a>.</h2>
-      <p>
-        Everyone else is behind too. They're just not telling you.
-      </p>
       <a class="btn-white big" href={APP_URL}>Start studying <span>→</span></a>
 
       <!-- Under the button, not in the sentence above it. It answers "what
@@ -1618,6 +1615,12 @@ const marquee = "Don't let the lecture sink. ";
     font-weight: 600;
     letter-spacing: -1.3px;
     line-height: 1.14;
+    /* The gap to the button used to come from the paragraph between them.
+       With that gone the heading owns it — and it has to be larger than a
+       normal heading margin, because the say-hello arrow hangs below the link
+       and is absolutely positioned, so it adds no height of its own. Too
+       little here and the button sits on top of the arrow. */
+    margin-bottom: clamp(54px, 7vw, 88px);
   }
   .closer p {
     margin: 14px auto 30px;

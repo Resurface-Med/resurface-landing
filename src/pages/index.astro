@@ -145,10 +145,10 @@ const marquee = "Don't let the lecture sink. ";
         <div class="books-float" data-books-float>
           <img
             class="books"
-            src="/stethoscope.webp"
+            src="/hero-stethoscope.webp"
             alt="A stethoscope"
-            width="1000"
-            height="685"
+            width="900"
+            height="918"
             fetchpriority="high"
           />
         </div>
@@ -697,10 +697,11 @@ const marquee = "Don't let the lecture sink. ";
   .stage.is-live .books-float {
     animation: books-bob 5.6s ease-in-out infinite;
   }
-  /* Landscape now, where the books were portrait — so it needs more width to
-     carry the same weight in the column, not the same number. */
+  /* Near-square, where the books were portrait and the first stethoscope was
+     landscape. Sized between the two: a square object at a landscape width
+     would tower over the copy beside it. */
   .books {
-    width: clamp(240px, 34vw, 440px);
+    width: clamp(220px, 29vw, 380px);
     height: auto;
     display: block;
     filter: drop-shadow(0 26px 40px rgba(15, 30, 90, 0.28));

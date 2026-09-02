@@ -145,10 +145,10 @@ const marquee = "Don't let the lecture sink. ";
         <div class="books-float" data-books-float>
           <img
             class="books"
-            src="/books.webp"
-            alt="Two stacked textbooks"
-            width="580"
-            height="839"
+            src="/stethoscope.webp"
+            alt="A stethoscope"
+            width="1000"
+            height="685"
             fetchpriority="high"
           />
         </div>
@@ -697,8 +697,10 @@ const marquee = "Don't let the lecture sink. ";
   .stage.is-live .books-float {
     animation: books-bob 5.6s ease-in-out infinite;
   }
+  /* Landscape now, where the books were portrait — so it needs more width to
+     carry the same weight in the column, not the same number. */
   .books {
-    width: clamp(180px, 20vw, 268px);
+    width: clamp(240px, 34vw, 440px);
     height: auto;
     display: block;
     filter: drop-shadow(0 26px 40px rgba(15, 30, 90, 0.28));

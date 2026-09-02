@@ -468,15 +468,24 @@ const marquee = "Don't let the lecture sink. ";
     /* Slightly translucent with a blur, so content passing underneath is felt
        rather than hidden — the pill stops looking like a solid bar laid on top
        of the page. */
-    background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(14px) saturate(160%);
-    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    /* Frosted, not just translucent. At 0.82 the fill was doing all the work
+       and only 18% of the backdrop could reach the blur, so the blur was
+       effectively invisible — the pill read as flat translucent white. 0.72
+       lets enough through to see, and the blur and saturation go up to meet
+       it: what sells frosted glass is a wide blur over vivid colour, not a
+       thinner fill on its own. */
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(26px) saturate(200%);
+    -webkit-backdrop-filter: blur(26px) saturate(200%);
     /* A white pill on the blue field separates itself. Over .light
        (#F3F6FE) it is white-on-almost-white, so it carries its own edge:
        a hairline plus a tight contact shadow under the big soft one. */
     border: 1px solid rgba(15, 27, 61, 0.08);
     border-radius: var(--radius-pill);
     box-shadow:
+      /* The lit top edge of a pane of glass. This is the detail that reads as
+         frost rather than as a semi-transparent rectangle. */
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
       0 1px 2px rgba(15, 27, 61, 0.05),
       0 8px 24px rgba(20, 44, 130, 0.1);
     display: flex;
@@ -485,6 +494,12 @@ const marquee = "Don't let the lecture sink. ";
     padding: 8px 8px 8px 22px;
     transition: box-shadow 0.3s ease, background-color 0.3s ease;
   }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .nav {
+      background: rgba(255, 255, 255, 0.92);
+    }
+  }
+
   .brand {
     margin-right: auto;
     display: flex;
@@ -500,7 +515,11 @@ const marquee = "Don't let the lecture sink. ";
     gap: 4px;
     font-size: 14.5px;
     font-weight: 500;
-    color: var(--ink-soft);
+    /* A step darker than --ink-soft, which the thinner fill had taken to
+       3.93:1 over the blue hero — under AA for text this size. This is 5.02:1
+       there and 6.91:1 over the light sections, and it is still quiet enough
+       not to compete with the CTA beside it. */
+    color: #4a5474;
   }
   /* Links sit in their own hit areas rather than floating as bare text, so the
      row reads as controls and the target is a comfortable size. */

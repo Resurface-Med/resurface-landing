@@ -348,19 +348,20 @@ const marquee = "Don't let the lecture sink. ";
   <!-- ------------------------------------------------------------ CLOSER -->
   <section class="closer">
     <div class="wrap closer-inner" data-reveal>
-      <h2>Built for med students, by a med student.</h2>
+      <!-- The link is the sentence. Keep `by <a` on one line: Astro drops the
+           whitespace when an inline tag opens a line, which is how "your" and
+           "<b>email address</b>" ended up glued together elsewhere. -->
+      <h2>Built for med students, by <a
+          class="closer-who"
+          href="https://www.linkedin.com/in/rafil-gohar-5645132aa/"
+          target="_blank"
+          rel="noopener noreferrer">a med <span class="closer-who-end">student<span class="closer-who-arrow" aria-hidden="true">↗</span></span></a>.</h2>
       <p>
         For students who revise best under mild panic. Free while it's in
         testing.
       </p>
       <a class="btn-white big" href={APP_URL}>Start studying <span>→</span></a>
 
-      <p class="closer-by">
-        That med student is Rafil Gohar. <a
-          href="https://www.linkedin.com/in/rafil-gohar-5645132aa/"
-          target="_blank"
-          rel="noopener noreferrer">Say hello on LinkedIn <span aria-hidden="true">→</span></a>
-      </p>
     </div>
   </section>
 
@@ -1580,28 +1581,35 @@ const marquee = "Don't let the lecture sink. ";
     line-height: 1.45;
   }
 
-  /* Pays off the heading rather than repeating it: the line above says "by a
-     med student", this says which one. Below the CTA on purpose — a plug that
-     sits between a reader and the button is costing you sign-ups to gain a
-     profile visit. Specificity is .closer .closer-by because .closer p already
-     sets a margin and a max-width that this needs to beat. */
-  .closer .closer-by {
-    margin: clamp(26px, 4vh, 38px) auto 0;
-    max-width: 44ch;
-    font-size: 15px;
-    line-height: 1.5;
-    color: var(--on-blue-soft);
-  }
-  .closer .closer-by a {
-    color: #fff;
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1.5px;
-    transition: color 0.16s ease;
-  }
-  .closer .closer-by a:hover {
+  /* Everything here is in em, not px. The heading runs from 28px to 46px, and
+     a 2px underline that reads as deliberate at 28 disappears at 46 — so the
+     colour, the rule and its offset all scale with the type instead. */
+  .closer-who {
     color: var(--peri);
+    text-decoration: underline;
+    text-decoration-color: var(--peri);
+    text-decoration-thickness: 0.055em;
+    text-underline-offset: 0.14em;
+    transition: color 0.18s ease, text-decoration-color 0.18s ease;
+  }
+  .closer-who:hover {
+    color: #fff;
+    text-decoration-color: #fff;
+  }
+  /* The arrow says the link leaves the site, which the underline alone does
+     not. Tied to the last word so a wrap can never strand it on its own line. */
+  .closer-who-end {
+    white-space: nowrap;
+  }
+  .closer-who-arrow {
+    display: inline-block;
+    margin-left: 0.1em;
+    font-size: 0.72em;
+    vertical-align: 0.16em;
+    transition: transform 0.18s ease;
+  }
+  .closer-who:hover .closer-who-arrow {
+    transform: translate(0.1em, -0.1em);
   }
 
   /* ----------------------------------------------------------------- FOOT */

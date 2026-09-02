@@ -114,8 +114,8 @@ import Legal from "../layouts/Legal.astro";
         <td>EU / US</td>
       </tr>
       <tr>
-        <td>Anthropic</td>
-        <td>Generating questions from material you submit</td>
+        <td>Google</td>
+        <td>Generating questions and explanations from material you submit</td>
         <td>US</td>
       </tr>
     </tbody>
@@ -123,11 +123,24 @@ import Legal from "../layouts/Legal.astro";
 
   <h3>About question generation</h3>
   <p>
-    When you use Generate, the study material you paste is sent to Anthropic's
-    API so a model can write questions from it. Only that text is sent — not
-    your name, email, or study history. Anthropic does not train its models on
-    data submitted through its API. Please do not paste anything confidential,
-    and in particular nothing that identifies a real patient.
+    When you use Generate, the study material you upload or paste is sent to
+    Google&rsquo;s Gemini API so a model can write questions from it. The same
+    applies when you ask for a deeper explanation of a question you got wrong:
+    the question, the options and the one you picked are sent. Only that content
+    is sent &mdash; never your name, email, or study history.
+  </p>
+  <p>
+    <strong>Resurface uses the free tier of the Gemini API, and you should know
+    what that means.</strong> Google uses content submitted through the free tier
+    to improve its products, and human reviewers may read it. This is different
+    from Google&rsquo;s paid tier, where submissions are not used for training.
+    We are telling you this plainly because it changes what you should be willing
+    to put in.
+  </p>
+  <p>
+    So: do not paste anything confidential, and in particular nothing that
+    identifies a real patient. Lecture slides and your own notes are fine.
+    Anything covered by a duty of confidence is not.
   </p>
 
   <h2>Who can see your progress</h2>

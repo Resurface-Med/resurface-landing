@@ -468,14 +468,26 @@ const marquee = "Don't let the lecture sink. ";
     /* Slightly translucent with a blur, so content passing underneath is felt
        rather than hidden — the pill stops looking like a solid bar laid on top
        of the page. */
-    /* The fill stays at 0.82: it is what keeps the nav links at 4.57:1 over
-       the blue hero, and thinning it to get more frost put them under AA. The
-       frost comes from the blur actually running now, and from a wider radius
-       with more saturation so the colour behind stays colour rather than
-       going grey. */
-    background: rgba(255, 255, 255, 0.82);
+    /* Legibility here does not depend on backdrop-filter, and that is
+       deliberate. Two attempts at making the blur run — a wider radius, then
+       overflow-x: clip to stop body being a backdrop root — both shipped and
+       neither changed anything: the closer's heading still read straight
+       through, sharp. Whatever is disabling it is not visible in this
+       stylesheet, and it cannot be diagnosed from here.
+
+       So the fill is what hides the content now. At 0.82 a 46px white heading
+       passing behind sat at 1.28:1 against the veiled blue — washed out but
+       plainly readable, which is what the screenshots showed. At 0.92 it is
+       1.12:1, which is gone. The nav links gain contrast as a side effect,
+       4.57:1 to about 5.2:1.
+
+       The blur stays, with a compositing hint. Where it does work it still
+       frosts what passes underneath; where it does not, nothing is riding on
+       it any more. */
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
+    will-change: backdrop-filter;
     /* A white pill on the blue field separates itself. Over .light
        (#F3F6FE) it is white-on-almost-white, so it carries its own edge:
        a hairline plus a tight contact shadow under the big soft one. */

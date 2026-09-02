@@ -357,11 +357,16 @@ const marquee = "Don't let the lecture sink. ";
           target="_blank"
           rel="noopener noreferrer">a med <span class="closer-who-end">student<span class="closer-who-arrow" aria-hidden="true">↗</span></span></a>.</h2>
       <p>
-        For students who revise best under mild panic. Free while it's in
-        testing.
+        Start with one lecture. Resurface works out when to show it to you
+        again.
       </p>
       <a class="btn-white big" href={APP_URL}>Start studying <span>→</span></a>
 
+      <!-- Under the button, not in the sentence above it. It answers "what
+           will this cost me", which is a question you ask once you have
+           decided to press the thing — before that it is an objection nobody
+           had raised yet. -->
+      <p class="closer-note">Free while it's in testing.</p>
     </div>
   </section>
 
@@ -1579,6 +1584,15 @@ const marquee = "Don't let the lecture sink. ";
     color: var(--on-blue-soft);
     font-size: 17px;
     line-height: 1.45;
+  }
+
+  /* .closer p sets a 30px bottom margin for the line above the button; this
+     one sits below it and needs the opposite. */
+  .closer .closer-note {
+    margin: 18px auto 0;
+    max-width: 30ch;
+    font-size: 14.5px;
+    color: var(--on-blue-soft);
   }
 
   /* Everything here is in em, not px. The heading runs from 28px to 46px, and

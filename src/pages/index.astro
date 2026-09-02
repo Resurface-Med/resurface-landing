@@ -686,6 +686,10 @@ const marquee = "Don't let the lecture sink. ";
     position: relative;
     display: flex;
     justify-content: flex-end;
+    /* Inset from the right edge rather than flush against it. Padding on the
+       container, so the flex-end alignment still does the work and nothing
+       needs a transform it would have to share with the entrance and the bob. */
+    padding-right: clamp(12px, 2.6vw, 42px);
   }
   .books-float {
     opacity: 0;

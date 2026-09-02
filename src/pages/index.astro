@@ -371,12 +371,6 @@ const marquee = "Don't let the lecture sink. ";
 
       <p class="col-senses"><b>1</b> to rise back up to the surface. <b>2</b> to bring a thing back into view <em class="key">just before it is lost</em>: <i>material resurfaces the day before you would have forgotten it.</i></p>
 
-      <!-- Sense 3 is the easter egg. Three taps on the word above and the
-           entry gains a definition no dictionary carries. It lives at the
-           bottom of the page on purpose: the colophon is already the reward
-           for reading to the end, so this is the reward for poking at it. -->
-      <p class="col-senses col-sense3" hidden><b>3</b> <span class="col-reg">colloquial</span> to reappear from a stretch presumed spent revising: <i>she resurfaced on Thursday, four lectures behind.</i></p>
-
       <p class="col-etym"><span class="lbl">origin</span> <i>from</i> <b>re-</b> <i>‘again’</i> + <b>surface</b>, <i>from Latin</i> superficies <i>‘upper face’.</i></p>
     </div>
   </section>
@@ -1689,41 +1683,6 @@ const marquee = "Don't let the lecture sink. ";
     color: var(--ink-faint);
   }
 
-  /* No pointer, no underline, no hint. An easter egg that advertises itself
-     is a button. The bob on each tap is the only feedback, and it reads as the
-     word being knocked rather than as a control responding. */
-  .col-word {
-    -webkit-user-select: none;
-    user-select: none;
-  }
-  .col-word.is-knocked {
-    animation: col-bob 0.34s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  @keyframes col-bob {
-    0%   { transform: translateY(0); }
-    42%  { transform: translateY(-7px); }
-    100% { transform: translateY(0); }
-  }
-
-  .col-sense3 {
-    opacity: 0;
-    transform: translateY(12px);
-    transition:
-      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .col-sense3.is-up {
-    opacity: 1;
-    transform: none;
-  }
-  .col-senses .col-reg {
-    font-style: italic;
-    font-variant: small-caps;
-    letter-spacing: 0.06em;
-    color: var(--ink-faint);
-    margin-right: 4px;
-  }
-
   .col-etym {
     margin: clamp(16px, 2.4vh, 26px) 0 0;
     max-width: 52ch;
@@ -2120,43 +2079,6 @@ const marquee = "Don't let the lecture sink. ";
     });
 
     next.addEventListener("click", () => select((current + 1) % samples.length));
-  }
-
-  /* ---------------------------------------------------------------- SENSE 3 */
-  /* Three taps on the headword. Taps rather than a typed code, because most of
-     the people this site is for are holding a phone and have no keyboard to
-     type one with. */
-  {
-    const word = document.querySelector<HTMLElement>(".col-word");
-    const sense3 = document.querySelector<HTMLElement>(".col-sense3");
-
-    if (word && sense3) {
-      let taps = 0;
-      let reset: number | undefined;
-
-      word.addEventListener("click", () => {
-        if (!sense3.hidden) return;
-
-        taps += 1;
-        /* The run has to be a run. Without this, three idle taps spread over a
-           minute would count, and the egg would go off for someone who never
-           meant to look for it. */
-        window.clearTimeout(reset);
-        reset = window.setTimeout(() => { taps = 0; }, 900);
-
-        word.classList.remove("is-knocked");
-        void word.offsetWidth; // reflow, so the bob restarts rather than being ignored
-        word.classList.add("is-knocked");
-
-        if (taps >= 3) {
-          /* [hidden] is display:none !important in Base, so the attribute has
-             to come off before any transition can run — and the class has to
-             wait a frame, or the browser has nothing to animate from. */
-          sense3.hidden = false;
-          requestAnimationFrame(() => sense3.classList.add("is-up"));
-        }
-      });
-    }
   }
 
 </script>

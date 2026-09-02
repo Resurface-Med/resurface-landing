@@ -356,6 +356,21 @@ const marquee = "Don't let the lecture sink. ";
           href="https://www.linkedin.com/in/rafil-gohar-5645132aa/"
           target="_blank"
           rel="noopener noreferrer">a med <span class="closer-who-end">student<span class="closer-who-arrow" aria-hidden="true">↗</span></span></a>.</h2>
+
+      <!-- Decorative, so aria-hidden: the link above already says where it
+           goes. Sits below the heading and shifted right, because the link is
+           the last thing in a centred heading and therefore always ends up
+           right of centre — so the arrow rises left into it at any wrap. -->
+      <div class="closer-hello" aria-hidden="true">
+        <svg class="closer-hello-arrow" viewBox="0 0 132 96" fill="none">
+          <path
+            class="closer-hello-line"
+            d="M118,84 C92,80 60,77 44,61 C32,49 24,33 19,16"
+          />
+          <path class="closer-hello-head" d="M14,29 L19,16 L29,26" />
+        </svg>
+        <span class="closer-hello-text">say hello</span>
+      </div>
       <p>
         Everyone else is behind too. They're just not telling you.
       </p>
@@ -1632,6 +1647,43 @@ const marquee = "Don't let the lecture sink. ";
     max-width: 30ch;
     font-size: 14.5px;
     color: var(--on-blue-soft);
+  }
+
+  /* The annotation. Caveat is already loaded for the pH proof in "It gets
+     easier", so the handwriting is language the page already speaks. */
+  .closer-hello {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 4px;
+    margin-top: 2px;
+    /* Nudged toward where the link ends rather than centred under the whole
+       heading. */
+    transform: translateX(clamp(30px, 9vw, 130px));
+  }
+  .closer-hello-arrow {
+    width: clamp(46px, 5.6vw, 74px);
+    height: auto;
+    flex-shrink: 0;
+    overflow: visible;
+  }
+  .closer-hello-line,
+  .closer-hello-head {
+    stroke: var(--peri);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+  .closer-hello-text {
+    font-family: "Caveat", cursive;
+    font-weight: 700;
+    font-size: clamp(21px, 2.3vw, 30px);
+    line-height: 1;
+    color: var(--peri);
+    transform: rotate(-5deg);
+    transform-origin: left bottom;
+    padding-bottom: 6px;
+    white-space: nowrap;
   }
 
   /* Everything here is in em, not px. The heading runs from 28px to 46px, and

@@ -354,6 +354,13 @@ const marquee = "Don't let the lecture sink. ";
         testing.
       </p>
       <a class="btn-white big" href={APP_URL}>Start studying <span>→</span></a>
+
+      <p class="closer-by">
+        That med student is Rafil Gohar. <a
+          href="https://www.linkedin.com/in/rafil-gohar-5645132aa/"
+          target="_blank"
+          rel="noopener noreferrer">Say hello on LinkedIn <span aria-hidden="true">→</span></a>
+      </p>
     </div>
   </section>
 
@@ -1571,6 +1578,30 @@ const marquee = "Don't let the lecture sink. ";
     color: var(--on-blue-soft);
     font-size: 17px;
     line-height: 1.45;
+  }
+
+  /* Pays off the heading rather than repeating it: the line above says "by a
+     med student", this says which one. Below the CTA on purpose — a plug that
+     sits between a reader and the button is costing you sign-ups to gain a
+     profile visit. Specificity is .closer .closer-by because .closer p already
+     sets a margin and a max-width that this needs to beat. */
+  .closer .closer-by {
+    margin: clamp(26px, 4vh, 38px) auto 0;
+    max-width: 44ch;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--on-blue-soft);
+  }
+  .closer .closer-by a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
+    transition: color 0.16s ease;
+  }
+  .closer .closer-by a:hover {
+    color: var(--peri);
   }
 
   /* ----------------------------------------------------------------- FOOT */

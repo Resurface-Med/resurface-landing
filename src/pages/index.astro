@@ -375,6 +375,37 @@ const marquee = "Don't let the lecture sink. ";
     </div>
   </section>
 
+  <!-- ------------------------------------------------- DATA TRANSPARENCY -->
+  <!-- Google's OAuth brand verification asks the homepage to state, in plain
+       sight and without a login, what the app does with a user's data and why
+       it asks for it. That was only ever on /privacy; a reviewer reading the
+       front page could not tell. It belongs here anyway — the person deciding
+       whether to press "Sign in with Google" is on this page, not that one. -->
+  <section class="datanote">
+    <div class="wrap">
+      <h2 class="dn-title">What signing in gives us</h2>
+      <p class="dn-body">
+        Resurface is a spaced-repetition question bank for Year&nbsp;1 medical
+        students: you practise multiple-choice questions, generate more from
+        your own lecture slides, and the app schedules them to come back just
+        before you would have forgotten them.
+      </p>
+      <p class="dn-body">
+        If you sign in with Google we receive two things — your
+        <b>email address</b> and your <b>name</b> — and nothing else. The email
+        identifies your account so your progress follows you between devices;
+        the name is what appears on the leaderboard if you choose to be on it.
+        We never receive your Google password, and we ask for no access to your
+        Gmail, Drive, contacts or calendar.
+      </p>
+      <p class="dn-body">
+        Your answers and scores are readable only by your own account. Full
+        detail is in the
+        <a href="https://tryresurface.com/privacy">privacy policy</a>.
+      </p>
+    </div>
+  </section>
+
   <Footer />
 </Base>
 
@@ -1539,6 +1570,32 @@ const marquee = "Don't let the lecture sink. ";
 
   /* A band, not an edge. Two waves with nothing between them pinch into a
      sliver; give them something to bound and they read as a gap. */
+  .datanote {
+    background: var(--panel);
+    padding: 44px 0 52px;
+    border-top: 1px solid var(--line);
+  }
+  .dn-title {
+    margin: 0 0 14px;
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: var(--ink);
+  }
+  .dn-body {
+    margin: 0 0 12px;
+    max-width: 62ch;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .dn-body:last-child { margin-bottom: 0; }
+  .dn-body a {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
   .band-gap {
     height: clamp(30px, 5vh, 60px);
     background: var(--panel);

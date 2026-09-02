@@ -12,8 +12,12 @@ const year = new Date().getFullYear();
   <div class="wrap foot-line">
     <span>© Resurface {year}</span>
     <nav class="foot-links" aria-label="Legal">
-      <a href="/privacy">Privacy policy</a>
-      <a href="/terms">Terms of service</a>
+      <!-- Absolute, not relative. Google's OAuth brand verification compares
+           this href against the privacy URL on the consent screen as a string,
+           and "/privacy" does not match "https://tryresurface.com/privacy"
+           however identically the two resolve in a browser. -->
+      <a href="https://tryresurface.com/privacy">Privacy policy</a>
+      <a href="https://tryresurface.com/terms">Terms of service</a>
     </nav>
   </div>
 </footer>

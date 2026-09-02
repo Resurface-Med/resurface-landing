@@ -355,22 +355,9 @@ const marquee = "Don't let the lecture sink. ";
           class="closer-who"
           href="https://www.linkedin.com/in/rafil-gohar-5645132aa/"
           target="_blank"
-          rel="noopener noreferrer">a med <span class="closer-who-end">student<span class="closer-who-arrow" aria-hidden="true">↗</span></span></a>.</h2>
-
-      <!-- Decorative, so aria-hidden: the link above already says where it
-           goes. Sits below the heading and shifted right, because the link is
-           the last thing in a centred heading and therefore always ends up
-           right of centre — so the arrow rises left into it at any wrap. -->
-      <div class="closer-hello" aria-hidden="true">
-        <svg class="closer-hello-arrow" viewBox="0 0 132 96" fill="none">
-          <path
-            class="closer-hello-line"
-            d="M118,84 C92,80 60,77 44,61 C32,49 24,33 19,16"
-          />
-          <path class="closer-hello-head" d="M14,29 L19,16 L29,26" />
-        </svg>
-        <span class="closer-hello-text">say hello</span>
-      </div>
+          rel="noopener noreferrer">a med <span class="closer-who-end">student<span
+              class="closer-who-arrow"
+              aria-hidden="true">↗</span><span class="closer-hello" aria-hidden="true"><svg class="closer-hello-arrow" viewBox="0 0 132 96" fill="none"><path class="closer-hello-line" d="M118,84 C92,80 60,77 44,61 C32,49 24,33 19,16" /><path class="closer-hello-head" d="M14,29 L19,16 L29,26" /></svg><span class="closer-hello-text">say hello</span></span></span></a>.</h2>
       <p>
         Everyone else is behind too. They're just not telling you.
       </p>
@@ -1652,13 +1639,17 @@ const marquee = "Don't let the lecture sink. ";
   /* The annotation. Caveat is already loaded for the pH proof in "It gets
      easier", so the handwriting is language the page already speaks. */
   .closer-hello {
-    display: inline-flex;
+    position: absolute;
+    /* em, so the whole annotation tracks the heading through its clamp
+       instead of drifting off the words as the type grows. */
+    top: 0.66em;
+    left: 52%;
+    display: flex;
     align-items: flex-end;
     gap: 4px;
-    margin-top: 2px;
-    /* Nudged toward where the link ends rather than centred under the whole
-       heading. */
-    transform: translateX(clamp(30px, 9vw, 130px));
+    /* The box is a rectangle around a curve; without this it would swallow
+       clicks in the empty space beside the arrow, over the line below. */
+    pointer-events: none;
   }
   .closer-hello-arrow {
     width: clamp(46px, 5.6vw, 74px);
@@ -1703,8 +1694,13 @@ const marquee = "Don't let the lecture sink. ";
   }
   /* The arrow says the link leaves the site, which the underline alone does
      not. Tied to the last word so a wrap can never strand it on its own line. */
+  /* Also the anchor for the annotation below. This span is the one part of the
+     link guaranteed never to fragment across a line break, so positioning
+     against it is the only way the arrow keeps pointing at the words however
+     the heading happens to wrap. */
   .closer-who-end {
     white-space: nowrap;
+    position: relative;
   }
   .closer-who-arrow {
     display: inline-block;

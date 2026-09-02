@@ -670,9 +670,10 @@ const marquee = "Don't let the lecture sink. ";
   .btn-white:hover span {
     transform: translateX(4px);
   }
+  /* Only used by the closer's CTA, so this is safe to size for that one spot. */
   .btn-white.big {
-    padding: 18px 38px;
-    font-size: 18px;
+    padding: 22px 48px;
+    font-size: 20px;
   }
   .btn-ghost {
     border: 1.5px solid rgba(255, 255, 255, 0.5);
@@ -1619,8 +1620,10 @@ const marquee = "Don't let the lecture sink. ";
        With that gone the heading owns it — and it has to be larger than a
        normal heading margin, because the say-hello arrow hangs below the link
        and is absolutely positioned, so it adds no height of its own. Too
-       little here and the button sits on top of the arrow. */
-    margin-bottom: clamp(54px, 7vw, 88px);
+       little here and the button sits on top of the arrow — the arrow's box
+       ends about 59px below the heading at the top of the type clamp, so
+       roughly 60px is the floor this can be pulled to, not a preference. */
+    margin-bottom: clamp(48px, 5.6vw, 70px);
   }
   .closer p {
     margin: 14px auto 30px;

@@ -677,10 +677,15 @@ const marquee = "Don't let the lecture sink. ";
   }
 
   /* ---------------------------------------------------------------- STAGE */
+  /* Sits to the right of its column, not centred in it. Safe to do here
+     because .stage is display:none below 1040px, so this is a desktop-only
+     rule with no phone layout to get wrong. Shifted from the container rather
+     than with a transform: .books-float's transform is already carrying the
+     entrance and the bob, and a third one on top would fight both. */
   .stage {
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
   }
   .books-float {
     opacity: 0;
@@ -701,7 +706,7 @@ const marquee = "Don't let the lecture sink. ";
      landscape. Sized between the two: a square object at a landscape width
      would tower over the copy beside it. */
   .books {
-    width: clamp(220px, 29vw, 380px);
+    width: clamp(200px, 26vw, 340px);
     height: auto;
     display: block;
     /* Overall level. The bloom was taken off in the asset itself — a gamma on

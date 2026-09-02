@@ -96,7 +96,26 @@ const {
     font-family: "Poppins", -apple-system, BlinkMacSystemFont, sans-serif;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    /* clip, not hidden. Both stop the blobs and the ribbon scrolling the page
+       sideways, but `hidden` makes body a scroll container, and a scroll
+       container is a backdrop root — so the nav's backdrop-filter had nothing
+       behind it to sample and the blur silently did nothing. You could read
+       the closer's heading straight through the pill. `clip` clips without
+       creating that container, so the frost works.
+
+       The fallback is an @supports block below rather than a preceding
+       `overflow-x: hidden` declaration — the minifier dedupes repeated
+       properties and keeps the last, so the two-declaration version shipped
+       as `clip` alone with no fallback at all. */
+    overflow-x: clip;
+  }
+
+  /* Where clip is unsupported, hidden still stops the page scrolling sideways.
+     The nav simply is not frosted there, which is the old behaviour. */
+  @supports not (overflow-x: clip) {
+    body {
+      overflow-x: hidden;
+    }
   }
 
   a {

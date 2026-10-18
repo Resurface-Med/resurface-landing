@@ -9,9 +9,16 @@ const { title, updated, summary } = Astro.props;
 <Base title={`${title} — Resurface`} description={summary}>
   <div class="legal-field">
     <header class="wrap legal-head">
-      <a class="legal-back" href="/">
-        <img src="/logo-lockup-white.png" alt="Resurface" width="560" height="131" />
-      </a>
+      <nav class="legal-nav" aria-label="Site">
+        <a class="legal-back" href="/">
+          <img src="/logo-lockup-white.png" alt="Resurface home" width="560" height="131" />
+        </a>
+        <div class="legal-links">
+          <a class="legal-pill" href="/"><span aria-hidden="true">←</span> Back to home</a>
+          <a class={`legal-pill${title.startsWith("Privacy") ? " is-on" : ""}`} href="/privacy" aria-current={title.startsWith("Privacy") ? "page" : undefined}>Privacy</a>
+          <a class={`legal-pill${title.startsWith("Terms") ? " is-on" : ""}`} href="/terms" aria-current={title.startsWith("Terms") ? "page" : undefined}>Terms</a>
+        </div>
+      </nav>
       <h1>{title}</h1>
       {summary && <p class="legal-lede">{summary}</p>}
       <p class="legal-updated">Last updated {updated}</p>
@@ -26,6 +33,7 @@ const { title, updated, summary } = Astro.props;
   <div class="legal-sheet">
     <main class="wrap legal-body">
       <slot />
+      <a class="legal-home" href="/"><span aria-hidden="true">←</span> Back to Resurface</a>
     </main>
   </div>
 
@@ -48,6 +56,36 @@ const { title, updated, summary } = Astro.props;
   }
   .legal-head {
     text-align: left;
+  }
+  .legal-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 16px;
+    flex-wrap: wrap;
+  }
+  .legal-links { display: flex; gap: 8px; flex-wrap: wrap; }
+  .legal-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    font-size: 14px; font-weight: 500;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .legal-pill:hover { background: rgba(255, 255, 255, 0.24); }
+  .legal-pill.is-on { background: #fff; color: var(--blue); }
+  .legal-home {
+    display: inline-flex; align-items: center; gap: 8px;
+    margin-top: clamp(28px, 5vh, 44px);
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: var(--blue);
+    color: #fff !important;
+    font-size: 15px; font-weight: 600;
+    text-decoration: none !important;
   }
   .legal-back img {
     width: 132px;

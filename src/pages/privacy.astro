@@ -3,209 +3,232 @@ import Legal from "../layouts/Legal.astro";
 ---
 
 <Legal
-  title="Privacy"
-  updated="2 September 2026"
-  summary="What Resurface stores, why, and who else can see it."
+  title="Privacy policy"
+  updated="18 October 2026"
+  summary="What Resurface stores about you, why, and who else can see it."
 >
   <div class="legal-callout">
     <p>
-      <strong>The short version.</strong> Resurface stores your account and your
-      study progress, and nothing else. There are no analytics, no trackers, no
-      advertising, and nothing is sold or shared for marketing. Your answers are
-      yours; ask and they are deleted.
+      <strong>In short.</strong> Resurface stores your account, your study
+      progress and the questions you make, plus a few records needed to run the
+      service. There are no analytics or advertising trackers, and nothing is
+      sold. Material you upload is sent to Google&rsquo;s AI to write your
+      questions, so do not upload anything confidential. You can delete your
+      account, and everything in it, from Profile at any time.
     </p>
   </div>
 
   <h2>Who we are</h2>
   <p>
-    Resurface is a question bank for UK medical students, run by a small
+    Resurface is a revision platform for UK medical students, run by a small
     independent team. For anything in this policy, including requests to see or
-    delete your data, contact
+    delete your data, email{" "}
     <a href="mailto:hello@tryresurface.com">hello@tryresurface.com</a>.
   </p>
 
   <h2>What we store</h2>
-  <p>
-    Only what the app needs in order to work. Every row below is tied to your
-    account and to nobody else's.
-  </p>
+  <p>Only what the app needs in order to work. Everything below is tied to your account.</p>
 
-  <table>
-    <thead>
-      <tr><th>What</th><th>Why</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Email address</td>
-        <td>To sign you in, confirm your account, and reset your password.</td>
-      </tr>
-      <tr>
-        <td>Display name</td>
-        <td>To show who you are on the leaderboard, if you choose to appear on it.</td>
-      </tr>
-      <tr>
-        <td>Which questions you answered, and whether you got them right</td>
-        <td>
-          To schedule your reviews and show your progress. This is the app; without
-          it there is nothing to come back to.
-        </td>
-      </tr>
-      <tr>
-        <td>Review schedule, streak, daily goal, saved questions</td>
-        <td>To decide what to show you next and to keep your settings.</td>
-      </tr>
-      <tr>
-        <td>Questions you generate or edit</td>
-        <td>So they are still there next time you sign in.</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <p>
-    We do not store your password. Sign-in is handled by Supabase, which stores
-    a cryptographic hash of it. If you sign in with Google we receive your email
-    address and name, and never your Google password.
-  </p>
+  <div class="legal-table">
+    <table>
+      <thead>
+        <tr><th>What</th><th>Why</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Email address</td>
+          <td>To sign you in, confirm your account and reset your password.</td>
+        </tr>
+        <tr>
+          <td>Display name and profile photo</td>
+          <td>To show who you are on the leaderboard and on decks you share. The photo is optional and only ever one you upload yourself.</td>
+        </tr>
+        <tr>
+          <td>Your answers, and whether you got them right</td>
+          <td>To schedule your reviews and show your progress.</td>
+        </tr>
+        <tr>
+          <td>Review schedule, streak, daily goal, saved questions and settings</td>
+          <td>To decide what to show you next and keep the app as you set it.</td>
+        </tr>
+        <tr>
+          <td>Your decks and the questions you generate, write or edit</td>
+          <td>So they are there whenever you sign in.</td>
+        </tr>
+        <tr>
+          <td>Questions you report, and anything you write with the report</td>
+          <td>So we can fix the question.</td>
+        </tr>
+        <tr>
+          <td>Reminder settings, if you turn reminders on</td>
+          <td>The time you chose, your time zone and your browser&rsquo;s push address, so we can send one reminder a day.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <p>
-    Those two are the only things Google sign-in gives us. Resurface requests no
-    access to your Gmail, Drive, contacts or calendar, and cannot read them. The
-    email address identifies your account, so your progress follows you between
-    devices; the name is what appears on the leaderboard, and only if you choose
-    to be on it.
+    We do not store your password. Sign-in is handled by Supabase, which keeps
+    only a cryptographic hash of it. If you sign in with Google, we receive your
+    email address and name, never your Google password, and Resurface has no
+    access to your Gmail, Drive, contacts or calendar.
   </p>
 
-  <h3>What we deliberately do not collect</h3>
+  <h3>Records we keep to run the service</h3>
+  <p>These never include the content of your questions or answers.</p>
   <ul>
-    <li>No analytics or tracking scripts, on the website or in the app.</li>
-    <li>No advertising identifiers, and no advertising.</li>
-    <li>No location data, contacts, or device fingerprinting.</li>
     <li>
-      No health information about you. Resurface contains medical study
-      material; it does not ask for or record anything about your own health.
+      <strong>AI usage:</strong> each time Resurface asks the AI to generate
+      questions or explain one, we record that it happened, for which account,
+      and how much of the AI it used. This is how we stay within our limits.
+    </li>
+    <li>
+      <strong>Deck sharing:</strong> when you open someone&rsquo;s share link,
+      add their deck, or get new questions from it, we record who shared it, who
+      received it, which deck, and when.
+    </li>
+    <li>
+      <strong>Loading times:</strong> how long the app took to load for you, and
+      whether you were on a phone or computer, so we can find what makes it slow.
     </li>
   </ul>
 
+  <h3>What we do not collect</h3>
+  <ul>
+    <li>No analytics or advertising trackers, on the website or in the app.</li>
+    <li>No location, contacts or device fingerprinting.</li>
+    <li>
+      No health information about you. Resurface contains medical study
+      material; it never asks for anything about your own health.
+    </li>
+  </ul>
+
+  <h2>Who can see what</h2>
+  <p>
+    Your answers, scores, schedule and decks can be read only by your own
+    account. This is enforced by the database itself, not just by the app.
+    The exceptions are things you choose to share:
+  </p>
+  <ul>
+    <li>
+      <strong>The leaderboard.</strong> Other signed-in users see your display
+      name, your photo if you have one, how many questions you answered this week
+      and your streak. Never your scores or which questions you got wrong. You can
+      leave the leaderboard at any time in Profile.
+    </li>
+    <li>
+      <strong>Your profile photo.</strong> It is stored so that it can be shown
+      on the leaderboard, which means anyone with its direct link could view it.
+      You can remove it in Profile.
+    </li>
+    <li>
+      <strong>Decks you share.</strong> Anyone with the link sees the deck, its
+      questions and your display name, and can add a copy to their account.
+    </li>
+    <li>
+      <strong>Decks Resurface features.</strong> If we feature a deck you made
+      for everyone to use, with your agreement, all users see it with your name
+      on it.
+    </li>
+  </ul>
+  <p>
+    Resurface&rsquo;s administrators can see account details (names, email
+    addresses, when people joined and how much they use the app) to run the
+    service, deal with reports and remove anything inappropriate. We do not look
+    at individual answers.
+  </p>
+
+  <h2>The AI, and what you should not upload</h2>
+  <p>
+    When you use Generate, the material you upload or paste (Anki decks, slides,
+    PDFs, notes or images) is sent to Google&rsquo;s Gemini AI so it can write
+    questions from it. When you use Resurface AI, the question, its options, the
+    answer you picked and the messages you type are sent. Your name, email
+    address and study history are never sent.
+  </p>
+  <p>
+    <strong>Resurface currently uses Google&rsquo;s free tier, and you should
+    know what that means:</strong> Google may use what is sent through it to
+    improve its products, and people at Google may review it. So do not upload or
+    type anything confidential, and never anything that could identify a real
+    patient. Lecture slides and your own notes are fine.
+  </p>
+
   <h2>Cookies</h2>
   <p>
-    Resurface uses one thing that behaves like a cookie: a sign-in token stored
-    in your browser so you are not asked to log in on every page. It is
-    essential to the service, it is not used to track you, and there are no
-    third-party cookies. That is also why you have not been shown a cookie
-    banner — there is nothing to consent to beyond keeping you signed in.
+    Resurface keeps one thing in your browser that works like a cookie: a sign-in
+    token, so you do not have to log in on every visit. It also remembers small
+    preferences on your device, such as night mode. None of this is used to track
+    you, there are no third-party cookies, and that is why there is no cookie
+    banner.
   </p>
 
   <h2>Who else processes your data</h2>
   <p>
-    We use a small number of suppliers to run the service. They act on our
-    instructions and may not use your data for their own purposes.
+    We use a small number of providers to run Resurface. They act on our
+    instructions and may not use your data for their own purposes, except Google
+    as described above.
   </p>
+  <div class="legal-table">
+    <table>
+      <thead>
+        <tr><th>Provider</th><th>What they handle</th><th>Where</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Supabase</td><td>Accounts, sign-in, the database, and profile photos</td><td>Ireland (EU)</td></tr>
+        <tr><td>Vercel</td><td>Hosting the website, the app and its server</td><td>EU and US</td></tr>
+        <tr><td>Google</td><td>Writing questions and explanations from what you send (Gemini), and Google sign-in if you use it</td><td>US</td></tr>
+        <tr><td>Resend</td><td>Sending sign-in codes, confirmation emails and, if you opt in, news and study emails</td><td>EU and US</td></tr>
+        <tr><td>Your browser&rsquo;s push service</td><td>Delivering reminders, if you turn them on (Google, Apple or Mozilla, depending on your browser)</td><td>Varies</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-  <table>
-    <thead>
-      <tr><th>Supplier</th><th>What they handle</th><th>Where</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Supabase</td>
-        <td>Accounts, sign-in, and the database holding your progress</td>
-        <td>Ireland (EU)</td>
-      </tr>
-      <tr>
-        <td>Vercel</td>
-        <td>Hosting the website and the app</td>
-        <td>EU / US</td>
-      </tr>
-      <tr>
-        <td>Resend</td>
-        <td>Sending confirmation and password-reset emails</td>
-        <td>EU / US</td>
-      </tr>
-      <tr>
-        <td>Google</td>
-        <td>Generating questions and explanations from material you submit</td>
-        <td>US</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3>About question generation</h3>
+  <h2>Emails</h2>
   <p>
-    When you use Generate, the study material you upload or paste is sent to
-    Google&rsquo;s Gemini API so a model can write questions from it. The same
-    applies when you ask for a deeper explanation of a question you got wrong:
-    the question, the options and the one you picked are sent. Only that content
-    is sent &mdash; never your name, email, or study history.
-  </p>
-  <p>
-    <strong>Resurface uses the free tier of the Gemini API, and you should know
-    what that means.</strong> Google uses content submitted through the free tier
-    to improve its products, and human reviewers may read it. This is different
-    from Google&rsquo;s paid tier, where submissions are not used for training.
-    We are telling you this plainly because it changes what you should be willing
-    to put in.
-  </p>
-  <p>
-    So: do not paste anything confidential, and in particular nothing that
-    identifies a real patient. Lecture slides and your own notes are fine.
-    Anything covered by a duty of confidence is not.
-  </p>
-
-  <h2>Who can see your progress</h2>
-  <p>
-    Nobody, unless you choose otherwise. Your answers, scores and schedule are
-    readable only by your own account — this is enforced by the database itself
-    rather than by the app, so a bug in the app cannot expose another person's
-    rows.
-  </p>
-  <p>
-    The one exception is the leaderboard. If you opt in, other signed-in users
-    see your display name and how much you have studied. They never see your
-    scores, your accuracy, or which questions you got wrong. You can leave the
-    leaderboard at any time in Profile, and doing so removes you immediately.
+    We send account emails, such as sign-in codes and confirmations, because the
+    service needs them. News, tips and study emails are sent only if you opted in,
+    and you can opt out in Profile or from any of those emails.
   </p>
 
   <h2>How long we keep it</h2>
   <p>
-    For as long as you have an account. Ask us to delete your account and we
-    remove your profile and all of your study data within 30 days. Backups are
-    overwritten on a rolling basis and are fully cleared within 90 days.
+    For as long as you have an account. You can delete your account yourself in
+    Profile, which removes your profile, photo, decks, questions and study data
+    straight away. Backups are overwritten on a rolling basis and are fully
+    cleared within 90 days. The operational records above may be kept after that,
+    but with nothing left that links them to you.
   </p>
 
   <h2>Your rights</h2>
   <p>
-    Under UK and EU data protection law you can ask for a copy of your data, ask
-    us to correct it, ask us to delete it, or object to how we use it. Email
-    <a href="mailto:hello@tryresurface.com">hello@tryresurface.com</a> and we
-    will respond within 30 days. There is no charge.
-  </p>
-  <p>
-    If you think we have handled your data badly, you can complain to the
-    Information Commissioner's Office at
-    <a href="https://ico.org.uk" rel="noopener">ico.org.uk</a>. We would rather
-    you told us first so we can put it right.
+    Under UK data protection law you can ask for a copy of your data, ask us to
+    correct or delete it, or object to how we use it. Email{" "}
+    <a href="mailto:hello@tryresurface.com">hello@tryresurface.com</a> and we will
+    reply within 30 days, free of charge. If you are unhappy with how we have
+    handled your data, you can complain to the Information Commissioner&rsquo;s
+    Office at <a href="https://ico.org.uk" rel="noopener">ico.org.uk</a>, though we
+    would rather you told us first so we can put it right.
   </p>
 
   <h2>Legal basis</h2>
   <p>
-    We process your account and progress data because it is necessary to provide
-    a service you asked for (contract). We send account emails such as
-    confirmations and password resets on the same basis. We rely on your
-    consent, given by opting in, for the leaderboard, and for news, tips and
-    study emails, sent only if you tick that box. You can withdraw it at any time from your profile, and every such
-    email can be unsubscribed from.
+    We use your account, progress and decks because that is needed to provide the
+    service you signed up for. We keep the operational records because we have a
+    legitimate interest in running the service reliably and within its limits. The
+    leaderboard, reminders and marketing emails rely on your choice to use them,
+    which you can change at any time in Profile.
   </p>
 
   <h2>Children</h2>
   <p>
-    Resurface is intended for university students and is not directed at anyone
-    under 16. If you believe a child has created an account, tell us and we will
-    remove it.
+    Resurface is for university students and is not meant for anyone under 16. If
+    you think a child has made an account, tell us and we will remove it.
   </p>
 
-  <h2>Changes</h2>
+  <h2>Changes to this policy</h2>
   <p>
-    If this policy changes in a way that affects you, we will say so in the app
-    rather than quietly updating the date at the top of this page.
+    If this policy changes in a way that affects you, we will tell you in the app,
+    not just update the date at the top of this page.
   </p>
 </Legal>

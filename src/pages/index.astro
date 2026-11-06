@@ -33,11 +33,62 @@ const subjects = [
 ];
 
 const marquee = "Don't let the lecture sink. ";
+
+/* Structured data (2026-11-06). WebSite.name/alternateName is what Google
+   uses for the site name above a result, and how it learns that "Resurface
+   Med", "ResurfaceMed" and "Try Resurface" are all this site. The
+   Organization's logo is what can show beside the brand in search. */
+const SITE = "https://tryresurface.com";
+const names = ["Resurface Med", "ResurfaceMed", "Resurface Medical", "Try Resurface", "tryresurface"];
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE}/#website`,
+      url: `${SITE}/`,
+      name: "Resurface",
+      alternateName: names,
+      description: "A medical question bank for UK medical students, with spaced repetition and AI questions made from your own lectures.",
+      inLanguage: "en-GB",
+      publisher: { "@id": `${SITE}/#organization` },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE}/#organization`,
+      name: "Resurface",
+      alternateName: names,
+      url: `${SITE}/`,
+      logo: { "@type": "ImageObject", url: `${SITE}/icon-512.png`, width: 512, height: 512 },
+      email: "hello@tryresurface.com",
+      sameAs: ["https://github.com/Resurface-Med", "https://app.tryresurface.com"],
+      founder: { "@type": "Person", name: "Rafil Gohar", url: "https://www.linkedin.com/in/rafil-gohar-5645132aa/" },
+    },
+    {
+      "@type": "WebApplication",
+      "@id": `${SITE}/#app`,
+      name: "Resurface",
+      alternateName: names,
+      url: APP_URL,
+      applicationCategory: "EducationalApplication",
+      applicationSubCategory: "Medical question bank",
+      operatingSystem: "Web, iOS, Android",
+      browserRequirements: "Requires JavaScript",
+      description: "Single best answer (SBA) practice questions for UK medical students, scheduled with spaced repetition, with ready-made decks and AI that writes questions from your lecture slides and notes.",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "GBP" },
+      audience: { "@type": "EducationalAudience", educationalRole: "student", audienceType: "UK medical students" },
+      about: subjects.map(name => ({ "@type": "Thing", name })),
+      publisher: { "@id": `${SITE}/#organization` },
+    },
+  ],
+};
 ---
 
 <Base
-  title="Resurface - practice questions for UK medical students"
-  description="A question bank for UK medical students that follows the topics on your course, with AI that can write extra questions from your study material."
+  title="Resurface Med – Medical Question Bank for UK Medical Students"
+  description="Resurface Med is a free question bank for UK medical students: SBA questions with spaced repetition, ready-made decks, and AI questions from your own lectures."
+  path="/"
+  jsonLd={jsonLd}
 >
   <!-- Everything that animates in starts hidden, and only JS reveals it. If
        scripting is off, show it all immediately rather than a blank page. -->

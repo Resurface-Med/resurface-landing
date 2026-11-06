@@ -1,22 +1,56 @@
 ---
+/* Every page's head, including what search engines and link previews read.
+   SEO (2026-11-06): the brand is "Resurface", also searched as "Resurface
+   Med" (the GitHub org) and "Try Resurface" (the domain). The canonical host
+   is https://tryresurface.com with no trailing slash on inner pages. */
+const SITE = "https://tryresurface.com";
 const {
   title = "Resurface",
   description = "Spaced repetition for medical school.",
+  path = Astro.url.pathname,
+  image = "/og.jpg",
+  imageAlt = "Resurface: revision questions made from your lectures",
+  noindex = false,
+  jsonLd = null,
 } = Astro.props;
+const canonical = SITE + (path === "/" ? "/" : String(path).replace(/\/$/, ""));
+const imageUrl = new URL(image, SITE).href;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1"} />
+    <meta name="application-name" content="Resurface" />
+    <meta name="author" content="Resurface Med" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Resurface" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <meta name="theme-color" content="#3562f5" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

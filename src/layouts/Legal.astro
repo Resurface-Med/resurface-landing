@@ -3,10 +3,10 @@ import Base from "./Base.astro";
 import Footer from "../components/Footer.astro";
 import Wave from "../components/Wave.astro";
 
-const { title, updated, summary } = Astro.props;
+const { title, updated, summary, noindex = false } = Astro.props;
 ---
 
-<Base title={`${title} — Resurface`} description={summary}>
+<Base title={`${title} — Resurface`} description={summary} noindex={noindex}>
   <div class="legal-field">
     <header class="wrap legal-head">
       <nav class="legal-nav" aria-label="Site">
@@ -21,7 +21,7 @@ const { title, updated, summary } = Astro.props;
       </nav>
       <h1>{title}</h1>
       {summary && <p class="legal-lede">{summary}</p>}
-      <p class="legal-updated">Last updated {updated}</p>
+      {updated && <p class="legal-updated">Last updated {updated}</p>}
     </header>
   </div>
 

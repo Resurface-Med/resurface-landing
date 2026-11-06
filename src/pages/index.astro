@@ -34,6 +34,30 @@ const subjects = [
 
 const marquee = "Don't let the lecture sink. ";
 
+/* Shown on the page and given to search engines word for word. */
+const faqs = [
+  {
+    q: "What is Resurface?",
+    a: "Resurface, also called Resurface Med, is a question bank for UK medical students. You answer single best answer (SBA) questions, and spaced repetition brings each one back just before you would forget it.",
+  },
+  {
+    q: "Who is it for?",
+    a: "Medical students in the UK. It began at Anglia Ruskin University (ARU), with ready-made decks for Year 1 and Year 2, and it works for any medical school because you can make questions from your own lectures.",
+  },
+  {
+    q: "How does the AI write questions?",
+    a: "Upload lecture slides, notes or an Anki deck. Resurface writes exam-style SBA questions from that material only, each with an explanation and a reason every wrong option is wrong.",
+  },
+  {
+    q: "Is Resurface free?",
+    a: "Yes. Resurface is free while it is in testing.",
+  },
+  {
+    q: "Does it work on my phone?",
+    a: "Yes. Resurface runs in the browser on a phone, tablet or laptop, can be added to your home screen like an app, and keeps working offline once it has opened.",
+  },
+];
+
 /* Structured data (2026-11-06). WebSite.name/alternateName is what Google
    uses for the site name above a result, and how it learns that "Resurface
    Med", "ResurfaceMed" and "Try Resurface" are all this site. The
@@ -80,6 +104,11 @@ const jsonLd = {
       about: subjects.map(name => ({ "@type": "Thing", name })),
       publisher: { "@id": `${SITE}/#organization` },
     },
+    {
+      "@type": "FAQPage",
+      "@id": `${SITE}/#faq`,
+      mainEntity: faqs.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+    },
   ],
 };
 ---
@@ -115,7 +144,7 @@ const jsonLd = {
     <nav class="nav">
       <a class="brand" href="/">
         <img
-          src="/logo-lockup.png"
+          src="/logo-lockup.webp"
           alt="Resurface"
           width="560"
           height="131"
@@ -390,9 +419,24 @@ const jsonLd = {
 
   <Wave from="var(--blue)" to="var(--panel)" />
 
-  <!-- The gap itself. Waves are edges; without a band between them there is
-       nothing for the two curves to bound. -->
-  <div class="band-gap" aria-hidden="true"></div>
+  <!-- ------------------------------------------------------------- FAQ -->
+  <!-- Plain answers in plain text (2026-11-06). The rest of the page is
+       demos and animation, which leaves search engines little to read; this
+       is where "Resurface Med", "question bank" and "UK medical students" are
+       said outright. Mirrored in the FAQPage structured data above. -->
+  <section class="light faq-band" id="faq">
+    <div class="wrap">
+      <h2 class="section-h faq-h" data-reveal>Questions about Resurface Med</h2>
+      <dl class="faq" data-reveal>
+        {faqs.map((f) => (
+          <div class="faq-item">
+            <dt>{f.q}</dt>
+            <dd>{f.a}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
 
   <Wave from="var(--panel)" to="var(--blue)" flip />
 
@@ -1569,6 +1613,41 @@ const jsonLd = {
   }
 
   /* ---------------------------------------------------------- AI SECTION */
+  /* FAQ: the light band's own type, no boxes. Two columns on wide screens. */
+  .faq-band {
+    padding: clamp(48px, 8vh, 88px) 0 clamp(40px, 7vh, 72px);
+    scroll-margin-top: 100px;
+  }
+  .faq-h {
+    margin: 0 0 clamp(24px, 4vh, 40px);
+  }
+  .faq {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(22px, 3.5vh, 34px) clamp(32px, 5vw, 72px);
+  }
+  .faq-item {
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+  .faq dt {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: var(--ink);
+  }
+  .faq dd {
+    margin: 6px 0 0;
+    font-size: 15.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  @media (max-width: 760px) {
+    .faq {
+      grid-template-columns: 1fr;
+    }
+  }
+
   .ai-band {
     padding: clamp(48px, 8vh, 80px) 0 clamp(20px, 3.5vh, 36px);
     scroll-margin-top: 100px;

@@ -2,8 +2,22 @@
   "trailingSlash": false,
   "headers": [
     {
-      "source": "/(og.jpg|icon-512.png|icon-192.png|favicon.ico|favicon-32.png|favicon-16.png|apple-touch-icon.png|logo-lockup.png|logo-lockup-white.png|books.webp|hero-stethoscope.webp)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }]
+      "source": "/(og.jpg|icon-512.png|icon-192.png|favicon.ico|favicon-32.png|favicon-16.png|apple-touch-icon.png|logo-lockup.png|logo-lockup.webp|logo-lockup-white.png|books.webp|hero-stethoscope.webp)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ]
 }
